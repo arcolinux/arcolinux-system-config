@@ -1,0 +1,33 @@
+#!/bin/bash
+#
+##################################################################################################################
+# Written to be used on 64 bits computers
+# Author 	: 	Erik Dubois
+# Website 	: 	http://www.erikdubois.be
+##################################################################################################################
+##################################################################################################################
+#
+#   DO NOT JUST RUN THIS. EXAMINE AND JUDGE. RUN AT YOUR OWN RISK.
+#
+##################################################################################################################
+result=$(systemd-detect-virt)
+if [ $result = "none" ];
+	then
+		if [ -f /etc/xdg/autostart/vboxclient.desktop ]; then
+   		rm /etc/xdg/autostart/vboxclient.desktop
+		fi
+
+		if [ -f /etc/xdg/autostart/vboxclient.desktop ]; then
+			rm /etc/xdg/autostart/vboxclient.desktop
+		fi
+
+		if pacman -Qi virtualbox-guest-utils &> /dev/null; then
+			pacman -Rns virtualbox-guest-utils --noconfirm
+		fi
+
+		if pacman -Qi virtualbox-guest-modules-arch &> /dev/null; then
+			pacman -Rns virtualbox-guest-modules-arch --noconfirm
+		fi
+		
+	  systemctl disable virtual-machine-check.service
+fi
