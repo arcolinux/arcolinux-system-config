@@ -1,13 +1,10 @@
 [Unit]
 Description=Run reflector weekly
-After=network.target network-online.target
-Requires=network-online.target
 
 [Timer]
-OnCalendar=weekly
-RandomizedDelaySec=12h
+OnCalendar=Mon *-*-* 7:00:00
+RandomizedDelaySec=15h
 Persistent=true
-Unit=reflector.service
 
 [Install]
 WantedBy=timers.target

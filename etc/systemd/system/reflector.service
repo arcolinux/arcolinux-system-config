@@ -1,9 +1,11 @@
 [Unit]
-Description=Pacman Reflector Mirror Update Service
+Description=Pacman mirrorlist update
+Wants=network-online.target
+After=network-online.target
 
 [Service]
-Type=simple
-ExecStart=/bin/sh -c /usr/local/bin/arco-reflector
+Type=oneshot
+ExecStart=/usr/local/bin/arco-reflector
 
 [Install]
-WantedBy=multi-user.target
+RequiredBy=multi-user.target
