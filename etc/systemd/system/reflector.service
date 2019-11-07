@@ -3,7 +3,7 @@ Description=Pacman Reflector Mirror Update Service
 
 [Service]
 Type=simple
-ExecStart=/usr/local/bin/arco-reflector
+ExecStart=/bin/sh -c /usr/local/bin/arco-reflector
 
 [Install]
 WantedBy=multi-user.target
