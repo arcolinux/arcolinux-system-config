@@ -1,10 +1,9 @@
 [Unit]
-Description=Pacman mirrorlist update
-
+Description=Pacman Reflector Mirror Update Service
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/reflector --protocol https --latest 50 --number 20 --sort rate --save /etc/pacman.d/mirrorlist
+ExecStart=/usr/local/bin/arco-reflector
 
 [Install]
 WantedBy=multi-user.target
