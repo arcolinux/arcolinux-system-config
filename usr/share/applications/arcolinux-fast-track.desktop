@@ -1,0 +1,9 @@
+[Desktop Entry]
+Terminal=false
+Type=Application
+Categories=System;
+StartupNotify=false
+Name=ArcoLinux Fast-Track
+Exec=exo-open "https://arcolinux.info/fast-track/"
+Icon=arcolinux-hello
+Comment=Get you started on ArcoLinux
