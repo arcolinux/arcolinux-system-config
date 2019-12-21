@@ -1,0 +1,2 @@
+#!/bin/bash
+reflector --threads 50 -l 100 -f 100 -n 20 --sort rate --save /etc/pacman.d/mirrorlist
