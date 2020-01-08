@@ -1,0 +1,10 @@
+[Trigger]
+Operation = Upgrade
+Type = Package
+Target = hask*, xmonad*
+
+[Action]
+Description = Recompile xmonad if updates come in
+When = PostTransaction
+Depends = xmonad
+Exec = /bin/sh -c "xmonad --recompile"
