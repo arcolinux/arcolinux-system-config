@@ -5,5 +5,5 @@ Categories=System;
 StartupNotify=false
 Name=ArcoLinux Fast-Track
 Exec=exo-open "https://arcolinux.info/fast-track/"
-Icon=arcolinux-hello
+Icon=arcolinux-fast-track
 Comment=Get you started on ArcoLinux
