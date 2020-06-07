@@ -17,8 +17,6 @@ if [ $result = "none" ];
    		rm /etc/xdg/autostart/vboxclient.desktop
 		fi
 
-		systemctl disable vboxservice.service
-
 		if pacman -Qi virtualbox-guest-utils &> /dev/null; then
 			pacman -Rns virtualbox-guest-utils --noconfirm
 		fi

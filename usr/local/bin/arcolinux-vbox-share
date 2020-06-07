@@ -1,0 +1,6 @@
+#!/bin/bash
+
+#Automoun shared folders for virtualbox
+gpasswd -a $USER vboxsf
+systemctl enable vboxservice.service
+systemctl start vboxservice.service
