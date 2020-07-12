@@ -5,6 +5,6 @@ Type = Package
 Target = filesystem
 
 [Action]
-Description = Add ArcoLinux specifc config
+Description = Add ArcoLinux specific config
 When = PostTransaction
 Exec = /bin/sh -c "cp /usr/lib/os-release-arcolinux /usr/lib/os-release"
