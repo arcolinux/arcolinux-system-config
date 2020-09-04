@@ -2,7 +2,7 @@
 Operation = Install
 Operation = Upgrade
 Type = Package
-Target = filesystem arcolinux-system-config-git
+Target = filesystem
 
 [Action]
 Description = Change to ArcoLinux specific logo
