@@ -7,5 +7,4 @@ Target = filesystem
 [Action]
 Description = Add ArcoLinux specific config for login screen deepin
 When = PostTransaction
-Exec = /bin/sh -c "cp /usr/share/pixmaps/arcolinux.svg /usr/share/pixmaps/archlinux.svg"
-Exec = /bin/sh -c "cp /usr/share/pixmaps/arcolinux.png /usr/share/pixmaps/archlinux.png"
+Exec = /bin/sh -c "cp /usr/share/pixmaps/arcolinux.svg /usr/share/pixmaps/archlinux.svg" ; /bin/sh -c "cp /usr/share/pixmaps/arcolinux.png /usr/share/pixmaps/archlinux.png"
