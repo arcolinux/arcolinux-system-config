@@ -2,9 +2,9 @@
 Operation = Install
 Operation = Upgrade
 Type = Package
-Target = filesystem
+Target = filesystem arcolinux-system-config-git
 
 [Action]
 Description = Add ArcoLinux specific config for login screen deepin
 When = PostTransaction
-Exec = /bin/sh -c "cp /usr/share/pixmaps/arcolinux.svg /usr/share/pixmaps/archlinux.svg" ; /bin/sh -c "cp /usr/share/pixmaps/arcolinux.png /usr/share/pixmaps/archlinux.png"
+Exec = /bin/sh -c "cp /usr/share/pixmaps/arcolinux.svg /usr/share/pixmaps/archlinux.svg"
