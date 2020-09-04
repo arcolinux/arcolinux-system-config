@@ -5,6 +5,6 @@ Type = Package
 Target = filesystem arcolinux-system-config-git
 
 [Action]
-Description = Add ArcoLinux specific config for login screen deepin
+Description = Change to ArcoLinux specific logo
 When = PostTransaction
 Exec = /bin/sh -c "cp /usr/share/pixmaps/arcolinux.svg /usr/share/pixmaps/archlinux.svg"
