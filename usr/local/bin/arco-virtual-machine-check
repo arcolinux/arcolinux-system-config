@@ -15,13 +15,36 @@ result=$(systemd-detect-virt)
 #if installed on vmware
 if [ $result = "vmware" ];
 	then
-		systemctl enable vmtoolsd.service
-		systemctl start vmtoolsd.service
+		#activate vmware
+		if pacman -Qi open-vm-tools &> /dev/null; then
+			systemctl enable vmtoolsd.service
+			systemctl start vmtoolsd.service
+		fi
+		#remove virtualbox
+		if [ -f /etc/xdg/autostart/vboxclient.desktop ]; then
+			rm /etc/xdg/autostart/vboxclient.desktop
+		fi
+
+		if pacman -Qi virtualbox-guest-utils &> /dev/null; then
+			pacman -Rns virtualbox-guest-utils --noconfirm
+		fi
+fi
+
+if [ $result = "oracle" ];
+	then
+		#remove vmware
+		if [ -f /etc/xdg/autostart/vmware-user.desktop ]; then
+   		rm /etc/xdg/autostart/vmware-user.desktop
+		fi
+
+		if pacman -Qi open-vm-tools &> /dev/null; then
+			pacman -Rns open-vm-tools --noconfirm
+		fi
 fi
 
 if [ $result = "none" ];
 	then
-		#virtualbox
+		#remove virtualbox
 		if [ -f /etc/xdg/autostart/vboxclient.desktop ]; then
    		rm /etc/xdg/autostart/vboxclient.desktop
 		fi
@@ -29,7 +52,7 @@ if [ $result = "none" ];
 		if pacman -Qi virtualbox-guest-utils &> /dev/null; then
 			pacman -Rns virtualbox-guest-utils --noconfirm
 		fi
-		#vmware
+		#remove vmware
 		if [ -f /etc/xdg/autostart/vmware-user.desktop ]; then
    		rm /etc/xdg/autostart/vmware-user.desktop
 		fi
