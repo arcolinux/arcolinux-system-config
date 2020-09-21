@@ -1,5 +1,6 @@
 [Unit]
 Description=checks if installed on virtual machine or not
+After=multi-user.target display-manager.service
 
 [Service]
 Type=oneshot
