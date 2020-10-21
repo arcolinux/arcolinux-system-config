@@ -4,7 +4,7 @@ Before=multi-user.target display-manager.service
 
 [Service]
 Type=oneshot
-ExecStart=/usr/local/bin/arco-virtual-machine-check
+ExecStart=/usr/local/bin/arcolinux-virtual-machine-check
 
 [Install]
 WantedBy=multi-user.target
