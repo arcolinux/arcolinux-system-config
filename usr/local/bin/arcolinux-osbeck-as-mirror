@@ -15,8 +15,5 @@
 #
 ###############################################################################
 
-#echo "Fix for icons not showing up in pamac-aur"
-
-zcat /usr/share/app-info/xmls/community.xml.gz | sed 's|<em>||g;s|<\/em>||g;' | gzip > "new.xml.gz"
-mv new.xml.gz /usr/share/app-info/xmls/community.xml.gz
-appstreamcli refresh-cache --force
+#sudo /usr/bin/reflector --latest 100 --fastest 100 --number 10 --save /etc/pacman.d/mirrorlist
+echo "Server = https://mirror.osbeck.com/archlinux/\$repo/os/\$arch" | sudo tee /etc/pacman.d/mirrorlist
