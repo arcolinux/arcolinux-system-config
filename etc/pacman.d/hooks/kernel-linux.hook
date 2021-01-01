@@ -4,6 +4,9 @@ Operation = Upgrade
 Operation = Remove
 Type = Package
 Target = linux
+Target = linux-lts
+Target = linux-zen
+Target = linux-hardened
 
 [Action]
 Description = ArcoLinux pacman hook to update-grub automatically
