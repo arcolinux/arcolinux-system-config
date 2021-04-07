@@ -9,6 +9,20 @@
 # GNU General Public License for more details.
 # Source : https://gitlab.manjaro.org/tools/development-tools/manjaro-tools/-/blob/3e80462940a5cf3c140e7389b88816eb559a0b74/lib/util-msg.sh
 
+# Start your scripts with sourcing this file and you can use the functions
+
+# source arcolinux-messages
+# msg  "msg"
+# msg2 "msg2"
+# info "info"
+# warning "warning"
+# error "error"
+# stat_busy "stat_busy"
+# stat_done "stat_done"
+# plain "plain"
+# die
+
+
 export LC_MESSAGES=C
 export LANG=C
 
