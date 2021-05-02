@@ -20,3 +20,7 @@
 zcat /usr/share/app-info/xmls/community.xml.gz | sed 's|<em>||g;s|<\/em>||g;' | gzip > "new.xml.gz"
 mv new.xml.gz /usr/share/app-info/xmls/community.xml.gz
 appstreamcli refresh-cache --force
+
+zcat /usr/share/app-info/xmls/extra.xml.gz | sed 's|<em>||g;s|<\/em>||g;' | gzip > "new.xml.gz"
+mv new.xml.gz /usr/share/app-info/xmls/extra.xml.gz
+appstreamcli refresh-cache --force
