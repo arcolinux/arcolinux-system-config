@@ -17,16 +17,53 @@
 
 result=$(systemd-detect-virt)
 
-
 if [ $result = "oracle" ];
 	then
 		#remove vmware
 		if [ -f /etc/xdg/autostart/vmware-user.desktop ]; then
-   		rm /etc/xdg/autostart/vmware-user.desktop
+   			rm /etc/xdg/autostart/vmware-user.desktop
+			echo "Removed vmware-user.desktop"
 		fi
 
 		if pacman -Qi open-vm-tools &> /dev/null; then
 			pacman -Rns open-vm-tools --noconfirm
+			echo "Removed open-vm-tools"
+		fi
+
+		#remove qemu
+		if pacman -Qi qemu-guest-agent &> /dev/null; then
+			systemctl disable qemu-guest-agent.service
+			pacman -Rns qemu-guest-agent --noconfirm
+			echo "Removed qemu-guest-agent"
+		fi
+fi
+
+if [ $result = "kvm" ];
+	then
+		#remove vmware
+		if [ -f /etc/xdg/autostart/vmware-user.desktop ]; then
+   			rm /etc/xdg/autostart/vmware-user.desktop
+			echo "Removed vmware-user.desktop"
+		fi
+
+		if pacman -Qi open-vm-tools &> /dev/null; then
+			pacman -Rns open-vm-tools --noconfirm
+			echo "Removed open-vm-tools"
+		fi
+
+		#remove virtualbox
+		if [ -f /etc/xdg/autostart/vboxclient.desktop ]; then
+   			rm /etc/xdg/autostart/vboxclient.desktop
+			echo "Removed vboxclient.desktop"
+		fi
+
+		if pacman -Qi virtualbox-guest-utils &> /dev/null; then
+			pacman -Rns virtualbox-guest-utils --noconfirm
+			echo "Removed virtualbox-guest-utils"
+		fi
+		if pacman -Qi virtualbox-guest-utils-nox &> /dev/null; then
+			pacman -Rns virtualbox-guest-utils-nox --noconfirm
+			echo "Removed virtualbox-guest-utils-nox"
 		fi
 fi
 
@@ -34,19 +71,36 @@ if [ $result = "none" ];
 	then
 		#remove virtualbox
 		if [ -f /etc/xdg/autostart/vboxclient.desktop ]; then
-   		rm /etc/xdg/autostart/vboxclient.desktop
+   			rm /etc/xdg/autostart/vboxclient.desktop
+			echo "Removed vboxclient.desktop"
 		fi
 
 		if pacman -Qi virtualbox-guest-utils &> /dev/null; then
 			pacman -Rns virtualbox-guest-utils --noconfirm
+			echo "Removed virtualbox-guest-utils"
 		fi
+
+		if pacman -Qi virtualbox-guest-utils-nox &> /dev/null; then
+			pacman -Rns virtualbox-guest-utils-nox --noconfirm
+			echo "Removed virtualbox-guest-utils-nox"
+		fi
+
 		#remove vmware
 		if [ -f /etc/xdg/autostart/vmware-user.desktop ]; then
-   		rm /etc/xdg/autostart/vmware-user.desktop
+	   		rm /etc/xdg/autostart/vmware-user.desktop
+			echo "Removed vmware-user.desktop"
 		fi
 
 		if pacman -Qi open-vm-tools &> /dev/null; then
 			pacman -Rns open-vm-tools --noconfirm
+			echo "Removed open-vm-tools"
+		fi
+
+		#remove qemu
+		if pacman -Qi qemu-guest-agent &> /dev/null; then
+			systemctl disable qemu-guest-agent.service
+			pacman -Rns qemu-guest-agent --noconfirm
+			echo "Removed qemu-guest-agent"
 		fi
 
 	  systemctl disable virtual-machine-check.service
