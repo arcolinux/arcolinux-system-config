@@ -17,6 +17,8 @@
 
 result=$(systemd-detect-virt)
 
+echo "You are working on "$result
+
 if [ $result = "oracle" ];
 	then
 		#remove vmware
@@ -26,6 +28,8 @@ if [ $result = "oracle" ];
 		fi
 
 		if pacman -Qi open-vm-tools &> /dev/null; then
+			systemctl disable vmtoolsd.service
+			echo "Disabled vmtoolsd.service"
 			pacman -Rns open-vm-tools --noconfirm
 			echo "Removed open-vm-tools"
 		fi
@@ -47,18 +51,44 @@ if [ $result = "kvm" ];
 		fi
 
 		if pacman -Qi open-vm-tools &> /dev/null; then
+			systemctl disable vmtoolsd.service
+			echo "Disabled vmtoolsd.service"
 			pacman -Rns open-vm-tools --noconfirm
 			echo "Removed open-vm-tools"
 		fi
 
 		#remove virtualbox
 		if pacman -Qi virtualbox-guest-utils &> /dev/null; then
+			systemctl disable vboxservice.service
 			pacman -Rns virtualbox-guest-utils --noconfirm
 			echo "Removed virtualbox-guest-utils"
 		fi
 		if pacman -Qi virtualbox-guest-utils-nox &> /dev/null; then
+			systemctl disable vboxservice.service
 			pacman -Rns virtualbox-guest-utils-nox --noconfirm
 			echo "Removed virtualbox-guest-utils-nox"
+		fi
+fi
+
+if [ $result = "vmware" ];
+	then
+		#remove virtualbox
+		if pacman -Qi virtualbox-guest-utils &> /dev/null; then
+			systemctl disable vboxservice.service
+			pacman -Rns virtualbox-guest-utils --noconfirm
+			echo "Removed virtualbox-guest-utils"
+		fi
+		if pacman -Qi virtualbox-guest-utils-nox &> /dev/null; then
+			systemctl disable vboxservice.service
+			pacman -Rns virtualbox-guest-utils-nox --noconfirm
+			echo "Removed virtualbox-guest-utils-nox"
+		fi
+
+		#remove qemu
+		if pacman -Qi qemu-guest-agent &> /dev/null; then
+			systemctl disable qemu-guest-agent.service
+			pacman -Rns qemu-guest-agent --noconfirm
+			echo "Removed qemu-guest-agent"
 		fi
 fi
 
@@ -66,11 +96,13 @@ if [ $result = "none" ];
 	then
 		#remove virtualbox
 		if pacman -Qi virtualbox-guest-utils &> /dev/null; then
+			systemctl disable vboxservice.service
 			pacman -Rns virtualbox-guest-utils --noconfirm
 			echo "Removed virtualbox-guest-utils"
 		fi
 
 		if pacman -Qi virtualbox-guest-utils-nox &> /dev/null; then
+			systemctl disable vboxservice.service
 			pacman -Rns virtualbox-guest-utils-nox --noconfirm
 			echo "Removed virtualbox-guest-utils-nox"
 		fi
@@ -82,8 +114,15 @@ if [ $result = "none" ];
 		fi
 
 		if pacman -Qi open-vm-tools &> /dev/null; then
+			systemctl disable vmtoolsd.service
+			echo "Disabled vmtoolsd.service"
 			pacman -Rns open-vm-tools --noconfirm
 			echo "Removed open-vm-tools"
+		fi
+
+		if [ -f /etc/systemd/system/multi-user.target.wants/vmtoolsd.service ]; then
+	   		rm /etc/systemd/system/multi-user.target.wants/vmtoolsd.service
+			echo "Removed vmtoolsd.service if still exists"
 		fi
 
 		#remove qemu
@@ -93,5 +132,5 @@ if [ $result = "none" ];
 			echo "Removed qemu-guest-agent"
 		fi
 
-	  systemctl disable virtual-machine-check.service
+	  #systemctl disable virtual-machine-check.service
 fi
