@@ -34,6 +34,11 @@ if [ $result = "oracle" ];
 			echo "Removed open-vm-tools"
 		fi
 
+		if [ -f /etc/systemd/system/multi-user.target.wants/vmtoolsd.service ]; then
+	   		rm /etc/systemd/system/multi-user.target.wants/vmtoolsd.service
+			echo "Removed vmtoolsd.service if still exists"
+		fi		
+
 		#remove qemu
 		if pacman -Qi qemu-guest-agent &> /dev/null; then
 			systemctl disable qemu-guest-agent.service
@@ -56,6 +61,11 @@ if [ $result = "kvm" ];
 			pacman -Rns open-vm-tools --noconfirm
 			echo "Removed open-vm-tools"
 		fi
+
+		if [ -f /etc/systemd/system/multi-user.target.wants/vmtoolsd.service ]; then
+	   		rm /etc/systemd/system/multi-user.target.wants/vmtoolsd.service
+			echo "Removed vmtoolsd.service if still exists"
+		fi		
 
 		#remove virtualbox
 		if pacman -Qi virtualbox-guest-utils &> /dev/null; then
