@@ -6,6 +6,9 @@ Type=Package
 Target=nvidia
 Target=nvidia-lts
 Target=nvidia-dkms
+Target=nvidia-beta
+Target=nvidia-340xx
+Target=nvidia-390xx
 
 [Action]
 Description=Update Nvidia module in initcpio
