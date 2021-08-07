@@ -1,0 +1,46 @@
+#!/bin/bash
+#set -e
+###############################################################################
+# Author	:	Erik Dubois
+# Website	:	https://www.erikdubois.be
+# Website	:	https://www.arcolinux.info
+# Website	:	https://www.arcolinux.com
+# Website	:	https://www.arcolinuxd.com
+# Website	:	https://www.arcolinuxb.com
+# Website	:	https://www.arcolinuxforum.com
+###############################################################################
+#
+#   DO NOT JUST RUN THIS. EXAMINE AND JUDGE. RUN AT YOUR OWN RISK.
+#
+###############################################################################
+
+echo "###############################################################################"
+echo "###                               Check 1  LSPCI                           ####"
+echo "###############################################################################"
+echo
+
+lspci -vnnn | perl -lne 'print if /^\d+\:.+(\[\S+\:\S+\])/' | grep VGA
+
+echo
+echo "###############################################################################"
+echo "###                               Check 2  GLXINFO                         ####"
+echo "###############################################################################"
+echo
+
+glxinfo|egrep "OpenGL vendor|OpenGL renderer*"
+
+echo
+echo "###############################################################################"
+echo "###                               Check 3  NVIDIA-SMI                      ####"
+echo "###############################################################################"
+echo
+
+if pacman -Qi nvidia-utils &> /dev/null; then
+	nvidia-smi -L
+else
+	echo "No nvidia driver present"
+fi
+
+echo "###############################################################################"
+echo "###                               DONE                                     ####"
+echo "###############################################################################"
