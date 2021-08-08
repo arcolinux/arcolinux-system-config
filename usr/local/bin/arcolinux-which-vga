@@ -16,11 +16,20 @@
 ###############################################################################
 
 echo "###############################################################################"
+echo "###        SOME COMMANDS WILL GIVE NO OUTPUT OR ERROR MESSAGES             ####"
+echo "###            ONE OF THEM SHOULD BE ABLE TO GIVE YOU INFO                 ####"
+echo "###############################################################################"
+echo
+echo "###############################################################################"
 echo "###                               Check 1  LSPCI                           ####"
 echo "###############################################################################"
 echo
-
+echo "command 1:"
 lspci -vnnn | perl -lne 'print if /^\d+\:.+(\[\S+\:\S+\])/' | grep VGA
+echo
+echo "command 2:"
+lspci -x | grep VGA
+echo
 
 echo
 echo "###############################################################################"
@@ -45,7 +54,7 @@ echo "###                               Check 3  NVIDIA-SMI                     
 echo "###############################################################################"
 echo
 
-if pacman -Qi nvidia-utils &> /dev/null; then
+if test -f /usr/bin/nvidia-smi; then
 	nvidia-smi -L
 else
 	echo "No nvidia driver present"
