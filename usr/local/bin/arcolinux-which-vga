@@ -28,6 +28,15 @@ echo "###                               Check 2  GLXINFO                        
 echo "###############################################################################"
 echo
 
+if test -f /usr/bin/glxinfo ; then
+	echo "glxinfo is present"
+	echo
+else
+	echo "We have installed glxinfo to get more info on your graphical card"
+	echo "info  : mesa-demos provides the same glxinfo tool - it will conflict with this package"
+	sudo pacman -S glxinfo --noconfirm
+fi
+
 glxinfo|egrep "OpenGL vendor|OpenGL renderer*"
 
 echo
