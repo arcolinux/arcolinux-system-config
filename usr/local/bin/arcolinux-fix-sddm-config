@@ -1,0 +1,59 @@
+#!/bin/bash
+#set -e
+###############################################################################
+# Author	:	Erik Dubois
+# Website	:	https://www.erikdubois.be
+# Website	:	https://www.arcolinux.info
+# Website	:	https://www.arcolinux.com
+# Website	:	https://www.arcolinuxd.com
+# Website	:	https://www.arcolinuxb.com
+# Website	:	https://www.arcolinuxforum.com
+###############################################################################
+#
+#   DO NOT JUST RUN THIS. EXAMINE AND JUDGE. RUN AT YOUR OWN RISK.
+#
+###############################################################################
+
+echo "###############################################################################"
+echo "Getting latest /etc/sddm.conf"
+echo "###############################################################################"
+
+Online=0
+
+function check_connectivity() {
+
+    local test_ip
+    local test_count
+
+    test_ip="8.8.8.8"
+    test_count=1
+
+    if ping -c ${test_count} ${test_ip} > /dev/null; then
+       echo "You have internet connectivity"
+       Online=1
+    else
+       echo "You do not have connectivity"
+       Online=0
+    fi
+ }
+
+check_connectivity
+
+if [ $Online -eq 1 ] ; then
+	sudo wget https://raw.githubusercontent.com/arcolinux/arcolinuxl-iso/master/archiso/airootfs/etc/sddm.conf -O /etc/sddm.conf
+	FIND="Session=xfce"
+	REPLACE="#Session="
+	sudo sed -i "s/$FIND/$REPLACE/g" /etc/sddm.conf
+
+	FIND="User=liveuser"
+	REPLACE="#User="
+	sudo sed -i "s/$FIND/$REPLACE/g" /etc/sddm.conf
+	echo "/etc/sddm.conf saved"
+else
+	sudo cp /usr/local/share/arcolinux/sddm.conf /etc/sddm.conf
+	echo "/etc/sddm.conf copied from local file"
+fi
+
+echo "###############################################################################"
+echo "###                               DONE                                     ####"
+echo "###############################################################################"
