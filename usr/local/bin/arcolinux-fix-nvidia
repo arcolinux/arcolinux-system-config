@@ -1,0 +1,317 @@
+#!/bin/bash
+#set -e
+###############################################################################
+# Author	:	Erik Dubois
+# Website	:	https://www.erikdubois.be
+# Website	:	https://www.arcolinux.info
+# Website	:	https://www.arcolinux.com
+# Website	:	https://www.arcolinuxd.com
+# Website	:	https://www.arcolinuxb.com
+# Website	:	https://www.arcolinuxforum.com
+###############################################################################
+#
+#   DO NOT JUST RUN THIS. EXAMINE AND JUDGE. RUN AT YOUR OWN RISK.
+#
+###############################################################################
+
+function_install() {
+
+	sudo pacman -S $1 --noconfirm
+
+	# Just checking if installation was successful
+	if pacman -Qi $package &> /dev/null; then
+
+		echo "################################################################"
+		echo "#########  "$package" has been installed"
+		echo "################################################################"
+
+	else
+
+		echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+		echo "!!!!!!!!!  "$package" has NOT been installed"
+		echo "!!!!!!!!!  Investigate why not"
+		echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+		exit 1
+	fi
+}
+
+function_build() {
+
+	paru -S $1 --noconfirm
+
+	# Just checking if installation was successful
+	if pacman -Qi $package &> /dev/null; then
+
+		echo "################################################################"
+		echo "#########  "$package" has been installed"
+		echo "################################################################"
+
+	else
+
+		echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+		echo "!!!!!!!!!  "$package" has NOT been installed"
+		echo "!!!!!!!!!  Investigate why not"
+		echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+		exit 1
+	fi
+}
+
+function_remove_r() {
+  if pacman -Qi $1 &> /dev/null; then
+  		tput setaf 1
+  		echo "###############################################################################"
+  		echo "################## "$1" is installed and will be removed now."
+      echo "###############################################################################"
+      echo
+      tput sgr0
+      sudo pacman -R $1 --noconfirm
+  else
+    tput setaf 2
+    echo "###############################################################################"
+    echo "################## "$1" was not present or already removed."
+    echo "###############################################################################"
+    echo
+    tput sgr0
+  fi
+}
+
+function_remove_rs() {
+  if pacman -Qi $1 &> /dev/null; then
+  		tput setaf 1
+  		echo "###############################################################################"
+  		echo "################## "$1" is installed and will be removed now."
+      echo "###############################################################################"
+      echo
+      tput sgr0
+      sudo pacman -Rs $1 --noconfirm
+  else
+    tput setaf 2
+    echo "###############################################################################"
+    echo "################## "$1" was already removed or was not present."
+    echo "###############################################################################"
+    echo
+    tput sgr0
+  fi
+}
+
+function_remove_rdd() {
+  if pacman -Qi $1 &> /dev/null; then
+  		tput setaf 1
+  		echo "###############################################################################"
+  		echo "################## "$1" is installed and will be removed now."
+      echo "###############################################################################"
+      echo
+      tput sgr0
+      sudo pacman -Rdd $1 --noconfirm
+  else
+    tput setaf 2
+    echo "###############################################################################"
+    echo "################## "$1" was already removed or was not present."
+    echo "###############################################################################"
+    echo
+    tput sgr0
+  fi
+}
+
+echo
+tput setaf 1
+echo "###############################################################################"
+echo "We give you a list of options to choose from"
+echo "You make sure you have a working internet connection"
+echo "Packages that are built can be out-of-date"
+echo "Did you update the Arch Linux servers?"
+echo "We first remove anything Nvidia related you may have installed"
+echo "###############################################################################"
+tput sgr0
+echo
+echo "Select the correct desktop"
+echo
+echo "0.  Do nothing"
+echo "1.  Install linux and nvidia"
+echo "2.  Install linux-lts and nvidia-lts"
+echo "3.  Install linux and nvidia-dkms"
+echo "4.  Install linux-lts and nvidia-dkms"
+echo "5.  Install linux-zen and nvidia-dkms"
+echo "6.  Install linux-hardened and nvidia-dkms"
+echo "7.  Build and install nvidia-340xx-dkms"
+echo "8.  Build and install nvidia-390xx-dkms"
+echo "9.  Build and install nvidia-470xx-dkms"
+echo "666. Remove any and all nvidia packages"
+echo "Type the number..."
+
+read CHOICE
+
+list1=(
+linux
+nvidia
+nvidia-settings
+nvidia-utils
+)
+
+list2=(
+linux-lts
+nvidia-lts
+nvidia-settings
+nvidia-utils
+)
+
+list3=(
+linux
+nvidia-dkms
+nvidia-settings
+nvidia-utils
+)
+
+list4=(
+linux-lts
+nvidia-dkms
+nvidia-settings
+nvidia-utils
+)
+
+list5=(
+linux-zen
+nvidia-dkms
+nvidia-settings
+nvidia-utils
+)
+
+list6=(
+linux-hardened
+nvidia-dkms
+nvidia-settings
+nvidia-utils
+)
+
+list7=(
+nvidia-340xx-dkms
+)
+
+list8=(
+nvidia-390xx-dkms
+)
+
+list9=(
+nvidia-470xx-dkms
+)
+
+function_remove_all() {
+function_remove_rs nvidia
+function_remove_rs nvidia-lts
+function_remove_rs nvidia-settings
+
+function_remove_rs nvidia-dkms
+function_remove_rs nvidia-prime
+function_remove_rs nvidia-xrun
+function_remove_rs nvidia-cg-toolkit
+
+function_remove_rs nvidia-utils
+
+function_remove_rs nvidia-340xx-dkms
+function_remove_rs nvidia-340xx-settings
+function_remove_rs nvidia-340xx-utils
+
+function_remove_rs nvidia-390xx-dkms
+function_remove_rs nvidia-390xx-settings
+function_remove_rs nvidia-390xx-utils
+
+function_remove_rs nvidia-470xx-dkms
+function_remove_rs nvidia-470xx-settings
+function_remove_rs nvidia-470xx-utils
+}
+
+case $CHOICE in
+
+    0 )
+      echo
+      echo "########################################"
+      echo "We did nothing as per your request"
+      echo "########################################"
+      echo
+    ;;
+
+    1 )
+		function_remove_all
+		for name in "${list1[@]}" ; do
+		count=$[count+1]
+		tput setaf 3;echo "Installing package nr.  "$count " " $name;tput sgr0;
+		function_install $name
+		done
+    ;;
+    2 )
+		function_remove_all
+		for name in "${list2[@]}" ; do
+		count=$[count+1]
+		tput setaf 3;echo "Installing package nr.  "$count " " $name;tput sgr0;
+		function_install $name
+		done
+    ;;
+    3 )
+		function_remove_all
+		for name in "${list3[@]}" ; do
+		count=$[count+1]
+		tput setaf 3;echo "Installing package nr.  "$count " " $name;tput sgr0;
+		function_install $name
+		done
+    ;;
+    4 )
+		function_remove_all
+		for name in "${list4[@]}" ; do
+		count=$[count+1]
+		tput setaf 3;echo "Installing package nr.  "$count " " $name;tput sgr0;
+		function_install $name
+		done
+    ;;
+    5 )
+		function_remove_all
+		for name in "${list5[@]}" ; do
+		count=$[count+1]
+		tput setaf 3;echo "Installing package nr.  "$count " " $name;tput sgr0;
+		function_install $name
+		done
+    ;;
+    6 )
+		function_remove_all
+		for name in "${list6[@]}" ; do
+		count=$[count+1]
+		tput setaf 3;echo "Installing package nr.  "$count " " $name;tput sgr0;
+		function_install $name
+		done
+    ;;
+    7 )
+		function_remove_all
+		for name in "${list7[@]}" ; do
+		count=$[count+1]
+		tput setaf 3;echo "Installing package nr.  "$count " " $name;tput sgr0;
+		function_build $name
+		done
+    ;;
+    8 )
+		function_remove_all
+		for name in "${list8[@]}" ; do
+		count=$[count+1]
+		tput setaf 3;echo "Installing package nr.  "$count " " $name;tput sgr0;
+		function_build $name
+		done
+    ;;
+    9 )
+		function_remove_all
+		for name in "${list9[@]}" ; do
+		count=$[count+1]
+		tput setaf 3;echo "Installing package nr.  "$count " " $name;tput sgr0;
+		function_build $name
+		done
+    ;;
+    666 )
+		function_remove_all
+    ;;
+    * )
+    echo "#################################"
+    echo "Choose the correct number"
+    echo "#################################"
+    ;;
+esac
+
+echo "###############################################################################"
+echo "###                               DONE                                     ####"
+echo "###############################################################################"
