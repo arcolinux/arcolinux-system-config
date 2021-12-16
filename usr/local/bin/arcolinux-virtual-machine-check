@@ -32,6 +32,9 @@ if [ $result = "oracle" ];
 			echo "Disabled vmtoolsd.service"
 			pacman -Rns open-vm-tools --noconfirm
 			echo "Removed open-vm-tools"
+		fi
+
+		if pacman -Qi xf86-video-vmware &> /dev/null; then
 			pacman -Rns xf86-video-vmware --noconfirm
 			echo "Removed xf86-video-vmware"
 		fi
@@ -62,6 +65,9 @@ if [ $result = "kvm" ];
 			echo "Disabled vmtoolsd.service"
 			pacman -Rns open-vm-tools --noconfirm
 			echo "Removed open-vm-tools"
+		fi
+
+		if pacman -Qi xf86-video-vmware &> /dev/null; then
 			pacman -Rns xf86-video-vmware --noconfirm
 			echo "Removed xf86-video-vmware"
 		fi
@@ -132,6 +138,9 @@ if [ $result = "none" ];
 			echo "Disabled vmtoolsd.service"
 			pacman -Rns open-vm-tools --noconfirm
 			echo "Removed open-vm-tools"
+		fi
+
+		if pacman -Qi xf86-video-vmware &> /dev/null; then
 			pacman -Rns xf86-video-vmware --noconfirm
 			echo "Removed xf86-video-vmware"
 		fi
