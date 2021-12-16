@@ -32,12 +32,14 @@ if [ $result = "oracle" ];
 			echo "Disabled vmtoolsd.service"
 			pacman -Rns open-vm-tools --noconfirm
 			echo "Removed open-vm-tools"
+			pacman -Rns xf86-video-vmware --noconfirm
+			echo "Removed xf86-video-vmware"
 		fi
 
 		if [ -f /etc/systemd/system/multi-user.target.wants/vmtoolsd.service ]; then
 	   		rm /etc/systemd/system/multi-user.target.wants/vmtoolsd.service
 			echo "Removed vmtoolsd.service if still exists"
-		fi		
+		fi
 
 		#remove qemu
 		if pacman -Qi qemu-guest-agent &> /dev/null; then
@@ -60,12 +62,14 @@ if [ $result = "kvm" ];
 			echo "Disabled vmtoolsd.service"
 			pacman -Rns open-vm-tools --noconfirm
 			echo "Removed open-vm-tools"
+			pacman -Rns xf86-video-vmware --noconfirm
+			echo "Removed xf86-video-vmware"
 		fi
 
 		if [ -f /etc/systemd/system/multi-user.target.wants/vmtoolsd.service ]; then
 	   		rm /etc/systemd/system/multi-user.target.wants/vmtoolsd.service
 			echo "Removed vmtoolsd.service if still exists"
-		fi		
+		fi
 
 		#remove virtualbox
 		if pacman -Qi virtualbox-guest-utils &> /dev/null; then
@@ -128,6 +132,8 @@ if [ $result = "none" ];
 			echo "Disabled vmtoolsd.service"
 			pacman -Rns open-vm-tools --noconfirm
 			echo "Removed open-vm-tools"
+			pacman -Rns xf86-video-vmware --noconfirm
+			echo "Removed xf86-video-vmware"
 		fi
 
 		if [ -f /etc/systemd/system/multi-user.target.wants/vmtoolsd.service ]; then
