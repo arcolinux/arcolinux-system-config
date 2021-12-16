@@ -18,6 +18,10 @@ echo "Checking for newer files online first"
 git pull
 
 workdir=$(pwd)
+
+echo "getting default grub file"
+wget https://raw.githubusercontent.com/arcolinux/arcolinuxl-iso/master/archiso/airootfs/etc/default/grub -O $workdir/usr/local/share/arcolinux/grub/grub
+
 echo "getting latest .bashrc"
 wget https://raw.githubusercontent.com/arcolinux/arcolinux-root/master/etc/skel/.bashrc-latest -O $workdir/usr/local/share/arcolinux/.bashrc
 
