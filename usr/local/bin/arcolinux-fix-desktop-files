@@ -15,7 +15,13 @@
 #
 ###############################################################################
 
-# btrfs-assistant in xfce4 settings and more
+# btrfs-assistant.desktop
 FIND="Categories=GNOME;GTK;System;Garuda-Setup;"
 REPLACE="Categories=GTK;Settings;Security;X-GNOME-Settings-Panel;X-GNOME-SystemSettings;X-Unity-Settings-Panel;X-XFCE-SettingsDialog;X-XFCE-SystemSettings;"
 sudo sed -i "s/$FIND/$REPLACE/g" /usr/share/applications/btrfs-assistant.desktop
+
+# timeshift-gtk.desktop
+FIND="Categories=System;"
+REPLACE="Categories=GTK;Settings;Security;X-GNOME-Settings-Panel;X-GNOME-SystemSettings;X-Unity-Settings-Panel;X-XFCE-SettingsDialog;X-XFCE-SystemSettings;"
+sudo sed -i "s/$FIND/$REPLACE/g" /usr/share/applications/timeshift-gtk.desktop
+
