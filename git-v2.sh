@@ -25,6 +25,12 @@ wget https://raw.githubusercontent.com/arcolinux/arcolinuxl-iso/master/archiso/a
 echo "getting latest .bashrc"
 wget https://raw.githubusercontent.com/arcolinux/arcolinux-root/master/etc/skel/.bashrc-latest -O $workdir/usr/local/share/arcolinux/.bashrc
 
+echo "getting latest .zshrc"
+wget https://raw.githubusercontent.com/arcolinux/arcolinux-zsh/master/etc/skel/.zshrc -O $workdir/usr/local/share/arcolinux/.zshrc
+
+echo "getting latest config.fish"
+wget https://raw.githubusercontent.com/arcolinux/arcolinux-fish/main/etc/skel/.config/fish/config.fish -O $workdir/usr/local/share/arcolinux/config.fish
+
 echo "getting latest NEW /etc/sddm.conf"
 wget https://raw.githubusercontent.com/arcolinux/arcolinuxl-iso/master/archiso/airootfs/etc/sddm.conf -O $workdir/usr/local/share/arcolinux/sddm.conf.d/sddm.conf
 
