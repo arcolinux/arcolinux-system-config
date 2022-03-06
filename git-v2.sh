@@ -49,6 +49,10 @@ wget https://raw.githubusercontent.com/arcolinux/arcolinux-mirrorlist/master/etc
 echo "getting latest /etc/pacman.conf"
 wget https://raw.githubusercontent.com/arcolinux/arcolinuxl-iso/master/archiso/airootfs/etc/pacman.conf -O $workdir/usr/local/share/arcolinux/pacman.conf
 
+echo "getting latest /etc/nsswitch.conf"
+wget https://raw.githubusercontent.com/arcolinux/arcolinuxl-iso/master/archiso/airootfs/etc/nsswitch.conf -O $workdir/usr/local/share/arcolinux/nsswitch.conf
+
+
 
 # Below command will backup everything inside the project folder
 git add --all .

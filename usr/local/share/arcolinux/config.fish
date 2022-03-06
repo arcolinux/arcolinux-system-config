@@ -1,3 +1,4 @@
+###
 # https://fishshell.com/docs/current/index.html
 # https://github.com/jorgebucaran/cookbook.fish
 
@@ -97,14 +98,14 @@ if not set -q -g fish_user_abbreviations
   set -gx fish_user_abbreviations
 end
 
-if type -f fortune >/dev/null
-  set -l fortune "fortune -a"
-  if type -f lolcat >/dev/null
-    set fortune "$fortune | lolcat"
-  end
-  eval $fortune
-  echo
-end
+#if type -f fortune >/dev/null
+#  set -l fortune "fortune -a"
+#  if type -f lolcat >/dev/null
+#    set fortune "$fortune | lolcat"
+#  end
+#  eval $fortune
+#  echo
+#end
 
 if which tree >/dev/null
     function l1;  tree --dirsfirst -ChFL 1 $argv; end
@@ -309,6 +310,7 @@ alias mirrora 'sudo reflector --latest 30 --number 10 --sort age --save /etc/pac
 alias mirrorx 'sudo reflector --age 6 --latest 20  --fastest 20 --threads 5 --sort rate --protocol https --save /etc/pacman.d/mirrorlist'
 alias mirrorxx 'sudo reflector --age 6 --latest 20  --fastest 20 --threads 20 --sort rate --protocol https --save /etc/pacman.d/mirrorlist'
 alias ram 'rate-mirrors --allow-root arch | sudo tee /etc/pacman.d/mirrorlist'
+alias rams 'rate-mirrors --allow-root --protocol https arch  | sudo tee /etc/pacman.d/mirrorlist'
 
 #mounting the folder Public for exchange between host and guest on virtualbox
 alias vbm 'sudo /usr/local/bin/arcolinux-vbox-share'
