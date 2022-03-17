@@ -26,12 +26,22 @@
 #tput setaf 8 = light blue
 ##################################################################################################################
 
-#echo "Fix for icons not showing up in pamac-aur"
+echo
+tput setaf 3
+echo "################################################################"
+echo "################### Start clone arcolinux-nemesis"
+echo "################################################################"
+tput sgr0
+echo
 
-zcat /usr/share/app-info/xmls/community.xml.gz | sed 's|<em>||g;s|<\/em>||g;' | gzip > "new.xml.gz"
-mv new.xml.gz /usr/share/app-info/xmls/community.xml.gz
-appstreamcli refresh-cache --force
+mkdir ~/DATA
+cd ~/DATA
+git clone https://github.com/erikdubois/arcolinux-nemesis
 
-zcat /usr/share/app-info/xmls/extra.xml.gz | sed 's|<em>||g;s|<\/em>||g;' | gzip > "new.xml.gz"
-mv new.xml.gz /usr/share/app-info/xmls/extra.xml.gz
-appstreamcli refresh-cache --force
+echo
+tput setaf 3
+echo "################################################################"
+echo "################### End clone arcolinux-nemesis"
+echo "################################################################"
+tput sgr0
+echo

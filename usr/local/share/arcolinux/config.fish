@@ -120,7 +120,7 @@ end
 ### FUNCTIONS ###
 # Fish command history
 function history
-    builtin history --show-time='%F %T '
+    builtin history --show-time='%F %T ' | sort
 end
 
 # Make a backup file
@@ -457,7 +457,10 @@ alias awa="arcolinux-welcome-app"
 alias rmgitcache="rm -r ~/.cache/git"
 
 #moving your personal files and folders from /personal to ~
-alias personal="cp -Rf /personal/* ~"
+function personal
+    cp -rf /personal/ ~
+    cp -rf /personal/.* ~
+end
 
 # git
 # using plugin
