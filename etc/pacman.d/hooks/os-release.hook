@@ -7,4 +7,4 @@ Target = filesystem
 [Action]
 Description = Add ArcoLinux specific config
 When = PostTransaction
-Exec = /bin/sh -c "cp /usr/lib/os-release-arcolinux /usr/lib/os-release"
+Exec = /bin/sh -c "/usr/local/bin/arcolinux-os-release"
