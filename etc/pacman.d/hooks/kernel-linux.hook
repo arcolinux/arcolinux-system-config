@@ -21,6 +21,6 @@ Target = linux-froidzen*
 Target = linux-jwrdegoede*
 
 [Action]
-Description = ArcoLinux pacman hook to update-grub automatically
+Description = Pacman hook to update-grub automatically
 When = PostTransaction
 Exec = /bin/sh -c "grub-mkconfig -o /boot/grub/grub.cfg"

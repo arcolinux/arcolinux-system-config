@@ -6,6 +6,6 @@ Target = btrfs-assistant
 Target = timeshift
 
 [Action]
-Description = ArcoLinux pacman hook for desktop files
+Description = Pacman hook for desktop files
 When = PostTransaction
 Exec = /usr/local/bin/arcolinux-fix-desktop-files
