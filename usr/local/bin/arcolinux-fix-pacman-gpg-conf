@@ -40,6 +40,7 @@ if [ $file_boolean -eq 1 ] ; then
 	echo "/etc/pacman.d/gnupg/gpg.conf copied from local system"
 fi
 
+
 echo "###############################################################################"
-echo "###                               DONE                                     ####"
+echo "###                DONE - YOU CAN CLOSE THIS WINDOW                        ####"
 echo "###############################################################################"
