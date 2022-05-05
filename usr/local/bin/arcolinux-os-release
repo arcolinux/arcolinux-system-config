@@ -45,7 +45,3 @@ if [ -f /usr/local/bin/get-nemesis-on-alci ]; then
     sudo cp /usr/local/share/arcolinux/release/os-release-arch /usr/lib/os-release
     sudo cp /usr/local/share/arcolinux/release/os-release-arch /usr/lib/os-release-arcolinux
 fi
-
-echo "###############################################################################"
-echo "###                DONE - YOU CAN CLOSE THIS WINDOW                        ####"
-echo "###############################################################################"
