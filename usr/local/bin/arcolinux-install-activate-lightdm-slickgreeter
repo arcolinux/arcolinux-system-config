@@ -39,5 +39,5 @@ echo "##########################################################################
 sudo sed -i "s/#greeter-session=example-gtk-gnome/greeter-session=lightdm-slick-greeter/g" /etc/lightdm/lightdm.conf
 
 echo "###############################################################################"
-echo "###                        DONE - NOW REBOOT                               ####"
+echo "###                DONE - YOU CAN CLOSE THIS WINDOW                        ####"
 echo "###############################################################################"

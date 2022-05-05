@@ -43,5 +43,5 @@ sudo sed -i "s/# bg=\/usr\/share\/backgrounds\/default.png/bg=\/usr\/share\/back
 sudo sed -i "s/theme=Industrial/theme=minimalo/g" /etc/lxdm/lxdm.conf
 
 echo "###############################################################################"
-echo "###                        DONE - NOW REBOOT                               ####"
+echo "###                DONE - YOU CAN CLOSE THIS WINDOW                        ####"
 echo "###############################################################################"
