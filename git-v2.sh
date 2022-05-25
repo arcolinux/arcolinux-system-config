@@ -19,6 +19,9 @@ git pull
 
 workdir=$(pwd)
 
+echo "getting mirrorlist ArchLinux"
+wget https://raw.githubusercontent.com/arcolinux/arcolinuxl-iso/master/archiso/airootfs/etc/pacman.d/mirrorlist -O $workdir/usr/local/share/arcolinux/pacman.d/mirrorlist
+
 echo "getting default grub file"
 wget https://raw.githubusercontent.com/arcolinux/arcolinuxl-iso/master/archiso/airootfs/etc/default/grub -O $workdir/usr/local/share/arcolinux/grub/grub
 
@@ -44,7 +47,7 @@ REPLACE="#User="
 sed -i "s/$FIND/$REPLACE/g" $workdir/usr/local/share/arcolinux/sddm.conf.d/kde_settings.conf
 
 echo "getting latest arcolinux-mirrorlist"
-wget https://raw.githubusercontent.com/arcolinux/arcolinux-mirrorlist/master/etc/pacman.d/arcolinux-mirrorlist -O $workdir/usr/local/share/arcolinux/arcolinux-mirrorlist
+wget https://raw.githubusercontent.com/arcolinux/arcolinux-mirrorlist/master/etc/pacman.d/arcolinux-mirrorlist -O $workdir/usr/local/share/arcolinux/pacman.d/arcolinux-mirrorlist
 
 echo "getting latest /etc/pacman.conf"
 wget https://raw.githubusercontent.com/arcolinux/arcolinuxl-iso/master/archiso/airootfs/etc/pacman.conf -O $workdir/usr/local/share/arcolinux/pacman.conf
