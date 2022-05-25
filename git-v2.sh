@@ -32,7 +32,7 @@ echo "getting latest config.fish"
 wget https://raw.githubusercontent.com/arcolinux/arcolinux-fish/main/etc/skel/.config/fish/config.fish -O $workdir/usr/local/share/arcolinux/config.fish
 
 echo "getting latest NEW /etc/sddm.conf"
-wget https://raw.githubusercontent.com/arcolinux/arcolinuxl-iso/master/archiso/airootfs/etc/sddm.conf -O $workdir/usr/local/share/arcolinux/sddm.conf.d/sddm.conf
+wget https://raw.githubusercontent.com/arcolinux/arcolinuxl-iso/master/archiso/airootfs/etc/sddm.conf -O $workdir/usr/local/share/arcolinux/sddm/sddm.conf
 
 wget https://raw.githubusercontent.com/arcolinux/arcolinuxl-iso/master/archiso/airootfs/etc/sddm.conf.d/kde_settings.conf -O $workdir/usr/local/share/arcolinux/sddm.conf.d/kde_settings.conf
 FIND="Session=xfce"
