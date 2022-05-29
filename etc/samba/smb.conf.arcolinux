@@ -241,6 +241,7 @@
 ;   printable = no
 ;   create mask = 0765
 
+
 ;[SHARED]
 ;path = /home/erik/SHARED
 ;browseable = yes
