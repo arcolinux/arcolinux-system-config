@@ -19,6 +19,9 @@ git pull
 
 workdir=$(pwd)
 
+echo "Get the original samba file from samba github"
+wget https://gitlab.com/samba-team/samba/-/raw/master/examples/smb.conf.default -O $workdir/etc/samba/smb.conf.original
+
 echo "getting mirrorlist ArchLinux"
 wget https://raw.githubusercontent.com/arcolinux/arcolinuxl-iso/master/archiso/airootfs/etc/pacman.d/mirrorlist -O $workdir/usr/local/share/arcolinux/pacman.d/mirrorlist
 
