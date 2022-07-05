@@ -41,37 +41,37 @@ if [ -f /usr/share/applications/timeshift-gtk.desktop ]; then
 fi
 
 if [ -f /usr/share/applications/proton-community-updater.desktop ]; then
-	FIND="Icon=/usr/share/pixmaps/proton-community-updater-icon.png"
+	FIND="Icon=\/usr\/share\/pixmaps\/proton-community-updater-icon.png"
 	REPLACE="Icon=proton-community-updater"
 	sudo sed -i "s/$FIND/$REPLACE/g" /usr/share/applications/proton-community-updater.desktop
 fi
 
 if [ -f /usr/share/applications/yin-yang.desktop ]; then
-	FIND="Icon=/opt/yin-yang/src/ui/assets/yin-yang.svg"
+	FIND="Icon=\/opt\/yin-yang\/src\/ui\/assets\/yin-yang.svg"
 	REPLACE="Icon=yin-yang"
 	sudo sed -i "s/$FIND/$REPLACE/g" /usr/share/applications/yin-yang.desktop
 fi
 
 if [ -f /usr/share/applications/xdman.desktop ]; then
-	FIND="Icon=/opt/xdman/icon.png"
+	FIND="Icon=\/opt\/xdman\/icon.png"
 	REPLACE="Icon=xdman"
 	sudo sed -i "s/$FIND/$REPLACE/g" /usr/share/applications/xdman.desktop
 fi
 
 if [ -f /usr/share/applications/florence.desktop ]; then
-	FIND="Icon=/usr/share/pixmaps/florence.svg"
+	FIND="Icon=\/usr\/share\/pixmaps\/florence.svg"
 	REPLACE="Icon=florence"
 	sudo sed -i "s/$FIND/$REPLACE/g" /usr/share/applications/florence.desktop
 fi
 
 if [ -f /usr/share/applications/ms-office-online.desktop ]; then
-	FIND="Icon=/usr/share/pixmaps/ms-office.png"
+	FIND="Icon=\/usr\/share\/pixmaps\/ms-office.png"
 	REPLACE="Icon=ms-office"
 	sudo sed -i "s/$FIND/$REPLACE/g" /usr/share/applications/fms-office-online.desktop
 fi
 
 if [ -f /usr/share/applications/realvnc-vnclicensehelper.desktop ]; then
-	FIND="Icon=/usr/share/icons/hicolor/48x48/apps/vncserver48x48.png"
+	FIND="Icon=\/usr\/share\/icons\/hicolor\/48x48\/apps\/vncserver48x48.png"
 	REPLACE="Icon=vncserver"
 	sudo sed -i "s/$FIND/$REPLACE/g" /usr/share/applications/realvnc-vnclicensehelper.desktop 
 	sudo sed -i "s/$FIND/$REPLACE/g" /usr/share/applications/realvnc-vnclicensewiz.desktop 
@@ -82,19 +82,19 @@ if [ -f /usr/share/applications/realvnc-vnclicensehelper.desktop ]; then
 fi
 
 if [ -f /usr/share/applications/realvnc-vncviewer.desktop ]; then
-	FIND="Icon=/usr/share/icons/hicolor/48x48/apps/vncviewer48x48.png"
+	FIND="Icon=\/usr\/share\/icons\/hicolor\/48x48\/apps\/vncviewer48x48.png"
 	REPLACE="Icon=vncviewer"
 	sudo sed -i "s/$FIND/$REPLACE/g" /usr/share/applications/realvnc-vncviewer.desktop 
 fi
 
 if [ -f /usr/share/applications/Waydroid.desktop ]; then
-	FIND="Icon=/usr/lib/waydroid/data/AppIcon.png"
+	FIND="Icon=\/usr\/lib\/waydroid\/data\/AppIcon.png"
 	REPLACE="Icon=waydroid"
 	sudo sed -i "s/$FIND/$REPLACE/g" /usr/share/applications/Waydroid.desktop 
 fi
 
 if [ -f /usr/share/applications/wacom-utility.desktop ]; then
-	FIND="Icon=/usr/share/wacom-utility/images/generic.png"
+	FIND="Icon=\/usr\/share\/wacom-utility\/images\/generic.png"
 	REPLACE="Icon=wacom"
 	sudo sed -i "s/$FIND/$REPLACE/g" /usr/share/applications/wacom-utility.desktop 
 fi
