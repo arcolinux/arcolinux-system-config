@@ -67,7 +67,7 @@ fi
 if [ -f /usr/share/applications/ms-office-online.desktop ]; then
 	FIND="Icon=\/usr\/share\/pixmaps\/ms-office.png"
 	REPLACE="Icon=ms-office"
-	sudo sed -i "s/$FIND/$REPLACE/g" /usr/share/applications/fms-office-online.desktop
+	sudo sed -i "s/$FIND/$REPLACE/g" /usr/share/applications/ms-office-online.desktop
 fi
 
 if [ -f /usr/share/applications/realvnc-vnclicensehelper.desktop ]; then
