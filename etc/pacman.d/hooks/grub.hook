@@ -7,3 +7,4 @@ Target = grub
 Description = Re-installing grub bootloader...
 When = PostTransaction
 Exec = /usr/bin/grub-install --target=x86_64-efi --efi-directory=/boot/efi
+Exec = /usr/bin/grub-mkconfig -o /boot/grub/grub.cfg

@@ -102,7 +102,7 @@ end
 #  echo
 #end
 
-if which tree >/dev/null
+if test tree >/dev/null
     function l1;  tree --dirsfirst -ChFL 1 $argv; end
     function l2;  tree --dirsfirst -ChFL 2 $argv; end
     function l3;  tree --dirsfirst -ChFL 3 $argv; end
@@ -229,6 +229,7 @@ alias give-me-qwerty-us="sudo localectl set-x11-keymap us"
 
 #setlocale
 alias setlocale="sudo localectl set-locale LANG=en_US.UTF-8"
+alias setlocales="sudo localectl set-x11-keymap be && sudo localectl set-locale LANG=en_US.UTF-8"
 
 #pacman unlock
 alias unlock="sudo rm /var/lib/pacman/db.lck"
@@ -267,6 +268,8 @@ alias psgrep="ps aux | grep -v grep | grep -i -e VSZ -e"
 
 #grub update
 alias update-grub="sudo grub-mkconfig -o /boot/grub/grub.cfg"
+#grub issue 08/2022
+alias install-grub-efi="sudo grub-install --target=x86_64-efi --efi-directory=/boot/efi"
 
 #add new fonts
 alias update-fc="sudo fc-cache -fv"
@@ -304,6 +307,9 @@ alias kpi="killall picom"
 
 #hardware info --short
 alias hw="hwinfo --short"
+
+#audio check pulseaudio or pipewire
+alias audio="pactl info | grep 'Server Name'"
 
 #skip integrity check
 alias paruskip="paru -S --mflags --skipinteg"
@@ -346,6 +352,7 @@ alias riplong="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -3000 | n
 
 #iso and version used to install ArcoLinux
 alias iso="cat /etc/dev-rel | awk -F '=' '/ISO/ {print $2}'"
+alias isoo="cat /etc/dev-rel"
 
 #Cleanup orphaned packages
 alias cleanup="sudo pacman -Rns (pacman -Qtdq)"
@@ -452,7 +459,8 @@ alias ltupd="leftwm-theme update"
 alias ltupg="leftwm-theme upgrade"
 
 #arcolinux applications
-alias att="archlinux-tweak-tool"
+#att is a symbolic link now
+#alias att="archlinux-tweak-tool"
 alias adt="arcolinux-desktop-trasher"
 alias abl="arcolinux-betterlockscreen"
 alias agm="arcolinux-get-mirrors"
