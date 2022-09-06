@@ -1,0 +1,9 @@
+[Trigger]
+Operation = Upgrade
+Type = Package
+Target = grub
+
+[Action]
+Description = Executing grub-mkconfig ...
+When = PostTransaction
+Exec = /bin/sh -c "grub-mkconfig -o /boot/grub/grub.cfg"
