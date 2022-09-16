@@ -9,6 +9,7 @@ Target=nvidia-dkms
 Target=nvidia-beta
 Target=nvidia-340xx
 Target=nvidia-390xx
+Target=dkms
 
 [Action]
 Description=Update Nvidia module in initcpio
