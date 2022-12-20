@@ -27,4 +27,4 @@
 ##################################################################################################################
 
 cp /usr/local/share/arcolinux/hyprland/hyprland.desktop /usr/share/wayland-sessions/hyprland.desktop
-cp /usr/local/share/arcolinux/hyprland/hyprland.desktop /usr/share/xsessions/hyprland.desktop
+rm /usr/share/xsessions/hyprland.desktop
