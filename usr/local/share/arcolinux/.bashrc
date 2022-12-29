@@ -37,6 +37,12 @@ alias ll='ls -alFh'
 alias l='ls'
 alias l.="ls -A | egrep '^\.'"
 
+#list
+alias sps='sudo pacman -S'
+alias spr='sudo pacman -R'
+alias sprs='sudo pacman -Rs'
+alias sprdd='sudo pacman -Rdd'
+
 #fix obvious typo's
 alias cd..='cd ..'
 alias pdw='pwd'
@@ -278,6 +284,7 @@ alias bls="betterlockscreen -u /usr/share/backgrounds/arcolinux/"
 
 #give the list of all installed desktops - xsessions desktops
 alias xd="ls /usr/share/xsessions"
+alias xdw="ls /usr/share/wayland-sessions"
 
 # # ex = EXtractor for all kinds of archives
 # # usage: ex <file>
@@ -305,6 +312,9 @@ ex ()
     echo "'$1' is not a valid file"
   fi
 }
+
+#wayland aliases
+alias wsimplescreenrecorder="wf-recorder -a"
 
 #btrfs aliases
 alias btrfsfs="sudo btrfs filesystem df /"
