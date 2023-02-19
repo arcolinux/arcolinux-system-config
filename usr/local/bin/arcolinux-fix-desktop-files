@@ -105,10 +105,10 @@ if [ -f /usr/share/applications/gcdmaster.desktop ]; then
 	sudo sed -i "s/$FIND/$REPLACE/g" /usr/share/applications/gcdmaster.desktop 
 fi
 
-if [ -f /usr/share/applications/quickqui.desktop ]; then
+if [ -f /usr/share/applications/quickgui.desktop ]; then
 	FIND="Icon=quickgui_512.png"
 	REPLACE="Icon=quickgui"
-	sudo sed -i "s/$FIND/$REPLACE/g" /usr/share/applications/quickqui.desktop
+	sudo sed -i "s/$FIND/$REPLACE/g" /usr/share/applications/quickgui.desktop
 fi
 
 if [ -f /usr/share/applications/realvnc-vnclicensewiz.desktop ]; then
