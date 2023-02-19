@@ -98,3 +98,57 @@ if [ -f /usr/share/applications/wacom-utility.desktop ]; then
 	REPLACE="Icon=wacom"
 	sudo sed -i "s/$FIND/$REPLACE/g" /usr/share/applications/wacom-utility.desktop 
 fi
+
+if [ -f /usr/share/applications/gcdmaster.desktop ]; then
+	FIND="Icon=gcdmaster.png"
+	REPLACE="Icon=gcdmaster"
+	sudo sed -i "s/$FIND/$REPLACE/g" /usr/share/applications/gcdmaster.desktop 
+fi
+
+if [ -f /usr/share/applications/guickqui.desktop ]; then
+	FIND="Icon=quickgui_512.png"
+	REPLACE="Icon=quickgui"
+	sudo sed -i "s/$FIND/$REPLACE/g" /usr/share/applications/guickqui.desktop 
+fi
+
+if [ -f /usr/share/applications/realvnc-vnclicensewiz.desktop ]; then
+	FIND="Icon=\/usr\/share\/icons\/hicolor\/48x48\/apps\/vncserver48x48.png"
+	REPLACE="Icon=vncserver"
+	sudo sed -i "s/$FIND/$REPLACE/g" /usr/share/applications/realvnc-vnclicensewiz.desktop 
+fi
+
+if [ -f /usr/share/applications/realvnc-vncserver-service.desktop ]; then
+	FIND="Icon=\/usr\/share\/icons\/hicolor\/48x48\/apps\/vncserver48x48.png"
+	REPLACE="Icon=vncserver"
+	sudo sed -i "s/$FIND/$REPLACE/g" /usr/share/applications/realvnc-vncserver-service.desktop 
+fi
+
+if [ -f /usr/share/applications/realvnc-vncserverui-service.desktop ]; then
+	FIND="Icon=\/usr\/share\/icons\/hicolor\/48x48\/apps\/vncserver48x48.png"
+	REPLACE="Icon=vncserver"
+	sudo sed -i "s/$FIND/$REPLACE/g" /usr/share/applications/realvnc-vncserverui-service.desktop 
+fi
+
+if [ -f /usr/share/applications/realvnc-vncserverui-user.desktop ]; then
+	FIND="Icon=\/usr\/share\/icons\/hicolor\/48x48\/apps\/vncserver48x48.png"
+	REPLACE="Icon=vncserver"
+	sudo sed -i "s/$FIND/$REPLACE/g" /usr/share/applications/realvnc-vncserverui-user.desktop 
+fi
+
+if [ -f /usr/share/applications/realvnc-vncserverui-virtual.desktop ]; then
+	FIND="Icon=\/usr\/share\/icons\/hicolor\/48x48\/apps\/vncserver48x48.png"
+	REPLACE="Icon=vncserver"
+	sudo sed -i "s/$FIND/$REPLACE/g" /usr/share/applications/realvnc-vncserverui-virtual.desktop 
+fi
+
+if [ -f /usr/share/applications/slimbookbattery.desktop ]; then
+	FIND="Icon=\/usr\/share\/pixmaps\/slimbookbattery.png"
+	REPLACE="Icon=slimbookbattery"
+	sudo sed -i "s/$FIND/$REPLACE/g" /usr/share/applications/slimbookbattery.desktop 
+fi
+
+if [ -f /usr/share/applications/waydroid.market.desktop ]; then
+	FIND="Icon=\/usr\/lib\/waydroid\/data\/AppIcon.png"
+	REPLACE="Icon=waydroid"
+	sudo sed -i "s/$FIND/$REPLACE/g" /usr/share/applications/waydroid.market.desktop 
+fi
