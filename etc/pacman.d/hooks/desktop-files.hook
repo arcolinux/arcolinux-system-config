@@ -18,7 +18,6 @@ Target = quickgui-bin
 Target = realvnc-vnc-server
 Target = realvnc-vnc-viewer
 Target = slimbookbattery
-Target = waydroid
 
 [Action]
 Description = Pacman hook for desktop files

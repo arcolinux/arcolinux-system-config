@@ -146,9 +146,3 @@ if [ -f /usr/share/applications/slimbookbattery.desktop ]; then
 	REPLACE="Icon=slimbookbattery"
 	sudo sed -i "s/$FIND/$REPLACE/g" /usr/share/applications/slimbookbattery.desktop 
 fi
-
-if [ -f /usr/share/applications/waydroid.market.desktop ]; then
-	FIND="Icon=\/usr\/lib\/waydroid\/data\/AppIcon.png"
-	REPLACE="Icon=waydroid"
-	sudo sed -i "s/$FIND/$REPLACE/g" /usr/share/applications/waydroid.market.desktop 
-fi
