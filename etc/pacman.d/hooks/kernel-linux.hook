@@ -9,6 +9,7 @@ Target = linux-new*
 Target = linux-amd*
 Target = linux-lts*
 Target = linux-zen*
+Target = linux-rt*
 Target = linux-hardened*
 Target = linux-xanmod*
 Target = linux-tkg*
