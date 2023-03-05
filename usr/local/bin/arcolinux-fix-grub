@@ -95,5 +95,7 @@ sudo grub-mkconfig -o /boot/grub/grub.cfg
 
 echo
 echo "###############################################################################"
+echo "###    Make sure you installed arcolinux-grub-theme-vimix-git              ####"
+echo "###    to see the default ArcoLinux grub theme again                       ####"
 echo "###                DONE - YOU CAN CLOSE THIS WINDOW                        ####"
 echo "###############################################################################"
