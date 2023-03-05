@@ -89,7 +89,7 @@ echo "###    Updating your /boot/grub/grub.cfg to apply the grub default file   
 echo "###############################################################################"
 echo
 
-grub-mkconfig -o /boot/grub/grub.cfg
+sudo grub-mkconfig -o /boot/grub/grub.cfg
 
 echo
 echo "###############################################################################"
