@@ -86,6 +86,8 @@ fi
 echo
 echo "###############################################################################"
 echo "###    Updating your /boot/grub/grub.cfg to apply the grub default file    ####"
+echo "###    Make sure you installed arcolinux-grub-theme-vimix-git              ####"
+echo "###    to see the default ArcoLinux grub theme again                       ####"
 echo "###############################################################################"
 echo
 
