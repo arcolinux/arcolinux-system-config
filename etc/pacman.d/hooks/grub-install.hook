@@ -6,4 +6,4 @@ Target = grub
 [Action]
 Description = Executing grub-install...
 When = PostTransaction
-Exec = /usr/bin/grub-install --target=x86_64-efi --efi-directory=/boot/efi
+Exec = /usr/bin/grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=ArcoLinux
