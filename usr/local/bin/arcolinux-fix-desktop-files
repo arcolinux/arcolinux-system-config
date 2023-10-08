@@ -146,9 +146,3 @@ if [ -f /usr/share/applications/slimbookbattery.desktop ]; then
 	REPLACE="Icon=slimbookbattery"
 	sudo sed -i "s/$FIND/$REPLACE/g" /usr/share/applications/slimbookbattery.desktop 
 fi
-
-if [ -f /usr/share/applications/org.manjaro.pamac.manager.desktop ]; then
-	FIND="Exec=pamac-manager %U"
-	REPLACE="Exec=env GTK_THEME=Arc-Dark pamac-manager %U"
-	sudo sed -i "s/$FIND/$REPLACE/g" /usr/share/applications/org.manjaro.pamac.manager.desktop 
-fi
