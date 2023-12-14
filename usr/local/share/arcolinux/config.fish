@@ -426,6 +426,7 @@ alias nf="$EDITOR ~/.config/fish/config.fish"
 alias nneofetch="$EDITOR ~/.config/neofetch/config.conf"
 alias nplymouth="sudo $EDITOR /etc/plymouth/plymouthd.conf"
 alias nvconsole="sudo $EDITOR /etc/vconsole.conf"
+alias nenvironment="sudo $EDITOR /etc/environment"
 
 #reading logs with bat
 alias lcalamares="bat /var/log/Calamares.log"
@@ -550,6 +551,7 @@ neofetch
 #sysinfo-retro
 #cpufetch
 #colorscript random
+#hyfetch
 
 # colors to set or unset
 
