@@ -486,6 +486,11 @@ alias xdw="ls /usr/share/wayland-sessions"
 alias wsimplescreen="wf-recorder -a"
 alias wsimplescreenrecorder="wf-recorder -a -c h264_vaapi -C aac -d /dev/dri/renderD128 --file=recording.mp4"
 
+#give a list of the kernels installed
+alias kernels="ls /usr/lib/modules"
+
+#am I on grub or systemd-boot
+alias boot="sudo bootctl status | grep Product"
 
 #btrfs aliases
 alias btrfsfs="sudo btrfs filesystem df /"
