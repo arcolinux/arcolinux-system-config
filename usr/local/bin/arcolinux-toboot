@@ -54,8 +54,21 @@ fi
 
 # file NOT there
 if [ $file_boolean -eq 0 ] ; then
-	echo "You can not go to systemd-boot - no configuration"
-	echo "found at /boot/efi/loader/loader.conf"
+	#echo "You can not go to systemd-boot - no configuration"
+	#echo "found at /boot/efi/loader/loader.conf"
+	echo "For now we re-install the linux kernel to get start files"
+	sudo bootctl install
+	sudo bootcll update
+	sudo pacman -S --noconfirm kernel-install-mkinitcpio
+	sudo pacman -S --noconfirm linux
+
+	if [[ -f /boot/efi/loader/loader.conf ]];then
+		sudo sed -i "s/#timeout 3/timeout 3/g" /boot/efi/loader/loader.conf
+	fi
+
+	if [[ -f /boot/efi/loader/loader.conf ]];then
+		sudo sed -i "s/#console-mode keep/console-mode keep/g" /boot/efi/loader/loader.conf
+	fi
 fi
 
 echo

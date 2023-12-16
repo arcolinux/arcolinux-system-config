@@ -427,6 +427,7 @@ alias nneofetch="$EDITOR ~/.config/neofetch/config.conf"
 alias nplymouth="sudo $EDITOR /etc/plymouth/plymouthd.conf"
 alias nvconsole="sudo $EDITOR /etc/vconsole.conf"
 alias nenvironment="sudo $EDITOR /etc/environment"
+alias nloader="sudo $EDITOR /boot/efi/loader/loader.conf"
 
 #reading logs with bat
 alias lcalamares="bat /var/log/Calamares.log"
@@ -487,6 +488,7 @@ alias wsimplescreen="wf-recorder -a"
 alias wsimplescreenrecorder="wf-recorder -a -c h264_vaapi -C aac -d /dev/dri/renderD128 --file=recording.mp4"
 
 #give a list of the kernels installed
+alias kernel="ls /usr/lib/modules"
 alias kernels="ls /usr/lib/modules"
 
 #am I on grub or systemd-boot
