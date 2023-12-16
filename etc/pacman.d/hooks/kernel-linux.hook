@@ -3,7 +3,6 @@ Operation = Install
 Operation = Upgrade
 Operation = Remove
 Type = Package
-Target = usr/lib/modules/*/vmlinuz
 Target = linux
 Target = linux-next*
 Target = linux-new*
