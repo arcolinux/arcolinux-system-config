@@ -106,3 +106,6 @@ func_install_chadwm() {
 }
 
 func_install_chadwm
+
+cp -Rf ~/.config ~/.config-backup-$(date +%Y.%m.%d-%H.%M.%S)
+cp -arf /etc/skel/. ~
