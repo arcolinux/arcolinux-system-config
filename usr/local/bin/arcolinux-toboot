@@ -58,9 +58,9 @@ if [ $file_boolean -eq 0 ] ; then
 	#echo "found at /boot/efi/loader/loader.conf"
 	echo "For now we re-install the linux kernel to get start files"
 	sudo bootctl install
-	sudo bootcll update
+	#sudo bootcll update
 	sudo pacman -S --noconfirm kernel-install-mkinitcpio
-	sudo pacman -S --noconfirm linux
+	sudo reinstall-kernels
 
 	if [[ -f /boot/efi/loader/loader.conf ]];then
 		sudo sed -i "s/#timeout 3/timeout 3/g" /boot/efi/loader/loader.conf
