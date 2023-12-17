@@ -46,6 +46,8 @@ function check_file() {
 
 check_file
 
+sudo pacman -S --noconfirm kernel-install-mkinitcpio
+
 # file there
 if [ $file_boolean -eq 1 ] ; then
 	sudo bootctl install
@@ -54,12 +56,7 @@ fi
 
 # file NOT there
 if [ $file_boolean -eq 0 ] ; then
-	#echo "You can not go to systemd-boot - no configuration"
-	#echo "found at /boot/efi/loader/loader.conf"
-	echo "For now we re-install the linux kernel to get start files"
 	sudo bootctl install
-	#sudo bootcll update
-	sudo pacman -S --noconfirm kernel-install-mkinitcpio
 	sudo reinstall-kernels
 
 	if [[ -f /boot/efi/loader/loader.conf ]];then
