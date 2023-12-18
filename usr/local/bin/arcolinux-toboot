@@ -30,42 +30,17 @@ echo "##########################################################################
 echo "Re-installing the default systemd-boot from ArcoLinux"
 echo "###############################################################################"
 
-file_boolean=0
-
-function check_file() {
-
-	file="/boot/efi/loader/loader.conf"
-	if [[ -f $file ]];then
-    	echo $file " exists"
-    	file_boolean=1
-	else
-    	echo $file " doesn't exist"
-    	file_boolean=0
-	fi
-}
-
-check_file
-
 sudo pacman -S --noconfirm kernel-install-mkinitcpio
 
-# file there
-if [ $file_boolean -eq 1 ] ; then
-	sudo bootctl install
-	sudo bootctl update
+sudo bootctl install
+sudo reinstall-kernels
+
+if [[ -f /boot/efi/loader/loader.conf ]];then
+	sudo sed -i "s/#timeout 3/timeout 3/g" /boot/efi/loader/loader.conf
 fi
 
-# file NOT there
-if [ $file_boolean -eq 0 ] ; then
-	sudo bootctl install
-	sudo reinstall-kernels
-
-	if [[ -f /boot/efi/loader/loader.conf ]];then
-		sudo sed -i "s/#timeout 3/timeout 3/g" /boot/efi/loader/loader.conf
-	fi
-
-	if [[ -f /boot/efi/loader/loader.conf ]];then
-		sudo sed -i "s/#console-mode keep/console-mode keep/g" /boot/efi/loader/loader.conf
-	fi
+if [[ -f /boot/efi/loader/loader.conf ]];then
+	sudo sed -i "s/#console-mode keep/console-mode keep/g" /boot/efi/loader/loader.conf
 fi
 
 echo
