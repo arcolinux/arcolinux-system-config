@@ -26,24 +26,36 @@
 #tput setaf 8 = light blue
 ##################################################################################################################
 
-echo "###############################################################################"
-echo "Re-installing the default systemd-boot from ArcoLinux"
-echo "###############################################################################"
+if lsblk | grep -q "/boot/efi" ; then
 
-sudo pacman -S --noconfirm kernel-install-mkinitcpio
+	echo "###############################################################################"
+	echo "Re-installing the default systemd-boot from ArcoLinux"
+	echo "###############################################################################"
 
-sudo bootctl install
-sudo reinstall-kernels
+	sudo pacman -S --noconfirm kernel-install-mkinitcpio
 
-if [[ -f /boot/efi/loader/loader.conf ]];then
-	sudo sed -i "s/#timeout 3/timeout 3/g" /boot/efi/loader/loader.conf
+	sudo bootctl install
+	sudo reinstall-kernels
+
+	if [[ -f /boot/efi/loader/loader.conf ]];then
+		sudo sed -i "s/#timeout 3/timeout 3/g" /boot/efi/loader/loader.conf
+	fi
+
+	if [[ -f /boot/efi/loader/loader.conf ]];then
+		sudo sed -i "s/#console-mode keep/console-mode keep/g" /boot/efi/loader/loader.conf
+	fi
+
+	echo
+	echo "###############################################################################"
+	echo "###                DONE - YOU CAN CLOSE THIS WINDOW                        ####"
+	echo "###############################################################################"
+
+else
+
+	echo
+	echo "###############################################################################"
+	echo "###                YOU CAN NOT GOT TO SYSTEMD-BOOT                         ####"
+	echo "###                        KEEP USING GRUB                                 ####"
+	echo "###        https://wiki.archlinux.org/title/Arch_boot_process              ####"
+	echo "###############################################################################"
 fi
-
-if [[ -f /boot/efi/loader/loader.conf ]];then
-	sudo sed -i "s/#console-mode keep/console-mode keep/g" /boot/efi/loader/loader.conf
-fi
-
-echo
-echo "###############################################################################"
-echo "###                DONE - YOU CAN CLOSE THIS WINDOW                        ####"
-echo "###############################################################################"
