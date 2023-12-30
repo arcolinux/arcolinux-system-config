@@ -58,11 +58,11 @@ if pacman -Qi nvidia-dkms &> /dev/null; then
 
 	FIND='MODULES=""'
 	REPLACE='MODULES="nvidia nvidia_modeset nvidia_uvm nvidia_drm"'
-	sed -i "s/$FIND/$REPLACE/g" /etc/mkinitcpio.conf
+	sudo sed -i "s/$FIND/$REPLACE/g" /etc/mkinitcpio.conf
 
 	FIND='MODULES=()'
 	REPLACE='MODULES="nvidia nvidia_modeset nvidia_uvm nvidia_drm"'
-	sed -i "s/$FIND/$REPLACE/g" /etc/mkinitcpio.conf
+	sudo sed -i "s/$FIND/$REPLACE/g" /etc/mkinitcpio.conf
 
 	echo
 	echo "################################################################"
@@ -71,7 +71,7 @@ if pacman -Qi nvidia-dkms &> /dev/null; then
 	echo "################################################################"
 	echo
 
-	echo "options nvidia-drm modeset=1" | tee  /etc/modprobe.d/nvidia-wayland.conf
+	echo "options nvidia-drm modeset=1" | sudo tee  /etc/modprobe.d/nvidia-wayland.conf
 
 
 	echo
@@ -84,11 +84,11 @@ if pacman -Qi nvidia-dkms &> /dev/null; then
 
 	FIND='GRUB_CMDLINE_LINUX_DEFAULT="quiet loglevel=3 audit=0 nvme_load=yes"'
 	REPLACE='GRUB_CMDLINE_LINUX_DEFAULT="quiet loglevel=3 audit=0 nvme_load=yes nvidia-drm.modeset=1"'
-	sed -i 's/$FIND/$REPLACE/g' /etc/default/grub
+	sudo sed -i 's/$FIND/$REPLACE/g' /etc/default/grub
 
 	FIND="GRUB_CMDLINE_LINUX_DEFAULT='quiet loglevel=3 audit=0 nvme_load=yes'"
 	REPLACE="GRUB_CMDLINE_LINUX_DEFAULT='quiet loglevel=3 audit=0 nvme_load=yes nvidia-drm.modeset=1'"
-	sed -i "s/$FIND/$REPLACE/g" /etc/default/grub
+	sudo sed -i "s/$FIND/$REPLACE/g" /etc/default/grub
 
 	echo
 	echo "################################################################"
@@ -96,9 +96,9 @@ if pacman -Qi nvidia-dkms &> /dev/null; then
 	echo "################################################################"
 	echo
 
-	mkinitcpio -P
+	sudo mkinitcpio -P
 
-	grub-mkconfig -o /boot/grub/grub.cfg
+	sudo grub-mkconfig -o /boot/grub/grub.cfg
 
 	echo
 	tput setaf 6
