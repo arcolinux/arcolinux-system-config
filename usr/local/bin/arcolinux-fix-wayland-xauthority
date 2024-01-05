@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+session=$(loginctl show-session $(loginctl|grep $(whoami) | awk '{print $1}') -p Type | awk -F= '{print $2}' | grep "wayland")
+xauth_file=$(xauth info | awk -F"Authority file:" '{print $2}' | tr -d ' ')
+test -s "$xauth_file" || touch "$xauth_file"
+xauth gen $DISPLAY &> /dev/null
+
+echo "[INFO] Checking Display Session for Xauthority"
+echo "---------------------------------------------------------------------------"
+echo "[INFO] Display = $DISPLAY"
+echo "[INFO] Session = $session"
