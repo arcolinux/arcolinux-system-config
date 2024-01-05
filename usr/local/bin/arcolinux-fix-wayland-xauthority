@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-session=$(loginctl show-session $(loginctl|grep $(whoami) | awk '{print $1}') -p Type | awk -F= '{print $2}' | grep "wayland")
+session=$(loginctl show-session $(loginctl|grep $(whoami) | awk '{print $1}') -p Type | awk -F= '{print $2}' | grep "wayland" | uniq )
 xauth_file=$(xauth info | awk -F"Authority file:" '{print $2}' | tr -d ' ')
 
 
