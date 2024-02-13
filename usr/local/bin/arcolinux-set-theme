@@ -149,3 +149,14 @@ apply_gtk3
 apply_xfce
 apply_gtkrc
 apply_index
+
+echo
+tput setaf 3
+echo "################################################################"
+echo "The settings have been changed to"
+echo "Theme    : "$THEME
+echo "Cursor   : "$ICONS
+echo "Font     : "$FONT
+echo "Cursor   : "$CURSOR
+echo "################################################################"
+tput sgr0
