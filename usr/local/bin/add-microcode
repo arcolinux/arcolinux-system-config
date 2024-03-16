@@ -26,12 +26,23 @@
 #tput setaf 8 = light blue
 ##################################################################################################################
 
+# HOOKS=(base udev microcode autodetect kms modconf block keyboard keymap consolefont filesystems fsck)
+if grep -q microcode /etc/mkinitcpio.conf; then
+	echo "###############################################################################"
+	echo "Microcode is already in"
+	echo "###############################################################################"
+else
+	#sudo sed -i "s/HOOKS=(base udev autodetect kms /HOOKS=(base udev microcode autodetect kms /g" /etc/mkinitcpio.conf;
+	echo "Adding microcode before autodetect"
+	sudo sed -i "s/^HOOKS=(base udev/HOOKS=(base udev microcode/g" /etc/mkinitcpio.conf;
+fi
+
+echo
 echo "###############################################################################"
 echo "Installing the correct microcode - intel or amd"
 echo "###############################################################################"
-
 cpu=$(cat /proc/cpuinfo | grep vendor_id | uniq | awk '{print $3}')
-echo "     We are installing the package for this cpu: "$cpu
+echo "We are installing the package for this cpu: "$cpu
 echo "###############################################################################"
 
 if [ $cpu == "GenuineIntel" ]; then
@@ -40,16 +51,8 @@ else
 	sudo pacman -S --noconfirm --needed amd-ucode
 fi
 
-# HOOKS=(base udev microcode autodetect kms modconf block keyboard keymap consolefont filesystems fsck)
-if grep -q microcode /etc/mkinitcpio.conf; then
-	echo "###############################################################################"
-	echo "     Microcode is already in"
-else
-	#sudo sed -i "s/HOOKS=(base udev autodetect kms /HOOKS=(base udev microcode autodetect kms /g" /etc/mkinitcpio.conf;
-	echo "Adding microcode before autodetect"
-	sudo sed -i "s/^HOOKS=(base udev/HOOKS=(base udev microcode/g" /etc/mkinitcpio.conf;
-fi
 
+echo
 echo "###############################################################################"
 echo "###                DONE - YOU CAN CLOSE THIS WINDOW                        ####"
 echo "###############################################################################"
