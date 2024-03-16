@@ -27,7 +27,7 @@
 ##################################################################################################################
 
 # HOOKS=(base udev microcode autodetect kms modconf block keyboard keymap consolefont filesystems fsck)
-if grep -q microcode /etc/mkinitcpio.conf; then
+if grep -q "base udev microcode" /etc/mkinitcpio.conf; then
 	echo "###############################################################################"
 	echo "Microcode is already in"
 	echo "###############################################################################"
@@ -48,9 +48,9 @@ echo "We are installing the package for this cpu: "$cpu
 echo "###############################################################################"
 
 if [ $cpu == "GenuineIntel" ]; then
-	sudo pacman -S --noconfirm --needed intel-ucode
+	sudo pacman -S --noconfirm intel-ucode
 else
-	sudo pacman -S --noconfirm --needed amd-ucode
+	sudo pacman -S --noconfirm amd-ucode
 fi
 
 
