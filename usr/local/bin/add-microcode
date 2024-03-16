@@ -33,7 +33,9 @@ if grep -q microcode /etc/mkinitcpio.conf; then
 	echo "###############################################################################"
 else
 	#sudo sed -i "s/HOOKS=(base udev autodetect kms /HOOKS=(base udev microcode autodetect kms /g" /etc/mkinitcpio.conf;
+	echo "###############################################################################"
 	echo "Adding microcode before autodetect"
+	echo "###############################################################################"
 	sudo sed -i "s/^HOOKS=(base udev/HOOKS=(base udev microcode/g" /etc/mkinitcpio.conf;
 fi
 
