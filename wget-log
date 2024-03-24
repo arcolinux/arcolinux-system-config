@@ -1,0 +1,13 @@
+--2024-03-24 07:24:49--  https://gitlab.com/samba-team/samba/-/raw/master/examples/smb.conf.default
+Loaded CA certificate '/etc/ssl/certs/ca-certificates.crt'
+Resolving gitlab.com (gitlab.com)... 2606:4700:90:0:f22e:fbec:5bed:a9b9, 172.65.251.78
+Connecting to gitlab.com (gitlab.com)|2606:4700:90:0:f22e:fbec:5bed:a9b9|:443... failed: Connection timed out.
+Connecting to gitlab.com (gitlab.com)|172.65.251.78|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 7942 (7.8K) [text/plain]
+Saving to: ‘/home/erik/ARCO/ARCOLINUX/arcolinux-system-config/etc/samba/smb.conf.original’
+
+     0K .......                                               100% 9.52M=0.001s
+
+2024-03-24 07:27:02 (9.52 MB/s) - ‘/home/erik/ARCO/ARCOLINUX/arcolinux-system-config/etc/samba/smb.conf.original’ saved [7942/7942]
+

@@ -26,18 +26,29 @@
 #tput setaf 8 = light blue
 ##################################################################################################################
 
+# Fix computers that have our old ordering
+if grep -q "base udev microcode autodetect" /etc/mkinitcpio.conf; then
+
+	echo "###############################################################################"
+	echo "Adding microcode AFTER autodetect"
+	echo "###############################################################################"
+	sudo sed -i "s/^HOOKS=(base udev microcode autodetect/HOOKS=(base udev autodetect microcode/g" /etc/mkinitcpio.conf;
+	sudo sed -i 's/^HOOKS="base udev microcode autodetect/HOOKS="base udev autodetect microcode/g' /etc/mkinitcpio.conf;
+fi
+
+
 # HOOKS=(base udev microcode autodetect kms modconf block keyboard keymap consolefont filesystems fsck)
-if grep -q "base udev microcode" /etc/mkinitcpio.conf; then
+if grep -q "base udev autodetect microcode" /etc/mkinitcpio.conf; then
 	echo "###############################################################################"
 	echo "Microcode is already in"
 	echo "###############################################################################"
 else
 	#sudo sed -i "s/HOOKS=(base udev autodetect kms /HOOKS=(base udev microcode autodetect kms /g" /etc/mkinitcpio.conf;
 	echo "###############################################################################"
-	echo "Adding microcode before autodetect"
+	echo "Adding microcode after autodetect"
 	echo "###############################################################################"
-	sudo sed -i "s/^HOOKS=(base udev/HOOKS=(base udev microcode/g" /etc/mkinitcpio.conf;
-	sudo sed -i 's/^HOOKS="base udev/HOOKS="base udev microcode/g' /etc/mkinitcpio.conf;
+	sudo sed -i "s/^HOOKS=(base udev autodetect/HOOKS=(base udev autodetect microcode/g" /etc/mkinitcpio.conf;
+	sudo sed -i 's/^HOOKS="base udev autodetect/HOOKS="base udev autodetect microcode/g' /etc/mkinitcpio.conf;
 fi
 
 echo
