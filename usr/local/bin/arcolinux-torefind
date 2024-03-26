@@ -87,11 +87,15 @@ if lsblk | grep -q "/boot/efi" ; then
 		exit 1
 	fi
 
-
+	echo "###############################################################################"
+	echo "Installing Refind for ArcoLinux"
+	echo "###############################################################################"
+	echo
 	echo "###############################################################################"
 	echo "Removing other bootloaders"
 	echo "###############################################################################"
 	
+
 	is_package_installed() {
 	    if pacman -Q "$1" &> /dev/null; then
 	        echo "Package $1 is installed."
@@ -149,48 +153,44 @@ if lsblk | grep -q "/boot/efi" ; then
 		sudo rm /etc/default/grub.pacsave.2
 	fi
 
-	#REFIND GONE
-	if is_package_installed arcolinux-bootloader-refind-git; then
-	    echo "Removing arcolinux-bootloader-refind-git..."
-	    sudo pacman -R arcolinux-bootloader-refind-git --noconfirm
+	#SYSTEMD-BOOT GONE
+	if is_package_installed kernel-install-mkinitcpio; then
+	    echo "Removing kernel-install-mkinitcpio..."
+	    sudo pacman -R kernel-install-mkinitcpio --noconfirm
 	else
-	    echo "Arcolinux-bootloader-refind-git is not installed, no need to remove."
+	    echo "Kernel-install-mkinitcpio is not installed, no need to remove."
 	fi
 
-	if is_package_installed arcolinux-refind-theme-arco-git; then
-	    echo "Removing arcolinux-refind-theme-arco-git..."
-	    sudo pacman -R arcolinux-refind-theme-arco-git --noconfirm
+	if is_package_installed pacman-hook-kernel-install; then
+	    echo "Removing pacman-hook-kernel-install..."
+	    sudo pacman -R pacman-hook-kernel-install --noconfirm
 	else
-	    echo "Arcolinux-refind-theme-arco-git is not installed, no need to remove."
+	    echo "Pacman-hook-kernel-install is not installed, no need to remove."
 	fi
 
-	#keep last
-	if is_package_installed refind; then
-	    echo "Removing refind..."
-	    sudo pacman -R refind --noconfirm
+	if is_package_installed arcolinux-bootloader-systemd-boot-git; then
+	    echo "Removing arcolinux-bootloader-systemd-boot..."
+	    sudo pacman -R arcolinux-bootloader-systemd-boot-git --noconfirm
 	else
-	    echo "Refind is not installed, no need to remove."
+	    echo "Arcolinux-bootloader-systemd-boot is not installed, no need to remove."
 	fi
 
-	echo "###############################################################################"
-	echo "Installing the default systemd-boot from ArcoLinux"
-	echo "###############################################################################"
-
-	#sudo pacman -S --noconfirm kernel-install-mkinitcpio
-	sudo pacman -S --noconfirm pacman-hook-kernel-install
-	sudo pacman -S --noconfirm arcolinux-bootloader-systemd-boot-git
-
-	#sudo bootctl clean
-	sudo bootctl install
-	sudo pacman -S $(uname -s | tr '[:upper:]' '[:lower:]') --noconfirm
-
-	if [[ -f /boot/efi/loader/loader.conf ]];then
-		sudo sed -i "s/#timeout 3/timeout 3/g" /boot/efi/loader/loader.conf
+	if [ -d /boot/efi/EFI/systemd ]; then
+		sudo rm -r /boot/efi/EFI/systemd
 	fi
 
-	if [[ -f /boot/efi/loader/loader.conf ]];then
-		sudo sed -i "s/#console-mode keep/console-mode keep/g" /boot/efi/loader/loader.conf
+	if [ -d /boot/efi/EFI/BOOT ]; then
+		sudo rm -r /boot/efi/EFI/BOOT
 	fi
+
+	if [ -d /boot/efi/EFI/ArcoLinux ]; then
+		sudo rm -r /boot/efi/EFI/ArcoLinux
+	fi
+
+	sudo pacman -S --noconfirm refind
+	sudo refind-install
+	sudo pacman -S --noconfirm arcolinux-refind-theme-arco-git
+	sudo pacman -S --noconfirm arcolinux-bootloader-refind-git
 
 	echo
 	echo "###############################################################################"
@@ -201,7 +201,7 @@ else
 
 	echo
 	echo "###############################################################################"
-	echo "###                YOU CAN NOT USE SYSTEMD-BOOT                         ####"
+	echo "###                    YOU CAN NOT USE REFIND                              ####"
 	echo "###                        KEEP USING GRUB                                 ####"
 	echo "###        https://wiki.archlinux.org/title/Arch_boot_process              ####"
 	echo "###############################################################################"

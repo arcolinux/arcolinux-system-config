@@ -26,6 +26,137 @@
 #tput setaf 8 = light blue
 ##################################################################################################################
 
+# Disclaimer message
+tput setaf 3;
+echo "DISCLAIMER:"
+echo "This script assists in changing the boot manager from GRUB to"
+echo "either systemd-boot or rEFInd."
+echo "Modifying your system's boot manager and configurations can be"
+echo "hazardous and may result in a non-bootable system if not"
+echo "executed correctly."
+echo
+echo "It is strongly recommended to have a full system backup and"
+echo "a live USB available for system repair in case of any issues."
+echo
+echo "Do you wish to continue?"
+
+# User confirmation
+read -r -p "Please confirm with [Y/N]: " response
+case "$response" in
+    [yY][eE][sS]|[yY]) 
+        echo "Proceeding with the boot manager change..."
+        ;;
+    *)
+        echo "Operation cancelled by the user. Exiting script."
+        exit 1
+        ;;
+esac
+tput sgr0
+
+Online=0
+
+function check_connectivity() {
+
+    local test_ip
+    local test_count
+
+    test_ip="8.8.8.8"
+    test_count=1
+
+    if ping -c ${test_count} ${test_ip} > /dev/null; then
+       echo "You have internet connectivity"
+       Online=1
+    else
+       echo "You do not have internet connectivity"
+       Online=0
+    fi
+ }
+
+check_connectivity
+
+# if not online
+if [ $Online -eq 0 ] ; then
+    echo
+    echo "###############################################################################"
+    echo "###                          YOU ARE NOT ONLINE                            ####"
+    echo "###         WE ARE PINGING 8.8.8.8 TO TEST YOUR INTERNET CONNECTION        ####"
+    echo "###                        WE NEED INTERNET CONNECTION                     ####"
+    echo "###############################################################################"
+    exit 1
+fi
+
+
+echo "###############################################################################"
+echo "Removing other bootloaders"
+echo "###############################################################################"
+
+is_package_installed() {
+    if pacman -Q "$1" &> /dev/null; then
+        echo "Package $1 is installed."
+        return 0  # Success
+    else
+        echo "Package $1 is not installed."
+        return 1  # Failure
+    fi
+}
+
+#SYSTEMD-BOOT GONE
+if is_package_installed kernel-install-mkinitcpio; then
+    echo "Removing kernel-install-mkinitcpio..."
+    sudo pacman -R kernel-install-mkinitcpio --noconfirm
+else
+    echo "kernel-install-mkinitcpio is not installed, no need to remove."
+fi
+
+if is_package_installed pacman-hook-kernel-install; then
+    echo "Removing pacman-hook-kernel-install..."
+    sudo pacman -R pacman-hook-kernel-install --noconfirm
+else
+    echo "Pacman-hook-kernel-install is not installed, no need to remove."
+fi
+
+if is_package_installed arcolinux-bootloader-systemd-boot-git; then
+    echo "Removing arcolinux-bootloader-systemd-boot..."
+    sudo pacman -R arcolinux-bootloader-systemd-boot-git --noconfirm
+else
+    echo "Arcolinux-bootloader-systemd-boot is not installed, no need to remove."
+fi
+
+#REFIND GONE
+if is_package_installed arcolinux-bootloader-refind-git; then
+    echo "Removing arcolinux-bootloader-refind-git..."
+    sudo pacman -R arcolinux-bootloader-refind-git --noconfirm
+else
+    echo "Arcolinux-bootloader-refind-git is not installed, no need to remove."
+fi
+
+if is_package_installed arcolinux-refind-theme-arco-git; then
+    echo "Removing arcolinux-refind-theme-arco-git..."
+    sudo pacman -R arcolinux-refind-theme-arco-git --noconfirm
+else
+    echo "Arcolinux-refind-theme-arco-git is not installed, no need to remove."
+fi
+
+#keep last
+if is_package_installed refind; then
+    echo "Removing refind..."
+    sudo pacman -R refind --noconfirm
+else
+    echo "Refind is not installed, no need to remove."
+fi
+
+if [ -d /boot/efi/loader ]; then
+    sudo rm -r /boot/efi/loader
+fi
+
+if [ -d /boot/efi/EFI/refind ]; then
+    sudo rm -r /boot/efi/EFI/refind
+fi
+
+if [ -f /boot/refind_linux.conf ]; then
+    sudo rm /boot/refind_linux.conf
+fi
+
 echo "###############################################################################"
 echo "Reinstalling the default grub for ArcoLinux"
 echo "###############################################################################"
@@ -67,10 +198,10 @@ check_file
 
 
 # pacman config + online
-if [ $Online -eq 1 ] ; then
-	echo "getting latest /etc/default/grub from github"
-	sudo wget https://raw.githubusercontent.com/arcolinux/arcolinuxl-iso/master/archiso/airootfs/etc/default/grub -O $workdir/etc/default/grub
-fi
+#if [ $Online -eq 1 ] ; then
+#	echo "getting latest /etc/default/grub from github"
+#	sudo wget https://raw.githubusercontent.com/arcolinux/arcolinuxl-iso/master/archiso/airootfs/etc/default/grub -O $workdir/etc/default/grub
+#fi
 
 # pacman config + not online
 if [ $Online -eq 0 ] && [ $file_boolean -eq 1 ] ; then
@@ -78,13 +209,26 @@ if [ $Online -eq 0 ] && [ $file_boolean -eq 1 ] ; then
 	echo "getting latest /etc/default/grub from local system"
 fi
 
+# pacman config + from local
+if [ $file_boolean -eq 1 ] ; then
+    sudo cp /usr/local/share/arcolinux/grub/grub /etc/default/grub
+    echo "getting latest /etc/default/grub from local system"
+fi
+
 #putting old pacman config back
 if [ $Online -eq 0 ]  && [ $file_boolean -eq 0 ] ; then
 	echo "Run this script once you are back online"
 fi
 
-# removing this package intended for use with systemd-boot
-sudo pacman -R --noconfirm kernel-install-mkinitcpio
+#failsafe does not exist
+if [ ! -f /etc/default/grub ]; then
+    sudo cp /usr/local/share/arcolinux/grub/grub /etc/default/grub
+fi  
+
+#failsafe empty
+if [ ! -s /etc/default/grub ]; then
+    sudo cp /usr/local/share/arcolinux/grub/grub /etc/default/grub
+fi  
 
 echo
 echo "###############################################################################"
@@ -93,6 +237,10 @@ echo "###    Make sure you installed arcolinux-grub-theme-vimix-git             
 echo "###    to see the default ArcoLinux grub theme again                       ####"
 echo "###############################################################################"
 echo
+
+sudo pacman -S grub --noconfirm
+sudo pacman -S arcolinux-grub-theme-vimix-git --noconfirm
+sudo pacman -S arcolinux-bootloader-grub-git --noconfirm
 
 sudo grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=ArcoLinux
 
