@@ -154,9 +154,9 @@ else
     echo "Arcolinux-bootloader-refind-git is not installed, no need to remove."
 fi
 
-if is_package_installed arcolinux-refind-theme-arco-git; then
-    echo "Removing arcolinux-refind-theme-arco-git..."
-    sudo pacman -R arcolinux-refind-theme-arco-git --noconfirm
+if is_package_installed arcolinux-refind-theme-arco-specs-git; then
+    echo "Removing arcolinux-refind-theme-arco-specs-git..."
+    sudo pacman -R arcolinux-refind-theme-arco-specs-git --noconfirm
 else
     echo "Arcolinux-refind-theme-arco-git is not installed, no need to remove."
 fi
@@ -185,52 +185,10 @@ echo "##########################################################################
 echo "Reinstalling the default grub for ArcoLinux"
 echo "###############################################################################"
 
-Online=0
-file_boolean=0
-
-function check_connectivity() {
-
-    local test_ip
-    local test_count
-
-    test_ip="8.8.8.8"
-    test_count=1
-
-    if ping -c ${test_count} ${test_ip} > /dev/null; then
-       echo "You have internet connectivity"
-       Online=1
-    else
-       echo "You do not have connectivity"
-       Online=0
-    fi
- }
-
-function check_file() {
-
-	file="/usr/local/share/arcolinux/grub/grub"
-	if [[ -f $file ]];then
-    	echo $file " exists"
-    	file_boolean=1
-	else
-    	echo $file " doesn't exist"
-    	file_boolean=0
-	fi
-}
-
-check_connectivity
-check_file
-
-
-# pacman config + online
-#if [ $Online -eq 1 ] ; then
-#	echo "getting latest /etc/default/grub from github"
-#	sudo wget https://raw.githubusercontent.com/arcolinux/arcolinuxl-iso/master/archiso/airootfs/etc/default/grub -O $workdir/etc/default/grub
-#fi
-
 # pacman config + not online
 if [ $Online -eq 0 ] && [ $file_boolean -eq 1 ] ; then
+    echo "getting latest /etc/default/grub from local system"
 	sudo cp /usr/local/share/arcolinux/grub/grub /etc/default/grub
-	echo "getting latest /etc/default/grub from local system"
 fi
 
 # pacman config + from local

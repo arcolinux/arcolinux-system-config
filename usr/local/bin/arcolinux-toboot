@@ -77,6 +77,7 @@ esac
 tput sgr0
 
 if lsblk | grep -q "/boot/efi" ; then
+    echo "/boot/efi is mounted."
 
 	Online=0
 
@@ -105,16 +106,12 @@ if lsblk | grep -q "/boot/efi" ; then
 		echo "###############################################################################"
 		echo "###                          YOU ARE NOT ONLINE                            ####"
 		echo "###         WE ARE PINGING 8.8.8.8 TO TEST YOUR INTERNET CONNECTION        ####"
-		echo "###                        WE NEED INTERNET CONNECTION                     ####"
+		echo "###                     WE NEED INTERNET AN CONNECTION                     ####"
 		echo "###############################################################################"
 		exit 1
 	fi
 
-
-	echo "###############################################################################"
-	echo "Removing other bootloaders"
-	echo "###############################################################################"
-	
+	#function to check if a package is installed
 	is_package_installed() {
 	    if pacman -Q "$1" &> /dev/null; then
 	        echo "Package $1 is installed."
@@ -124,6 +121,10 @@ if lsblk | grep -q "/boot/efi" ; then
 	        return 1  # Failure
 	    fi
 	}
+
+	echo "###############################################################################"
+	echo "Removing other bootloaders"
+	echo "###############################################################################"
 
 	#GRUB GONE
 	if is_package_installed arcolinux-bootloader-grub-git; then
@@ -153,23 +154,7 @@ if lsblk | grep -q "/boot/efi" ; then
 	fi
 
 	if [ -f /etc/default/grub ]; then
-		sudo rm /etc/default/grub
-	fi
-
-	if [ -f /etc/default/grub.pacnew ]; then
-		sudo rm /etc/default/grub.pacnew
-	fi
-
-	if [ -f /etc/default/grub.pacsave ]; then
-		sudo rm /etc/default/grub.pacsave
-	fi
-
-	if [ -f /etc/default/grub.pacsave.1 ]; then
-		sudo rm /etc/default/grub.pacsave.1
-	fi
-
-	if [ -f /etc/default/grub.pacsave.2 ]; then
-		sudo rm /etc/default/grub.pacsave.2
+		sudo rm /etc/default/grub*
 	fi
 
 	#REFIND GONE
@@ -180,9 +165,9 @@ if lsblk | grep -q "/boot/efi" ; then
 	    echo "Arcolinux-bootloader-refind-git is not installed, no need to remove."
 	fi
 
-	if is_package_installed arcolinux-refind-theme-arco-git; then
-	    echo "Removing arcolinux-refind-theme-arco-git..."
-	    sudo pacman -R arcolinux-refind-theme-arco-git --noconfirm
+	if is_package_installed arcolinux-refind-theme-arco-specs-git; then
+	    echo "Removing arcolinux-refind-theme-arco-specs-git..."
+	    sudo pacman -R arcolinux-refind-theme-arco-specs-git --noconfirm
 	else
 	    echo "Arcolinux-refind-theme-arco-git is not installed, no need to remove."
 	fi
@@ -213,7 +198,110 @@ if lsblk | grep -q "/boot/efi" ; then
 
 	#sudo bootctl clean
 	sudo bootctl install
-	sudo pacman -S $(uname -s | tr '[:upper:]' '[:lower:]') --noconfirm
+	#sudo pacman -S $(uname -s | tr '[:upper:]' '[:lower:]') --noconfirm
+
+#!/bin/bash
+
+# Read the Linux version info from /proc/version
+version_info=$(cat /proc/version)
+
+# Check if the version info starts with 'Linux'
+if [[ $version_info == Linux* ]]; then
+    echo "Confirmed: The version info starts with 'Linux'."
+
+    # Using a case structure to match version info
+    case "$version_info" in
+      *linux-zen*)
+        # Check if linux-zen-headers is already installed
+        if pacman -Q linux-zen-headers &> /dev/null; then
+            echo "'Linux-zen-headers' is installed. Reinstalling 'linux-zen-headers' along with 'linux-zen'..."
+            sudo pacman -S linux-zen linux-zen-headers --noconfirm
+        else
+            echo "'zen-headers' is not installed. Installing 'linux-zen'..."
+            sudo pacman -S linux-zen --noconfirm
+        fi
+        ;;
+      *linux-hardened*)
+        # Check if linux-hardened-headers is already installed
+        if pacman -Q linux-hardened-headers &> /dev/null; then
+            echo "'Linux-hardened-headers' is installed. Reinstalling 'linux-hardened-headers' along with 'linux-hardened'..."
+            sudo pacman -S linux-hardened linux-hardened-headers --noconfirm
+        else
+            echo "'linux-hardened-headers' is not installed. Installing 'linux-hardened'..."
+            sudo pacman -S linux-hardened --noconfirm
+        fi
+        ;;
+      *linux-lts*)
+        # Check if linux-lts-headers is already installed
+        if pacman -Q linux-lts-headers &> /dev/null; then
+            echo "'Linux-lts-headers' is installed. Reinstalling 'linux-lts-headers' along with 'linux-lts'..."
+            sudo pacman -S linux-lts linux-lts-headers --noconfirm
+        else
+            echo "'linux-lts-headers' is not installed. Installing 'linux-lts'..."
+            sudo pacman -S linux-lts --noconfirm
+        fi
+        ;;
+      *xanmod*lts*)
+        # Check if linux-xanmod-lts-headers is already installed
+        if pacman -Q linux-xanmod-lts-headers &> /dev/null; then
+            echo "'Linux-xanmod-lts-headers' is installed. Reinstalling 'linux-xanmod-lts-headers' along with 'linux-xanmod-lts'..."
+            sudo pacman -S linux-xanmod-lts linux-xanmod-lts-headers --noconfirm
+        else
+            echo "'linux-xanmod-lts-headers' is not installed. Installing 'linux-xanmod-lts'..."
+            sudo pacman -S linux-xanmod-lts --noconfirm
+        fi
+        ;;
+      *xanmod*)
+        # Check if linux-xanmod-headers is already installed
+        if pacman -Q linux-xanmod-headers &> /dev/null; then
+            echo "'Linux-xanmod-headers' is installed. Reinstalling 'linux-xanmod-headers' along with 'linux-xanmod'..."
+            sudo pacman -S linux-xanmod linux-xanmod-headers --noconfirm
+        else
+            echo "'linux-xanmod-headers' is not installed. Installing 'linux-xanmod'..."
+            sudo pacman -S linux-xanmod --noconfirm
+        fi
+        ;;
+      *linux-rt-lts*)
+        # Check if linux-rt-lts-headers is already installed
+        if pacman -Q linux-rt-lts-headers &> /dev/null; then
+            echo "'linux-rt-lts-headers' is installed. Reinstalling 'linux-rt-lts-headers' along with 'linux-rt-lts'..."
+            sudo pacman -S linux-rt-lts linux-rt-lts-headers --noconfirm
+        else
+            echo "'linux-rt-lts-headers' is not installed. Installing 'linux-rt-lts'..."
+            sudo pacman -S linux-rt-lts --noconfirm
+        fi
+        ;;
+      *linux-rt*)
+        # Check if linux-linux-rt-headers is already installed
+        if pacman -Q linux-rt-headers &> /dev/null; then
+            echo "'Linux-rt-headers' is installed. Reinstalling 'linux-rt-headers' along with 'linux-rt'..."
+            sudo pacman -S linux-rt linux-rt-headers --noconfirm
+        else
+            echo "'linux-rt-headers' is not installed. Installing 'linux-rt'..."
+            sudo pacman -S linux-rt --noconfirm
+        fi
+        ;;
+
+      *linux*)
+        echo "Specific kernel version not detected, checking for standard Linux headers..."
+        if pacman -Q linux-headers &> /dev/null; then
+            echo "'Linux-headers' is installed. Reinstalling 'linux' along with 'linux-headers'..."
+            sudo pacman -S linux linux-headers --noconfirm
+        else
+            echo "'Linux-headers' is not installed. Installing 'linux'..."
+            sudo pacman -S linux --noconfirm
+        fi
+        ;;
+      *)
+        echo "We did not find the name of your kernel..."
+        echo "Re-install your kernel manually!"
+        ;;
+    esac
+else
+    echo "Error: The version info does not start with 'Linux'."
+fi
+
+
 
 	if [[ -f /boot/efi/loader/loader.conf ]];then
 		sudo sed -i "s/#timeout 3/timeout 3/g" /boot/efi/loader/loader.conf
