@@ -26,25 +26,14 @@
 #tput setaf 8 = light blue
 ##################################################################################################################
 
-# Function to check if a package is installed and remove it
-is_package_installed() {
-    if pacman -Q "$1" &> /dev/null; then
-        echo "Package $1 is installed. Removing it..."
-        sudo pacman -R "$1" --noconfirm
-    else
-        echo "Package $1 is not installed."
-        return 1  # Indicates failure
-    fi
-}
+echo "###############################################################################"
+echo "###                      REMOVE BOTH DKMS PACKAGES                         ####"
+echo "###                ONLY RUN THIS IF YOU DO NOT NEED THOSE                  ####"
+echo "###############################################################################"
 
-# Corrected function calls
-echo
-echo "###############################################################################"
-is_package_installed broadcom-wl-dkms
-echo "###############################################################################"
-is_package_installed rtl8821cu-morrownr-dkms-git
-echo "###############################################################################"
-echo
+echo "Removing broadcom-wl-dkms rtl8821cu-morrownr-dkms-git"
+sudo pacman -Rs broadcom-wl-dkms rtl8821cu-morrownr-dkms-git --noconfirm
+
 echo "###############################################################################"
 echo "###                DONE - YOU CAN CLOSE THIS WINDOW                        ####"
 echo "###############################################################################"
