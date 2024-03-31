@@ -498,8 +498,8 @@ alias wsimplescreenrecorder="wf-recorder -a -c h264_vaapi -C aac -d /dev/dri/ren
 alias kernel="ls /usr/lib/modules"
 alias kernels="ls /usr/lib/modules"
 
-#am I on grub or systemd-boot
-alias boot="sudo bootctl status | grep Product | awk '{print \$2}'"
+#am I on grub,systemd-boot or refind
+alias boot="/usr/local/bin/arcolinux-boot"
 
 #btrfs aliases
 alias btrfsfs="sudo btrfs filesystem df /"

@@ -67,16 +67,6 @@ if pacman -Qi nvidia-dkms &> /dev/null; then
 	echo
 	echo "################################################################"
 	echo "################### Adding option nvidia-drm.modeset=1"
-	echo "################### to the kernel"
-	echo "################################################################"
-	echo
-
-	echo "options nvidia-drm modeset=1" | sudo tee  /etc/modprobe.d/nvidia-wayland.conf
-
-
-	echo
-	echo "################################################################"
-	echo "################### Adding option nvidia-drm.modeset=1"
 	echo "################### to /etc/default/grub"
 	echo "################################################################"
 	echo
