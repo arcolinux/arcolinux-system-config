@@ -196,11 +196,7 @@ if lsblk | grep -q "/boot/efi" ; then
 	sudo pacman -S --noconfirm pacman-hook-kernel-install
 	sudo pacman -S --noconfirm arcolinux-bootloader-systemd-boot-git
 
-	#sudo bootctl clean
 	sudo bootctl install
-	#sudo pacman -S $(uname -s | tr '[:upper:]' '[:lower:]') --noconfirm
-
-#!/bin/bash
 
 # Read the Linux version info from /proc/version
 version_info=$(cat /proc/version)
@@ -301,8 +297,6 @@ else
     echo "Error: The version info does not start with 'Linux'."
 fi
 
-
-
 	if [[ -f /boot/efi/loader/loader.conf ]];then
 		sudo sed -i "s/#timeout 3/timeout 3/g" /boot/efi/loader/loader.conf
 	fi
@@ -314,6 +308,8 @@ fi
 	if [ -f /usr/share/wayland-sessions/hyprland.desktop ] || [ -f /usr/share/wayland-sessions/sway.desktop ] || [ -f /usr/share/wayland-sessions/wayfire.desktop ]; then
 		sudo /usr/local/bin/arcolinux-nvidia-drm-wayland
 	fi
+
+	echo "systemd-boot" > sudo tee /bootloader
 
 	echo
 	echo "###############################################################################"

@@ -232,6 +232,8 @@ sudo grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=
 
 sudo grub-mkconfig -o /boot/grub/grub.cfg
 
+echo "grub" > sudo tee /bootloader
+
 echo
 echo "###############################################################################"
 echo "###    Make sure you installed arcolinux-grub-theme-vimix-git              ####"

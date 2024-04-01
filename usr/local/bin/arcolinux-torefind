@@ -220,6 +220,8 @@ if lsblk | grep -q "/boot/efi" ; then
 		sudo /usr/local/bin/arcolinux-nvidia-drm-wayland
 	fi
 
+	echo "refind" > sudo tee /bootloader
+
 	echo
 	echo "###############################################################################"
 	echo "###                DONE - YOU CAN CLOSE THIS WINDOW                        ####"
