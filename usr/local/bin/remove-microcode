@@ -26,43 +26,29 @@
 #tput setaf 8 = light blue
 ##################################################################################################################
 
-# Fix computers that have our old ordering
-if grep -q "base udev microcode autodetect" /etc/mkinitcpio.conf; then
-
-	echo "###############################################################################"
-	echo "Adding microcode AFTER autodetect"
-	echo "###############################################################################"
-	sudo sed -i "s/^HOOKS=(base udev microcode autodetect/HOOKS=(base udev autodetect microcode/g" /etc/mkinitcpio.conf;
-	sudo sed -i 's/^HOOKS="base udev microcode autodetect/HOOKS="base udev autodetect microcode/g' /etc/mkinitcpio.conf;
-fi
-
-
-# HOOKS=(base udev microcode autodetect kms modconf block keyboard keymap consolefont filesystems fsck)
 if grep -q "base udev autodetect microcode" /etc/mkinitcpio.conf; then
 	echo "###############################################################################"
-	echo "Microcode is already in"
+	echo "Removing microcode"
 	echo "###############################################################################"
-else
-	#sudo sed -i "s/HOOKS=(base udev autodetect kms /HOOKS=(base udev microcode autodetect kms /g" /etc/mkinitcpio.conf;
-	echo "###############################################################################"
-	echo "Adding microcode after autodetect"
-	echo "###############################################################################"
-	sudo sed -i "s/^HOOKS=(base udev autodetect/HOOKS=(base udev autodetect microcode/g" /etc/mkinitcpio.conf;
-	sudo sed -i 's/^HOOKS="base udev autodetect/HOOKS="base udev autodetect microcode/g' /etc/mkinitcpio.conf;
+	sudo sed -i "s/microcode //" /etc/mkinitcpio.conf;
 fi
 
 echo
 echo "###############################################################################"
-echo "Installing the correct microcode - intel or amd"
+echo "Removing the correct microcode - intel or amd"
 echo "###############################################################################"
 cpu=$(cat /proc/cpuinfo | grep vendor_id | uniq | awk '{print $3}')
-echo "We are installing the package for this cpu: "$cpu
+echo "We are removing the package for this cpu: "$cpu
 echo "###############################################################################"
 
-if [ $cpu == "GenuineIntel" ]; then
-	sudo pacman -S --noconfirm intel-ucode
+if [ "$cpu" == "GenuineIntel" ]; then
+	echo "Intel CPU detected. Removing intel-ucode package..."
+	sudo pacman -R --noconfirm intel-ucode
+elif [ "$cpu" == "AuthenticAMD" ]; then
+	echo "AMD CPU detected. Removing amd-ucode package..."
+	sudo pacman -R --noconfirm amd-ucode
 else
-	sudo pacman -S --noconfirm amd-ucode
+	echo "CPU type unrecognized. No microcode package removed."
 fi
 
 sudo mkinitcpio -P
