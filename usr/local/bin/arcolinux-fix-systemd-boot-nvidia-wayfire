@@ -1,0 +1,47 @@
+#!/bin/bash
+
+echo
+echo "##################################################"
+echo "Start fix - systemd - nvidia - wayfire"
+echo "##################################################"
+echo
+
+# Just checking if nvidia-dkms is installed else stop
+if sudo pacman -Qi nvidia-dkms &> /dev/null; then
+
+	echo
+	echo "################################################################"
+	echo "################### Adding option nvidia-drm.modeset=1"
+	echo "################### to SYSTEMD-BOOT entries"
+	echo "################################################################"
+	echo
+
+	# SYSTEMD-BOOT
+	if sudo pacman -Qi arcolinux-bootloader-systemd-boot-git &> /dev/null; then
+		ENTRY_DIR="/boot/efi/loader/entries/"
+		PARAM="nvidia-drm.modeset=1"
+
+		for entry in "$ENTRY_DIR"*.conf; do
+	  	if sudo grep -q "nvidia-drm.modeset=1" "$entry"; then
+	    	echo "Parameter already present in $(basename "$entry")"
+	  	else
+	    	sudo sed -i "/^options / s/options /&$PARAM /" "$entry"
+	    	echo "Added parameter to $(basename "$entry")"
+	  	fi
+		done
+	fi
+
+	echo
+	echo
+	echo "##################################################"
+	echo "End fix - systemd - nvidia - wayfire"
+	echo "##################################################"
+	echo
+
+else
+	echo "##################################################"
+	echo "You have no nvidia-dkms - stopping"
+	echo "##################################################"
+fi
+
+
