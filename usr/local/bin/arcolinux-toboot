@@ -309,7 +309,7 @@ fi
 		sudo /usr/local/bin/arcolinux-nvidia-drm-wayland
 	fi
 
-	echo "systemd-boot" > sudo tee /bootloader
+	echo "systemd-boot" | sudo dd of="/bootloader"
 
 	echo
 	echo "###############################################################################"
