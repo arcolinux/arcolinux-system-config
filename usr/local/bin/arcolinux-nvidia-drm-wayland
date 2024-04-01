@@ -41,18 +41,38 @@ if [ -f /usr/share/wayland-sessions/hyprland.desktop ] || [ -f /usr/share/waylan
 		fi
 
 		# REFIND
-		if [ -f /boot/refind_linux.conf ]; then
-		    # Check if 'nvidia-drm.modeset=1' is already in the kernel options
-		    if ! grep -q "nvidia-drm.modeset=1" /boot/refind_linux.conf; then
-		        # Use sed to append 'nvidia-drm.modeset=1' to the kernel options
-		        sudo sed -i "s/\" rw /\" rw nvidia-drm.modeset=1 /" /boot/refind_linux.conf
-		        echo "Added 'nvidia-drm.modeset=1' to the kernel options in /boot/refind_linux.conf"
-		    else
-		        echo "'nvidia-drm.modeset=1' is already present in /boot/refind_linux.conf"
-		    fi
+		CONF_FILE="/boot/refind_linux.conf"
+		PARAM="nvidia-drm.modeset=1"
+
+		# Function to add the parameter to a line
+		add_param() {
+		    echo "$1" | sed "s/\"$/ $PARAM\"/"
+		}
+
+		# Check if the configuration file exists
+		if [ ! -f "$CONF_FILE" ]; then
+		    echo "Configuration file not found: $CONF_FILE"
+		    exit 1
 		fi
 
+		# Check if parameter is already set
+		if grep -q "$PARAM" "$CONF_FILE"; then
+		    echo "Parameter '$PARAM' is already present in $CONF_FILE."
+		    exit 0
+		fi
 
+		# Read the file and append the parameter
+		while IFS= read -r line; do
+		    # Append the parameter if the line ends with "
+		    if [[ "$line" =~ \"$ ]]; then
+		        line=$(add_param "$line")
+		    fi
+		    echo "$line"
+		done < "$CONF_FILE" > "${CONF_FILE}.tmp"
+
+		# Replace the original file with the modified one
+		mv "${CONF_FILE}.tmp" "$CONF_FILE"
+		echo "Parameter '$PARAM' has been added to $CONF_FILE."
 
 	else
 		echo "##################################################"

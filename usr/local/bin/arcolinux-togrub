@@ -220,8 +220,9 @@ echo "###    to see the default ArcoLinux grub theme again                      
 echo "###############################################################################"
 echo
 
-echo "Running arcolinux-nvidia-drm for nvidia-dkms"
-sudo /usr/local/bin/arcolinux-nvidia-drm
+if [ -f /usr/share/wayland-sessions/hyprland.desktop ] || [ -f /usr/share/wayland-sessions/sway.desktop ] || [ -f /usr/share/wayland-sessions/wayfire.desktop ]; then
+	sudo /usr/local/bin/arcolinux-nvidia-drm-wayland
+fi
 
 sudo pacman -S grub --noconfirm
 sudo pacman -S arcolinux-grub-theme-vimix-git --noconfirm
