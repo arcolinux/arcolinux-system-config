@@ -216,6 +216,9 @@ if lsblk | grep -q "/boot/efi" ; then
 	sudo pacman -S --noconfirm arcolinux-refind-theme-arco-specs-git
 	sudo pacman -S --noconfirm arcolinux-bootloader-refind-git
 
+	echo "Running arcolinux-nvidia-drm for nvidia-dkms"
+	sudo /usr/local/bin/arcolinux-nvidia-drm
+
 	echo
 	echo "###############################################################################"
 	echo "###                DONE - YOU CAN CLOSE THIS WINDOW                        ####"

@@ -220,6 +220,9 @@ echo "###    to see the default ArcoLinux grub theme again                      
 echo "###############################################################################"
 echo
 
+echo "Running arcolinux-nvidia-drm for nvidia-dkms"
+sudo /usr/local/bin/arcolinux-nvidia-drm
+
 sudo pacman -S grub --noconfirm
 sudo pacman -S arcolinux-grub-theme-vimix-git --noconfirm
 sudo pacman -S arcolinux-bootloader-grub-git --noconfirm

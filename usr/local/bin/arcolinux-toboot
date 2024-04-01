@@ -311,6 +311,9 @@ fi
 		sudo sed -i "s/#console-mode keep/console-mode keep/g" /boot/efi/loader/loader.conf
 	fi
 
+	echo "Running arcolinux-nvidia-drm for nvidia-dkms"
+	sudo /usr/local/bin/arcolinux-nvidia-drm
+
 	echo
 	echo "###############################################################################"
 	echo "###                DONE - YOU CAN CLOSE THIS WINDOW                        ####"
