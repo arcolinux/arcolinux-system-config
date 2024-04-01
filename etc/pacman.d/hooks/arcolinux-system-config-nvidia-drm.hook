@@ -1,0 +1,10 @@
+[Trigger]
+Type = Package
+Operation = Upgrade
+Operation = Install
+Target = nvidia-dkms
+
+[Action]
+Description = Setting nvidia-drm.modeset=1 when not set on all bootloaders
+When = PostTransaction
+Exec = /usr/bin/bash -c '/usr/local/bin/arcolinux-nvidia-drm'

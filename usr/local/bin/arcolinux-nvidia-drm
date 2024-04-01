@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# Just checking if nvidia-dkms is installed else stop
+if pacman -Qi nvidia-dkms &> /dev/null; then
+	echo
+	echo "################################################################"
+	echo "################### Adding option nvidia-drm.modeset=1"
+	echo "################################################################"
+	echo
+
+	# GRUB
+	if [ -f /etc/default/grub ]; then
+	    # Check if 'nvidia-drm.modeset=1' is already in the GRUB_CMDLINE_LINUX_DEFAULT line
+	    if ! grep -q "nvidia-drm.modeset=1" /etc/default/grub; then
+	        # Use sed to append 'nvidia-drm.modeset=1' to the GRUB_CMDLINE_LINUX_DEFAULT line
+	        sudo sed -i "/^GRUB_CMDLINE_LINUX_DEFAULT=/ s/\"$/ nvidia-drm.modeset=1\"/" /etc/default/grub
+	        echo "Added 'nvidia-drm.modeset=1' to GRUB_CMDLINE_LINUX_DEFAULT in /etc/default/grub"
+			grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=ArcoLinux
+			grub-mkconfig -o /boot/grub/grub.cfg
+	    else
+	        echo "'nvidia-drm.modeset=1' is already present in /etc/default/grub"
+	    fi
+	fi
+
+	# SYSTEMD-BOOT
+	if [ -d /boot/efi/loader/entries/ ]; then
+		ENTRY_DIR="/boot/efi/loader/entries/"
+		PARAM="nvidia-drm.modeset=1"
+
+		for entry in "$ENTRY_DIR"*.conf; do
+	  	if sudo grep -q "nvidia-drm.modeset=1" "$entry"; then
+	    	echo "'nvidia-drm.modeset=1' is already present in $(basename "$entry")"
+	  	else
+	    	sudo sed -i "/^options / s/options /&$PARAM /" "$entry"
+	    	echo "Added parameter to $(basename "$entry")"
+	  	fi
+		done
+	fi
+
+else
+	echo "##################################################"
+	echo "No nvidia-dkms present - nothing to do"
+	echo "##################################################"	
+fi
