@@ -500,7 +500,7 @@ alias kernel="ls /usr/lib/modules"
 alias kernels="ls /usr/lib/modules"
 
 #am I on grub,systemd-boot or refind
-alias boot="/usr/local/bin/arcolinux-boot"
+alias boot="sudo /usr/local/bin/arcolinux-boot"
 
 #btrfs aliases
 alias btrfsfs="sudo btrfs filesystem df /"
