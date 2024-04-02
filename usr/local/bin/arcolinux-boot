@@ -56,11 +56,11 @@ check_grub() {
 }
 
 # Attempt to detect the boot manager
-if check_refind; then
+if check_grub; then
     :
 elif check_systemd_boot; then
     :
-elif check_grub; then
+elif check_refind; then
     :
 else
     echo "Unknown boot manager."
