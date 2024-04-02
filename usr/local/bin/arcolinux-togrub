@@ -212,14 +212,6 @@ if [ ! -s /etc/default/grub ]; then
     sudo cp /usr/local/share/arcolinux/grub/grub /etc/default/grub
 fi  
 
-echo
-echo "###############################################################################"
-echo "###    Updating your /boot/grub/grub.cfg to apply the grub default file    ####"
-echo "###    Make sure you installed arcolinux-grub-theme-vimix-git              ####"
-echo "###    to see the default ArcoLinux grub theme again                       ####"
-echo "###############################################################################"
-echo
-
 if [ -f /usr/share/wayland-sessions/hyprland.desktop ] || [ -f /usr/share/wayland-sessions/sway.desktop ] || [ -f /usr/share/wayland-sessions/wayfire.desktop ]; then
 	sudo /usr/local/bin/arcolinux-nvidia-drm-wayland
 fi
@@ -233,10 +225,3 @@ sudo grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=
 sudo grub-mkconfig -o /boot/grub/grub.cfg
 
 echo "grub" | sudo dd of="/bootloader"
-
-echo
-echo "###############################################################################"
-echo "###    Make sure you installed arcolinux-grub-theme-vimix-git              ####"
-echo "###    to see the default ArcoLinux grub theme again                       ####"
-echo "###                DONE - YOU CAN CLOSE THIS WINDOW                        ####"
-echo "###############################################################################"
