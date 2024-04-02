@@ -5,6 +5,9 @@ if [ -f /usr/share/wayland-sessions/hyprland.desktop ] || [ -f /usr/share/waylan
 
 	# Just checking if nvidia-dkms is installed else stop
 	if pacman -Qi nvidia-dkms &> /dev/null; then
+
+		# INSTALL
+
 		echo
 		echo "################################################################"
 		echo "################### Adding option nvidia-drm.modeset=1"
@@ -16,7 +19,7 @@ if [ -f /usr/share/wayland-sessions/hyprland.desktop ] || [ -f /usr/share/waylan
 		    # Check if 'nvidia-drm.modeset=1' is already in the GRUB_CMDLINE_LINUX_DEFAULT line
 		    if ! grep -q "nvidia-drm.modeset=1" /etc/default/grub; then
 		        # Use sed to append 'nvidia-drm.modeset=1' to the GRUB_CMDLINE_LINUX_DEFAULT line
-		        sudo sed -i "/^GRUB_CMDLINE_LINUX_DEFAULT=/ s/\"$/ nvidia-drm.modeset=1\"/" /etc/default/grub
+		        sed -i "/^GRUB_CMDLINE_LINUX_DEFAULT=/ s/\"$/ nvidia-drm.modeset=1\"/" /etc/default/grub
 		        echo "Added 'nvidia-drm.modeset=1' to GRUB_CMDLINE_LINUX_DEFAULT in /etc/default/grub"
 				grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=ArcoLinux
 				grub-mkconfig -o /boot/grub/grub.cfg
@@ -31,10 +34,10 @@ if [ -f /usr/share/wayland-sessions/hyprland.desktop ] || [ -f /usr/share/waylan
 			PARAM="nvidia-drm.modeset=1"
 
 			for entry in "$ENTRY_DIR"*.conf; do
-		  	if sudo grep -q "nvidia-drm.modeset=1" "$entry"; then
+		  	if grep -q "nvidia-drm.modeset=1" "$entry"; then
 		    	echo "'nvidia-drm.modeset=1' is already present in $(basename "$entry")"
 		  	else
-		    	sudo sed -i "/^options / s/options /&$PARAM /" "$entry"
+		    	sed -i "/^options / s/options /&$PARAM /" "$entry"
 		    	echo "Added parameter to $(basename "$entry")"
 		  	fi
 			done
@@ -75,8 +78,63 @@ if [ -f /usr/share/wayland-sessions/hyprland.desktop ] || [ -f /usr/share/waylan
 		echo "Parameter '$PARAM' has been added to $CONF_FILE."
 
 	else
-		echo "##################################################"
-		echo "No nvidia-dkms present - nothing to do"
-		echo "##################################################"	
+
+		# REMOVE
+
+		# GRUB
+        if [ -f /etc/default/grub ]; then
+            if grep -q "nvidia-drm.modeset=1" /etc/default/grub; then
+                sed -i "s/ nvidia-drm.modeset=1//" /etc/default/grub
+                echo "Removed 'nvidia-drm.modeset=1' from GRUB_CMDLINE_LINUX_DEFAULT in /etc/default/grub"
+                grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=ArcoLinux
+                grub-mkconfig -o /boot/grub/grub.cfg
+            else
+                echo "'nvidia-drm.modeset=1' is not present in /etc/default/grub, no need to remove"
+            fi
+        fi
+
+        # SYSTEMD-BOOT
+        if [ -d /boot/efi/loader/entries/ ]; then
+            ENTRY_DIR="/boot/efi/loader/entries/"
+            PARAM="nvidia-drm.modeset=1"
+
+            for entry in "$ENTRY_DIR"*.conf; do
+                if grep -q "$PARAM" "$entry"; then
+                    sed -i "s/ $PARAM//" "$entry"
+                    echo "Removed parameter from $(basename "$entry")"
+                else
+                    echo "'$PARAM' is not present in $(basename "$entry"), no need to remove"
+                fi
+            done
+        fi
+
+        # REFIND
+        CONF_FILE="/boot/refind_linux.conf"
+
+        # Function to remove the parameter from a line
+        remove_param() {
+            echo "$1" | sed "s/ $PARAM//"
+        }
+
+        PARAM="nvidia-drm.modeset=1"
+
+        if [ -f "$CONF_FILE" ]; then
+            if grep -q "$PARAM" "$CONF_FILE"; then
+                while IFS= read -r line; do
+                    if [[ "$line" =~ \"$ ]]; then
+                        line=$(remove_param "$line")
+                    fi
+                    echo "$line"
+                done < "$CONF_FILE" > "${CONF_FILE}.tmp"
+
+                # Replace the original file with the modified one
+                mv "${CONF_FILE}.tmp" "$CONF_FILE"
+                echo "Parameter '$PARAM' has been removed from $CONF_FILE."
+            else
+                echo "Parameter '$PARAM' is not present in $CONF_FILE, no need to remove."
+            fi
+        else
+            echo "Configuration file not found: $CONF_FILE, nothing to remove."
+        fi	
 	fi
 fi
