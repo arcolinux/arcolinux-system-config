@@ -220,6 +220,24 @@ if lsblk | grep -q "/boot/efi" ; then
 		sudo /usr/local/bin/arcolinux-nvidia-drm-wayland
 	fi
 
+	# Path to refind.conf
+	CONF_FILE="/boot/efi/EFI/refind/refind.conf"
+
+	# Kernel names to add
+	KERNEL_NAMES="linux,linux-lts,linux-zen,linux-hardened,linux-rt,linux-rt-lts,linux-xanmod"
+
+	# Check if the line exists and append the kernel names
+	if grep -q "^#extra_kernel_version_strings" "$CONF_FILE"; then
+	    # The line exists, append the kernel names
+	    sed -i "/^#extra_kernel_version_strings/s/$/ $KERNEL_NAMES/" "$CONF_FILE"
+	    sed -i "s/^#*extra_kernel_version_strings.*/extra_kernel_version_strings $KERNEL_NAMES/" "$CONF_FILE"
+	    echo "Kernel names added to #extra_kernel_version_strings in $CONF_FILE."
+	else
+	    # The line does not exist, add it with the kernel names
+	    echo "#extra_kernel_version_strings $KERNEL_NAMES" >> "$CONF_FILE"
+	    echo "Line added to $CONF_FILE."
+	fi
+
 	echo "refind" | sudo dd of="/bootloader"
 
 	echo
