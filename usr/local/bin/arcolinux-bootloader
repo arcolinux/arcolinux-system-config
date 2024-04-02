@@ -98,6 +98,12 @@ check_bootloader() {
 
 check_bootloader
 
+tput setaf 3
+if [ -f /bootloader ]; then
+    echo "Check:";cat /bootloader
+fi
+tput sgr0
+
 echo
 echo "###############################################################################"
 echo "###                DONE - YOU CAN CLOSE THIS WINDOW                        ####"
