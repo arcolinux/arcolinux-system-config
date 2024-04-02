@@ -65,8 +65,14 @@ elif check_grub; then
 else
     echo "Unknown boot manager."
 fi
-
 tput sgr0
+
+tput setaf 3
+if [ -f /bootloader ]; then
+    echo "Check:";cat /bootloader
+fi
+tput sgr0
+
 echo
 echo "###############################################################################"
 echo "###                DONE - YOU CAN CLOSE THIS WINDOW                        ####"
