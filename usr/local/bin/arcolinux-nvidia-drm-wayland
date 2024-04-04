@@ -1,7 +1,57 @@
 #!/bin/bash
+#set -e
+##################################################################################################################
+# Author    : Erik Dubois
+# Website   : https://www.erikdubois.be
+# Website   : https://www.alci.online
+# Website   : https://www.ariser.eu
+# Website   : https://www.arcolinux.info
+# Website   : https://www.arcolinux.com
+# Website   : https://www.arcolinuxd.com
+# Website   : https://www.arcolinuxb.com
+# Website   : https://www.arcolinuxiso.com
+# Website   : https://www.arcolinuxforum.com
+##################################################################################################################
+#
+#   DO NOT JUST RUN THIS. EXAMINE AND JUDGE. RUN AT YOUR OWN RISK.
+#
+##################################################################################################################
+#tput setaf 0 = black
+#tput setaf 1 = red
+#tput setaf 2 = green
+#tput setaf 3 = yellow
+#tput setaf 4 = dark blue
+#tput setaf 5 = purple
+#tput setaf 6 = cyan
+#tput setaf 7 = gray
+#tput setaf 8 = light blue
+
+#end colors
+#tput sgr0
+##################################################################################################################
+
+
+echo "Initiating system checks for Wayland session desktops."
+echo "Detecting presence of Wayland sessions: Hyprland, Sway, Wayfire, Plasma and Gnome."
+echo "Proceeding only if any of the above sessions are installed."
+
+echo "Verifying installation of nvidia-dkms package."
+echo "If nvidia-dkms is installed, adjusting boot parameters for Nvidia DRM kernel mode setting."
+echo "This includes modifying grub, systemd-boot, and rEFInd configurations to ensure smooth operation with Nvidia GPUs."
+
+echo "Adding 'nvidia-drm.modeset=1' to the necessary boot configurations."
+echo "This parameter is essential for enabling the Nvidia DRM kernel mode setting, which can improve display performance and stability."
+
+echo "If nvidia-dkms is not installed, the script will remove 'nvidia-drm.modeset=1' from configurations."
+echo "This ensures that systems without Nvidia proprietary drivers are not affected by unnecessary parameters."
+
 
 # Check for each Wayland session file
-if [ -f /usr/share/wayland-sessions/hyprland.desktop ] || [ -f /usr/share/wayland-sessions/sway.desktop ] || [ -f /usr/share/wayland-sessions/wayfire.desktop ]; then
+if 	[ -f /usr/share/wayland-sessions/hyprland.desktop ] || \
+	[ -f /usr/share/wayland-sessions/sway.desktop ] || \
+	[ -f /usr/share/wayland-sessions/wayfire.desktop ] || \
+	[ -f /usr/share/wayland-sessions/plasma.desktop ] || \
+	[ -f /usr/share/wayland-sessions/gnome-wayland.desktop ]; then
 
 	# Just checking if nvidia-dkms is installed else stop
 	if pacman -Qi nvidia-dkms &> /dev/null; then

@@ -30,6 +30,15 @@
 #tput sgr0
 ##################################################################################################################
 
+echo "Verifying installation of nvidia-dkms package."
+echo "If nvidia-dkms is installed, adjusting boot parameters for Nvidia DRM kernel mode setting."
+echo "This includes modifying grub, systemd-boot, and rEFInd configurations to ensure smooth operation with Nvidia GPUs."
+
+echo "Adding 'nvidia-drm.modeset=1' to the necessary boot configurations."
+echo "This parameter is essential for enabling the Nvidia DRM kernel mode setting, which can improve display performance and stability."
+
+echo "If nvidia-dkms is not installed, the script will remove 'nvidia-drm.modeset=1' from configurations."
+echo "This ensures that systems without Nvidia proprietary drivers are not affected by unnecessary parameters."
 
 # Function to restart the script with sudo
 restart_with_sudo() {
@@ -65,13 +74,13 @@ if pacman -Qi nvidia-dkms &> /dev/null; then
 
 		if ! grep -q "$PARAM" "$FILE"; then
 		    echo "Adding '$PARAM' to GRUB_CMDLINE_LINUX_DEFAULT in $FILE..."
-		    # Append the parameter, ensuring no double spaces if there's already a space at the end
-		    sudo sed -i "/^GRUB_CMDLINE_LINUX_DEFAULT=/ s/\"$/ $PARAM\"/" "$FILE"
+		    # Ensure there's exactly one space before appending the parameter
+		    sudo sed -i "/^GRUB_CMDLINE_LINUX_DEFAULT=/ s/\" *$/ $PARAM\"/" "$FILE"
 		    echo "Added '$PARAM' to GRUB_CMDLINE_LINUX_DEFAULT."
 		else
 		    echo "Removing '$PARAM' from GRUB_CMDLINE_LINUX_DEFAULT in $FILE..."
 		    # Remove the parameter and clean up spaces, ensuring no double spaces or trailing spaces are left
-		    sudo sed -i -e "s/\s*$PARAM\s*/ /" -e "s/[[:space:]]\+/ /" -e "s/\" /\"/" "$FILE"
+            sudo sed -i "s/ nvidia-drm.modeset=1//" /etc/default/grub
 		    echo "Removed '$PARAM' from GRUB_CMDLINE_LINUX_DEFAULT."
 		fi
 
