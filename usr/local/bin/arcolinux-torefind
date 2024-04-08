@@ -145,6 +145,13 @@ if lsblk | grep -q "/boot/efi" ; then
 	    echo "Arcolinux-grub-theme-vimix-git is not installed, no need to remove."
 	fi
 
+	if is_package_installed grub-customizer; then
+	    echo "Removing grub-customizer..."
+	    sudo pacman -R --noconfirm grub-customizer 
+	else
+	    echo "Grub-customizer is not installed, no need to remove."
+	fi
+
 	#keep last
 	if is_package_installed grub; then
 	    echo "Removing grub..."
@@ -158,23 +165,7 @@ if lsblk | grep -q "/boot/efi" ; then
 	fi
 
 	if [ -f /etc/default/grub ]; then
-		sudo rm /etc/default/grub
-	fi
-
-	if [ -f /etc/default/grub.pacnew ]; then
-		sudo rm /etc/default/grub.pacnew
-	fi
-
-	if [ -f /etc/default/grub.pacsave ]; then
-		sudo rm /etc/default/grub.pacsave
-	fi
-
-	if [ -f /etc/default/grub.pacsave.1 ]; then
-		sudo rm /etc/default/grub.pacsave.1
-	fi
-
-	if [ -f /etc/default/grub.pacsave.2 ]; then
-		sudo rm /etc/default/grub.pacsave.2
+		sudo rm /etc/default/grub*
 	fi
 
 	#SYSTEMD-BOOT GONE

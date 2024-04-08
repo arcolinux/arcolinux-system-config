@@ -141,6 +141,13 @@ if lsblk | grep -q "/boot/efi" ; then
 	    echo "Arcolinux-grub-theme-vimix-git is not installed, no need to remove."
 	fi
 
+	if is_package_installed grub-customizer; then
+	    echo "Removing grub-customizer..."
+	    sudo pacman -R --noconfirm grub-customizer 
+	else
+	    echo "Grub-customizer is not installed, no need to remove."
+	fi
+
 	#keep last
 	if is_package_installed grub; then
 	    echo "Removing grub..."
@@ -275,6 +282,17 @@ if [[ $version_info == Linux* ]]; then
         else
             echo "'linux-rt-headers' is not installed. Installing 'linux-rt'..."
             sudo pacman -S linux-rt --noconfirm
+        fi
+        ;;
+
+      *linux-cachyos*)
+        # Check if linux-cachyos-headers is already installed
+        if pacman -Q linux-cachyos-headers &> /dev/null; then
+            echo "'Linux-cachyos-headers' is installed. Reinstalling 'linux-cachyos-headers' along with 'linux-cachyos'..."
+            sudo pacman -S linux-cachyos linux-cachyos-headers --noconfirm
+        else
+            echo "'linux-cachyos-headers' is not installed. Installing 'linux-cachyos'..."
+            sudo pacman -S linux-cachyos --noconfirm
         fi
         ;;
 
