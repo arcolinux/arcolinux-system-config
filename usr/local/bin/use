@@ -27,26 +27,30 @@
 ##################################################################################################################
 
 tput setaf 3
-echo
+tput sgr0;echo "Iso";tput setaf 3
 echo "----------------------------------------------------"
 cat /etc/dev-rel
 echo "----------------------------------------------------"
 
-echo "X11 sessions"
+tput sgr0;echo "X11 sessions";tput setaf 3
 echo "----------------------------------------------------"
 ls /usr/share/xsessions
 echo "----------------------------------------------------"
-echo "Wayland sessions"
+tput sgr0;echo "Wayland sessions";tput setaf 3
 echo "----------------------------------------------------"
 ls /usr/share/wayland-sessions
 echo "----------------------------------------------------"
-echo "Boot system"
+tput sgr0;echo "Boot system";tput setaf 3
 echo "----------------------------------------------------"
 cat /bootloader
 echo
 echo "----------------------------------------------------"
 tput sgr0
+tput sgr0;echo "Kernels";tput setaf 3
+echo "----------------------------------------------------"
+ls /usr/lib/modules
 echo
+tput sgr0
 duf
 
 

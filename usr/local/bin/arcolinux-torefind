@@ -215,7 +215,7 @@ if lsblk | grep -q "/boot/efi" ; then
 	CONF_FILE="/boot/efi/EFI/refind/refind.conf"
 
 	# Kernel names to add
-	KERNEL_NAMES="linux,linux-lts,linux-zen,linux-hardened,linux-rt,linux-rt-lts,linux-xanmod"
+	KERNEL_NAMES="linux,linux-lts,linux-zen,linux-hardened,linux-rt,linux-rt-lts,linux-xanmod,linux-cachyos"
 
 	# Check if the line exists and append the kernel names
 	if grep -q "^#extra_kernel_version_strings" "$CONF_FILE"; then
