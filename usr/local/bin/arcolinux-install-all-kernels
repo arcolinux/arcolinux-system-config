@@ -34,6 +34,10 @@ echo "##########################################################################
 sudo pacman -S --noconfirm linux-lts linux-lts-headers linux-zen linux-zen-headers \
 linux-hardened linux-hardened-headers linux-rt linux-rt-headers linux-rt-lts linux-rt-lts-headers
 
+sudo pacman -S --noconfirm linux-cachyos linux-cachyos-headers
+
+sudo pacman -S --noconfirm linux-xanmod linux-xanmod-headers
+
 tput sgr0
 echo
 echo "###############################################################################"

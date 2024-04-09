@@ -38,13 +38,14 @@ echo
 # use this check - sudo pacman -Rns $(pacman -Qq | grep 'arcolinux' | grep -v 'arcolinux-mirrorlist-git\|arcolinux-keyring')
 
 packages=(arcolinux-alacritty-git arcolinux-arc-dawn-git arcolinux-desktop-trasher-git arcolinux-desktop-trasher-dev-git
-		arcolinux-grub-theme-vimix-git arcolinux-grub-theme-vimix-dev-git arcolinux-gtk3-surfn-arc-git arcolinux-neofetch-git
-		arcolinux-paru-git arcolinux-sddm-simplicty-git arcolinux-system-config-git arcolinux-system-config-dev-git
-		arcolinuxd-system-config-git arcolinuxd-system-config-dev-git arcolinux-systemd-services-git
-		arcolinux-wallpapers-git arcolinux-welcome-app-git arcolinux-welcome-app-dev-git
-		arconet-variety-config arcopro-wallpapers
-		bat bibata-cursor-theme-bin archlinux-tweak-tool-git duf downgrade hw-probe edid-decode-git edu-surfn-numixs-blue-git
-		most sardi-icons sofirem-git surfn-icons-git the_silver_searcher variety vimix-cursors)
+	arcolinux-grub-theme-vimix-git arcolinux-grub-theme-vimix-dev-git arcolinux-gtk3-surfn-arc-git arcolinux-neofetch-git
+	arcolinux-paru-git arcolinux-sddm-simplicty-git arcolinux-system-config-git arcolinux-system-config-dev-git
+	arcolinuxd-system-config-git arcolinuxd-system-config-dev-git arcolinux-systemd-services-git
+	arcolinux-wallpapers-git arcolinux-welcome-app-git arcolinux-welcome-app-dev-git
+	arconet-variety-config arcopro-wallpapers
+	alacritty arandr arc-gtk-theme bat bibata-cursor-theme-bin archlinux-tweak-tool-git dex 
+	duf downgrade expac hw-probe edid-decode-git edu-surfn-numixs-blue-git feh libadwaita-without-adwaita-git
+	micro most neofetch numlockx ripgrep sardi-icons sofirem-git surfn-icons-git the_silver_searcher variety vimix-cursors)
 
 echo "All these packages will be removed. Any configs in your home directory must be removed by you."
 echo "List of Packages:"
