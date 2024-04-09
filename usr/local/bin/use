@@ -45,10 +45,14 @@ echo "----------------------------------------------------"
 cat /bootloader
 echo
 echo "----------------------------------------------------"
-tput sgr0
 tput sgr0;echo "Kernels";tput setaf 3
 echo "----------------------------------------------------"
 ls /usr/lib/modules
+echo
+tput sgr0;echo "Kernel in use";tput setaf 3
+echo "----------------------------------------------------"
+cat /proc/version
+echo "----------------------------------------------------"
 echo
 tput sgr0
 duf
