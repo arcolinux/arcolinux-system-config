@@ -261,8 +261,16 @@ if lsblk | grep -q "/boot/efi" ; then
 		sudo sed -i "s/#console-mode keep/console-mode keep/g" /boot/efi/loader/loader.conf
 	fi
 
-	if [ -f /usr/share/wayland-sessions/plasma.desktop ] || [ -f /usr/share/wayland-sessions/hyprland.desktop ] || [ -f /usr/share/wayland-sessions/sway.desktop ] || [ -f /usr/share/wayland-sessions/wayfire.desktop ]; then
-		sudo /usr/local/bin/arcolinux-nvidia-drm-wayland
+	# Just checking if nvidia-dkms is installed else stop
+	if pacman -Qi nvidia-dkms &> /dev/null; then
+		# Check for each Wayland session file
+		if 	[ -f /usr/share/wayland-sessions/hyprland.desktop ] || \
+			[ -f /usr/share/wayland-sessions/sway.desktop ] || \
+			[ -f /usr/share/wayland-sessions/wayfire.desktop ] || \
+			[ -f /usr/share/wayland-sessions/plasma.desktop ] || \
+			[ -f /usr/share/wayland-sessions/gnome-wayland.desktop ]; then
+				sudo /usr/local/bin/arcolinux-nvidia-drm-wayland
+		fi
 	fi
 
 	echo "systemd-boot" | sudo dd of="/bootloader"

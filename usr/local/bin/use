@@ -25,38 +25,50 @@
 #tput setaf 7 = gray 
 #tput setaf 8 = light blue
 ##################################################################################################################
-
-tput setaf 3
-tput sgr0;echo "Iso";tput setaf 3
+echo "----------------------------------------------------"
+tput setaf 9
+tput sgr0;echo "Iso";tput setaf 9
 echo "----------------------------------------------------"
 cat /etc/dev-rel
 echo "----------------------------------------------------"
 
-tput sgr0;echo "X11 sessions";tput setaf 3
+tput sgr0;echo "X11 sessions";tput setaf 9
 echo "----------------------------------------------------"
 ls /usr/share/xsessions
 echo "----------------------------------------------------"
-tput sgr0;echo "Wayland sessions";tput setaf 3
+tput sgr0;echo "Wayland sessions";tput setaf 9
 echo "----------------------------------------------------"
 ls /usr/share/wayland-sessions
 echo "----------------------------------------------------"
-tput sgr0;echo "Boot system";tput setaf 3
+tput sgr0;echo "Boot system";tput setaf 9
 echo "----------------------------------------------------"
 cat /bootloader
 echo
 echo "----------------------------------------------------"
-tput sgr0;echo "Kernels";tput setaf 3
+tput sgr0;echo "Kernels";tput setaf 9
 echo "----------------------------------------------------"
 ls /usr/lib/modules
-echo
-tput sgr0;echo "Kernel in use";tput setaf 3
+echo "----------------------------------------------------"
+tput sgr0;echo "Kernel in use";tput setaf 9
 echo "----------------------------------------------------"
 cat /proc/version
 echo "----------------------------------------------------"
-echo
 tput sgr0
-duf
+# List of potential display managers
+display_managers=("sddm" "lxdm" "gdm" "lightdm" "ly")
 
+# Loop through each display manager and check its status
+for dm in "${display_managers[@]}"; do
+    if systemctl is-active --quiet "$dm"; then
+        echo "Active Display Manager:"
+		tput setaf 9;echo "----------------------------------------------------"
+        echo $dm
+		echo "----------------------------------------------------";tput sgr0        
+        exit 0
+    fi
+done
+
+duf
 
 echo
 echo "###############################################################################"
