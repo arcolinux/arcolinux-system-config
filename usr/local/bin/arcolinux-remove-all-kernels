@@ -30,26 +30,35 @@ echo "##########################################################################
 echo "###  THIS IS A TEST SCRIPT TO REMOVE ALL THE COMMON LINUX KERNELS BUT ONE  ####"
 echo "###############################################################################"
 
-KERNERLS_TO_REMOVE=(
-    linux-lts linux-lts-headers
-    linux-zen linux-zen-headers
-    linux-hardened linux-hardened-headers
-    linux-rt linux-rt-headers
-    linux-rt-lts linux-rt-lts-headers
-    linux-cachyos linux-cachyos-headers
-    linux-xanmod linux-xanmod-headers
+#!/bin/bash
+
+# Define all the kernels and their headers you want to remove
+KERNELS_TO_REMOVE=(
+     linux-lts-headers linux-lts
+     linux-zen-headers linux-zen
+     linux-hardened-headers linux-hardened
+     linux-rt-headers linux-rt
+     linux-rt-lts-headers linux-rt-lts
+     linux-cachyos-headers linux-cachyos
+     linux-xanmod-headers linux-xanmod
 )
+remove_package() {
+    local package=$1
+    # Check if the package is installed
+    if pacman -Q $package &> /dev/null; then
+        echo "$package is installed. Removing..."
+        sudo pacman -Rns --noconfirm $package
+    else
+        echo "$package is not installed."
+    fi
+}
 
-# Pacman command to remove kernels
-sudo pacman -Rns --noconfirm "${KERNERLS_TO_REMOVE[@]}"
+# Loop over the array and remove each kernel package
+for kernel in "${KERNELS_TO_REMOVE[@]}"; do
+    remove_package "$kernel"
+done
 
-# Check for successful removal and existence of standard linux and linux-headers
-if pacman -Q linux linux-headers; then
-    echo "Standard linux and linux-headers are intact."
-else
-    echo "Installing standard linux and linux-headers."
-    sudo pacman -S --noconfirm linux linux-headers
-fi
+
 
 echo
 echo "###############################################################################"

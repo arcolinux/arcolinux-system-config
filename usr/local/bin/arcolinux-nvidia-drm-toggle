@@ -125,7 +125,9 @@ if pacman -Qi nvidia-dkms &> /dev/null; then
 	fi
 
 else
+	echo
 	echo "##################################################"
 	echo "No nvidia-dkms present - nothing to do"
-	echo "##################################################"	
+	echo "##################################################"
+	echo
 fi

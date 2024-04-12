@@ -131,6 +131,14 @@ if lsblk | grep -q "/boot/efi" ; then
 	}
 
 	#GRUB GONE
+	#archiso needs to go or else arch-chroot!!
+	if is_package_installed archiso; then
+	    echo "Removing archiso..."
+	    sudo pacman -R archiso --noconfirm
+	else
+	    echo "Archiso is not installed, no need to remove."
+	fi
+
 	if is_package_installed arcolinux-bootloader-grub-git; then
 	    echo "Removing arcolinux-bootloader-grub-git..."
 	    sudo pacman -R arcolinux-bootloader-grub-git --noconfirm
