@@ -141,7 +141,7 @@ if 	[ -f /usr/share/wayland-sessions/hyprland.desktop ] || \
                 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=ArcoLinux
                 grub-mkconfig -o /boot/grub/grub.cfg
             else
-                echo "'nvidia-drm.modeset=1' is not present in /etc/default/grub, no need to remove"
+                echo "Nothing to do"
             fi
         fi
 
@@ -155,7 +155,7 @@ if 	[ -f /usr/share/wayland-sessions/hyprland.desktop ] || \
                     sed -i "s/ $PARAM//" "$entry"
                     echo "Removed parameter from $(basename "$entry")"
                 else
-                    echo "'$PARAM' is not present in $(basename "$entry"), no need to remove"
+                    echo "Nothing to do"
                 fi
             done
         fi
@@ -184,7 +184,7 @@ if 	[ -f /usr/share/wayland-sessions/hyprland.desktop ] || \
 	                mv "${CONF_FILE}.tmp" "$CONF_FILE"
 	                echo "Parameter '$PARAM' has been removed from $CONF_FILE."
 	            else
-	                echo "Parameter '$PARAM' is not present in $CONF_FILE, no need to remove."
+	                echo "Nothing to do"
 	            fi
 	        else
 	            echo "Configuration file not found: $CONF_FILE, nothing to remove."
