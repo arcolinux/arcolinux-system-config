@@ -50,7 +50,7 @@ ls /usr/share/wayland-sessions
 echo "----------------------------------------------------"
 tput sgr0;echo "Boot system";tput setaf 9
 echo "----------------------------------------------------"
-cat /bootloader
+cat /bootloader;echo
 echo "----------------------------------------------------"
 tput sgr0;echo "Kernels";tput setaf 9
 echo "----------------------------------------------------"
