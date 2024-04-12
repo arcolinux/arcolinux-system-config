@@ -25,20 +25,32 @@
 #tput setaf 7 = gray 
 #tput setaf 8 = light blue
 ##################################################################################################################
-tput setaf 8;
 
 echo "###############################################################################"
-echo "###         THIS IS A TEST SCRIPT TO INSTALL ALL COMMON LINUX KERNELS      ####"
+echo "###  THIS IS A TEST SCRIPT TO REMOVE ALL THE COMMON LINUX KERNELS BUT ONE  ####"
 echo "###############################################################################"
 
-sudo pacman -S --noconfirm linux-lts linux-lts-headers linux-zen linux-zen-headers \
-linux-hardened linux-hardened-headers linux-rt linux-rt-headers linux-rt-lts linux-rt-lts-headers
+KERNERLS_TO_REMOVE=(
+    linux-lts linux-lts-headers
+    linux-zen linux-zen-headers
+    linux-hardened linux-hardened-headers
+    linux-rt linux-rt-headers
+    linux-rt-lts linux-rt-lts-headers
+    linux-cachyos linux-cachyos-headers
+    linux-xanmod linux-xanmod-headers
+)
 
-sudo pacman -S --noconfirm linux-cachyos linux-cachyos-headers
+# Pacman command to remove kernels
+sudo pacman -Rns --noconfirm "${KERNERLS_TO_REMOVE[@]}"
 
-sudo pacman -S --noconfirm linux-xanmod linux-xanmod-headers
+# Check for successful removal and existence of standard linux and linux-headers
+if pacman -Q linux linux-headers; then
+    echo "Standard linux and linux-headers are intact."
+else
+    echo "Installing standard linux and linux-headers."
+    sudo pacman -S --noconfirm linux linux-headers
+fi
 
-tput sgr0
 echo
 echo "###############################################################################"
 echo "###                DONE - YOU CAN CLOSE THIS WINDOW                        ####"

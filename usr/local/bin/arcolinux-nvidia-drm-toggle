@@ -62,7 +62,7 @@ fi
 if pacman -Qi nvidia-dkms &> /dev/null; then
 	echo
 	echo "################################################################"
-	echo "################### Adding option nvidia-drm.modeset=1"
+	echo "################### nvidia-drm.modeset=1"
 	echo "################################################################"
 	echo
 

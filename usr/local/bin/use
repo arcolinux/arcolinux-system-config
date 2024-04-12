@@ -32,7 +32,7 @@ tput sgr0;echo "Iso";tput setaf 9
 echo "----------------------------------------------------"
 cat /etc/dev-rel
 echo "----------------------------------------------------"
-tput sgr0;echo "BIOS OR UEFI";tput setaf 9
+tput sgr0;echo "BIOS or UEFI";tput setaf 9
 echo "----------------------------------------------------"
 if [ -d /sys/firmware/efi ]; then
     echo "uefi"
@@ -50,7 +50,7 @@ ls /usr/share/wayland-sessions
 echo "----------------------------------------------------"
 tput sgr0;echo "Boot system";tput setaf 9
 echo "----------------------------------------------------"
-cat /bootloader;echo
+sed '2d' /bootloader
 echo "----------------------------------------------------"
 tput sgr0;echo "Kernels";tput setaf 9
 echo "----------------------------------------------------"
@@ -67,15 +67,81 @@ display_managers=("sddm" "lxdm" "gdm" "lightdm" "ly")
 # Loop through each display manager and check its status
 for dm in "${display_managers[@]}"; do
     if systemctl is-active --quiet "$dm"; then
-        echo "Active Display Manager:"
+        echo "Active display manager"
 		tput setaf 9;echo "----------------------------------------------------"
         echo $dm
-		echo "----------------------------------------------------";tput sgr0        
-        exit 0
+		echo "----------------------------------------------------";tput sgr0
     fi
 done
 
-duf
+tput sgr0;echo "Nvidia packages installed";tput setaf 9
+echo "----------------------------------------------------"
+check_nvidia_packages() {
+    local nvidia_packages=$(pacman -Q | grep -i nvidia)
+
+    if [ -z "$nvidia_packages" ]; then
+        echo "No NVIDIA packages are installed."
+    else
+        echo "$nvidia_packages"
+    fi
+}
+check_nvidia_packages
+echo "----------------------------------------------------"
+tput sgr0;echo "Nvidia-drm.modeset=...";tput setaf 9
+echo "----------------------------------------------------"
+# Define paths to configuration files
+GRUB_CONFIG="/etc/default/grub"
+SYSTEMD_BOOT_CONFIG="/boot/efi/loader/entries/*.conf"
+REFIND_CONFIG="/boot/refind_linux.conf"
+
+# Function to check for nvidia-drm.modeset=1 in a file
+check_modeset() {
+    if grep -q "nvidia-drm.modeset=1" "$1"; then
+        echo "nvidia-drm.modeset=1 found in $1"
+    else
+        echo "nvidia-drm.modeset=1 NOT found in $1"
+    fi
+}
+
+# Check GRUB configuration
+if [ -f "$GRUB_CONFIG" ]; then
+    check_modeset "$GRUB_CONFIG"
+fi
+
+# Check systemd-boot configuration
+for file in $SYSTEMD_BOOT_CONFIG; do
+    if [ -f "$file" ]; then
+        check_modeset "$file"
+    fi
+done
+
+# Check rEFInd configuration
+if [ -f "$REFIND_CONFIG" ]; then
+    check_modeset "$REFIND_CONFIG"
+fi
+
+echo "----------------------------------------------------";tput sgr0
+# Function to check if NVIDIA driver is in use
+check_nvidia_driver() {
+    # Checking for NVIDIA in the list of PCI devices
+    if lspci -nnk | grep -i nvidia | grep -qi 'kernel driver in use'; then
+        echo "NVIDIA driver is currently in use."
+    else
+        echo "NVIDIA driver is not in use."
+    fi
+}
+
+# Execute the function
+check_nvidia_driver
+tput setaf 9;echo "----------------------------------------------------"
+echo "/etc/mkinitcpio.conf"
+echo "----------------------------------------------------";tput sgr0
+
+grep "^MODULES=(.*)" /etc/mkinitcpio.conf;tput setaf 9
+tput setaf 9;echo "----------------------------------------------------";tput sgr0
+
+echo "Use 'arcolinux-nvidia-drm-toggle' to add or remove nvidia-drm.modeset=1"
+echo "for any bootloader for nvidia cards only"
 
 echo
 echo "###############################################################################"
