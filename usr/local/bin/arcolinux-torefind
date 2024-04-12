@@ -131,7 +131,6 @@ if lsblk | grep -q "/boot/efi" ; then
 	}
 
 	#GRUB GONE
-	#archiso needs to go or else arch-chroot!!
 	if is_package_installed archiso; then
 	    echo "Removing archiso..."
 	    sudo pacman -R archiso --noconfirm

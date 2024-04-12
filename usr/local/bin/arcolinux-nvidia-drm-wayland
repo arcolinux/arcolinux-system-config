@@ -31,19 +31,19 @@
 ##################################################################################################################
 
 
-echo "Initiating system checks for Wayland session desktops."
-echo "Detecting presence of Wayland sessions: Hyprland, Sway, Wayfire, Plasma and Gnome."
-echo "Proceeding only if any of the above sessions are installed."
+# echo "Initiating system checks for Wayland session desktops."
+# echo "Detecting presence of Wayland sessions: Hyprland, Sway, Wayfire, Plasma and Gnome."
+# echo "Proceeding only if any of the above sessions are installed."
 
-echo "Verifying installation of nvidia-dkms package."
-echo "If nvidia-dkms is installed, adjusting boot parameters for Nvidia DRM kernel mode setting."
-echo "This includes modifying grub, systemd-boot, and rEFInd configurations to ensure smooth operation with Nvidia GPUs."
+# echo "Verifying installation of nvidia-dkms package."
+# echo "If nvidia-dkms is installed, adjusting boot parameters for Nvidia DRM kernel mode setting."
+# echo "This includes modifying grub, systemd-boot, and rEFInd configurations to ensure smooth operation with Nvidia GPUs."
 
-echo "Adding 'nvidia-drm.modeset=1' to the necessary boot configurations."
-echo "This parameter is essential for enabling the Nvidia DRM kernel mode setting, which can improve display performance and stability."
+# echo "Adding 'nvidia-drm.modeset=1' to the necessary boot configurations."
+# echo "This parameter is essential for enabling the Nvidia DRM kernel mode setting, which can improve display performance and stability."
 
-echo "If nvidia-dkms is not installed, the script will remove 'nvidia-drm.modeset=1' from configurations."
-echo "This ensures that systems without Nvidia proprietary drivers are not affected by unnecessary parameters."
+# echo "If nvidia-dkms is not installed, the script will remove 'nvidia-drm.modeset=1' from configurations."
+# echo "This ensures that systems without Nvidia proprietary drivers are not affected by unnecessary parameters."
 
 
 # Check for each Wayland session file
