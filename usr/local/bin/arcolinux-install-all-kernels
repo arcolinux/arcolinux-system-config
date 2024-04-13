@@ -25,11 +25,13 @@
 #tput setaf 7 = gray 
 #tput setaf 8 = light blue
 ##################################################################################################################
-tput setaf 8;
-
+echo
+tput setaf 9;
 echo "###############################################################################"
 echo "###         THIS IS A TEST SCRIPT TO INSTALL ALL COMMON LINUX KERNELS      ####"
 echo "###############################################################################"
+tput sgr0
+echo
 
 sudo pacman -S --noconfirm linux-lts linux-lts-headers linux-zen linux-zen-headers \
 linux-hardened linux-hardened-headers linux-rt linux-rt-headers linux-rt-lts linux-rt-lts-headers
