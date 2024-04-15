@@ -109,6 +109,20 @@ if [ $Online -eq 0 ] ; then
     exit 1
 fi
 
+function check_file() {
+
+    file="/usr/local/share/arcolinux/pacman.conf"
+    if [[ -f $file ]];then
+        echo $file " exists"
+        file_boolean=1
+    else
+        echo $file " doesn't exist"
+        file_boolean=0
+    fi
+}
+
+check_file
+
 
 echo "###############################################################################"
 echo "Removing other bootloaders"
@@ -212,7 +226,11 @@ if [ ! -s /etc/default/grub ]; then
     sudo cp /usr/local/share/arcolinux/grub/grub /etc/default/grub
 fi  
 
-if [ -f /usr/share/wayland-sessions/hyprland.desktop ] || [ -f /usr/share/wayland-sessions/sway.desktop ] || [ -f /usr/share/wayland-sessions/wayfire.desktop ]; then
+if [ -f /usr/share/wayland-sessions/hyprland.desktop ] || \
+    [ -f /usr/share/wayland-sessions/sway.desktop ] || \
+    [ -f /usr/share/wayland-sessions/wayfire.desktop ] || \
+    [ -f /usr/share/wayland-sessions/plasma.desktop ] || \
+    [ -f /usr/share/wayland-sessions/gnome.desktop ]; then
 	sudo /usr/local/bin/arcolinux-nvidia-drm-wayland
 fi
 
