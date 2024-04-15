@@ -226,17 +226,19 @@ if [ ! -s /etc/default/grub ]; then
     sudo cp /usr/local/share/arcolinux/grub/grub /etc/default/grub
 fi  
 
+
+sudo pacman -S grub --noconfirm
+
+sudo pacman -S arcolinux-grub-theme-vimix-git --noconfirm
+sudo pacman -S arcolinux-bootloader-grub-git --noconfirm
+
 if [ -f /usr/share/wayland-sessions/hyprland.desktop ] || \
     [ -f /usr/share/wayland-sessions/sway.desktop ] || \
     [ -f /usr/share/wayland-sessions/wayfire.desktop ] || \
     [ -f /usr/share/wayland-sessions/plasma.desktop ] || \
     [ -f /usr/share/wayland-sessions/gnome.desktop ]; then
-	sudo /usr/local/bin/arcolinux-nvidia-drm-wayland
+    sudo /usr/local/bin/arcolinux-nvidia-drm-wayland
 fi
-
-sudo pacman -S grub --noconfirm
-sudo pacman -S arcolinux-grub-theme-vimix-git --noconfirm
-sudo pacman -S arcolinux-bootloader-grub-git --noconfirm
 
 sudo grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=ArcoLinux
 
