@@ -45,6 +45,23 @@
 # echo "If nvidia-dkms is not installed, the script will remove 'nvidia-drm.modeset=1' from configurations."
 # echo "This ensures that systems without Nvidia proprietary drivers are not affected by unnecessary parameters."
 
+# Function to restart the script with sudo
+restart_with_sudo() {
+	tput setaf 3
+	echo
+    echo "This script needs to be run with superuser rights."
+    echo "Please restart the script with 'sudo' rights by typing:"
+    echo "sudo $0"
+    echo
+    tput sgr0
+    exit 1
+
+}
+
+# Check if running as root
+if [ "$(id -u)" -ne 0 ]; then
+    restart_with_sudo
+fi
 
 # Check for each Wayland session file
 if 	[ -f /usr/share/wayland-sessions/hyprland.desktop ] || \
