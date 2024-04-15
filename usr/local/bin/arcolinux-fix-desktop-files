@@ -26,6 +26,11 @@
 #tput setaf 8 = light blue
 ##################################################################################################################
 
+echo "###############################################################################"
+echo "Changing icons, categories of applications"
+echo "###############################################################################"
+
+
 if [ -f /usr/share/applications/btrfs-assistant.desktop ]; then
 	# btrfs-assistant.desktop
 	FIND="Categories=GNOME;GTK;System;Garuda-Setup;"

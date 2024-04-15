@@ -26,14 +26,29 @@
 #tput setaf 8 = light blue
 ##################################################################################################################
 
+tput setaf 1;
 echo "###############################################################################"
-echo "###                      REMOVE BOTH DKMS PACKAGES                         ####"
+echo "###                REMOVE BOTH NETWORK CARD DKMS PACKAGES                  ####"
 echo "###                ONLY RUN THIS IF YOU DO NOT NEED THOSE                  ####"
 echo "###############################################################################"
+tput sgr0
+
+echo "This script will remove broadcom-wl-dkms rtl8821cu-morrownr-dkms-git"
+read -p "Are you sure you want to proceed? (Y/y) " response
+
+if [[ $response =~ ^[Yy]$ ]]; then
 
 echo "Removing broadcom-wl-dkms rtl8821cu-morrownr-dkms-git"
 sudo pacman -Rs broadcom-wl-dkms rtl8821cu-morrownr-dkms-git --noconfirm
 
+else
+    echo "####################################"
+    echo "Operation canceled by user."
+    echo "####################################"
+
+fi
+
+echo
 echo "###############################################################################"
 echo "###                DONE - YOU CAN CLOSE THIS WINDOW                        ####"
 echo "###############################################################################"

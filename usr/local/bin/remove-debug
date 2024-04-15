@@ -28,15 +28,32 @@
 
 # OPTIONS=(strip docs !libtool !staticlibs emptydirs zipman purge !debug lto)
 
-if grep -q "!debug lto" /etc/makepkg.conf; then
-	echo "###############################################################################"
-	echo "Debugging is already off - nothing to do"
-	echo "###############################################################################"
+tput setaf 1;
+echo "###############################################################################"
+echo "###                     REMOVE DEBUG FROM /ETC/MAKEPKG.CONF                 ####"
+echo "###############################################################################"
+tput sgr0
+echo "This script will change debug into !debug"
+read -p "Are you sure you want to proceed? (Y/y) " response
+
+if [[ $response =~ ^[Yy]$ ]]; then
+
+	if grep -q "!debug lto" /etc/makepkg.conf; then
+		echo "###############################################################################"
+		echo "Debugging is already off - nothing to do"
+		echo "###############################################################################"
+	else
+		echo "###############################################################################"
+		echo "Changing debug to !debug"
+		echo "###############################################################################"
+		sudo sed -i "s/debug lto/!debug lto/g" /etc/makepkg.conf;
+	fi
+
 else
-	echo "###############################################################################"
-	echo "Changing debug to !debug"
-	echo "###############################################################################"
-	sudo sed -i "s/debug lto/!debug lto/g" /etc/makepkg.conf;
+    echo "####################################"
+    echo "Operation canceled by user."
+    echo "####################################"
+
 fi
 
 echo

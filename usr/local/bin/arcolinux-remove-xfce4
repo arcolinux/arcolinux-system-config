@@ -28,16 +28,17 @@
 
 tput setaf 1;
 echo "###############################################################################"
-echo "###                     SCRIPT TO REMOVE ALL CONKY RELATED APPS            ####"
+echo "###                SCRIPT TO REMOVE XFCE4 and XFCE4-GOODIES                ####"
 echo "###############################################################################"
 tput sgr0
-echo "This script will remove all the conky releated apps"
+
+echo "This script will remove XFCE4 and XFCE4-GOODIES."
 read -p "Are you sure you want to proceed? (Y/y) " response
 
 if [[ $response =~ ^[Yy]$ ]]; then
 
     # Array of packages to check
-    packages=("conky-lua-archers" "arcolinux-conky-collection-git" "arcolinux-conky-collection-plasma-git")  
+    packages=("catfish" "xfce4-goodies" "xfce4")  
 
     # Function to check if a package is installed
     is_package_installed() {

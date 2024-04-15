@@ -26,47 +26,39 @@
 #tput setaf 8 = light blue
 ##################################################################################################################
 
-tput setaf 1;
-echo "###############################################################################"
-echo "###                     SCRIPT TO REMOVE REMOVE MICROCODE                  ####"
-echo "###############################################################################"
-tput sgr0
-echo "This script will remove microde packages"
-read -p "Are you sure you want to proceed? (Y/y) " response
+#[chaotic-aur]
+#SigLevel = Required DatabaseOptional
+#Include = /etc/pacman.d/chaotic-mirrorlist
 
-if [[ $response =~ ^[Yy]$ ]]; then
+# Set the file path
+FILE="/etc/pacman.conf"
 
-	if grep -q "base udev autodetect microcode" /etc/mkinitcpio.conf; then
-		echo "###############################################################################"
-		echo "Removing microcode"
-		echo "###############################################################################"
-		sudo sed -i "s/microcode //" /etc/mkinitcpio.conf;
-	fi
+# Search for "chaotic-aur" in the specified file
+if ! grep -q "chaotic-aur" "$FILE"; then
+    echo "Adding chaotic-aur repository to $FILE"
+    # Append the configuration for chaotic-aur to the file
+    {
+echo ""
+echo "#[chaotic-aur]"
+echo "#SigLevel = Required DatabaseOptional"
+echo "#Include = /etc/pacman.d/chaotic-mirrorlist"
+    } | sudo tee -a "$FILE"
+fi
 
-	echo
+if grep -q "#\[chaotic-aur\]" /etc/pacman.conf; then
 	echo "###############################################################################"
-	echo "Removing the correct microcode - intel or amd"
+	echo "Activate the chaotic repo"
 	echo "###############################################################################"
-	cpu=$(cat /proc/cpuinfo | grep vendor_id | uniq | awk '{print $3}')
-	echo "We are removing the package for this cpu: "$cpu
-	echo "###############################################################################"
-
-	if [ "$cpu" == "GenuineIntel" ]; then
-		echo "Intel CPU detected. Removing intel-ucode package..."
-		sudo pacman -R --noconfirm intel-ucode
-	elif [ "$cpu" == "AuthenticAMD" ]; then
-		echo "AMD CPU detected. Removing amd-ucode package..."
-		sudo pacman -R --noconfirm amd-ucode
-	else
-		echo "CPU type unrecognized. No microcode package removed."
-	fi
-
-	sudo mkinitcpio -P
-
+	sudo sed -i "s/#\[chaotic-aur\]/\[chaotic-aur\]/g" /etc/pacman.conf;
+	sudo sed -i "s/#SigLevel = Required DatabaseOptional/SigLevel = Required DatabaseOptional/g" /etc/pacman.conf;
+	sudo sed -i "s/#Include = \/etc\/pacman.d\/chaotic-mirrorlist/Include = \/etc\/pacman.d\/chaotic-mirrorlist/g" /etc/pacman.conf;
 else
-    echo "####################################"
-    echo "Operation canceled by user."
-    echo "####################################"
+	echo "###############################################################################"
+	echo "Deactivate the chaotic repo"
+	echo "###############################################################################"
+	sudo sed -i '0,/\[chaotic-aur\]/s/\[chaotic-aur\]/#\[chaotic-aur\]/' /etc/pacman.conf
+	sudo sed -i '/chaotic-aur/{n;s/^SigLevel = Required DatabaseOptional/#SigLevel = Required DatabaseOptional/;}' /etc/pacman.conf
+	sudo sed -i '0,/Include = \/etc\/pacman.d\/chaotic-mirrorlist/s/Include = \/etc\/pacman.d\/chaotic-mirrorlist/#Include = \/etc\/pacman.d\/chaotic-mirrorlist/' /etc/pacman.conf
 
 fi
 
