@@ -237,6 +237,8 @@ if lsblk | grep -q "/boot/efi" ; then
 		sudo sed -i "s/#Include = \/etc\/pacman.d\/chaotic-mirrorlist/Include = \/etc\/pacman.d\/chaotic-mirrorlist/g" /etc/pacman.conf;
 	fi
 
+	sudo pacman -Sy
+	
 	# finding out what kernels we have
 
 	# Define an array of possible kernels
