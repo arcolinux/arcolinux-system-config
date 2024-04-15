@@ -1,9 +1,0 @@
-[Trigger]
-Operation = Upgrade
-Type = Package
-Target = grub
-
-[Action]
-Description = Executing grub-install - not when on systemd-boot
-When = PostTransaction
-Exec = /usr/local/bin/arcolinux-systemd-test
