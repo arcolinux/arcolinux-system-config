@@ -212,32 +212,34 @@ if lsblk | grep -q "/boot/efi" ; then
 
 	sudo bootctl install
 
-	# make sure we have chaotic repo there
-	# Set the file path
-	FILE="/etc/pacman.conf"
+	if is_package_installed linux-cachyos; then
+		# make sure we have chaotic repo there
+		# Set the file path
+		FILE="/etc/pacman.conf"
 
-	# Search for "chaotic-aur" in the specified file
-	if ! grep -q "chaotic-aur" "$FILE"; then
-	    echo "Adding chaotic-aur repository to $FILE"
-	    # Append the configuration for chaotic-aur to the file
-	    {
-	echo ""
-	echo "#[chaotic-aur]"
-	echo "#SigLevel = Required DatabaseOptional"
-	echo "#Include = /etc/pacman.d/chaotic-mirrorlist"
-	    } | sudo tee -a "$FILE"
+		# Search for "chaotic-aur" in the specified file
+		if ! grep -q "chaotic-aur" "$FILE"; then
+		    echo "Adding chaotic-aur repository to $FILE"
+		    # Append the configuration for chaotic-aur to the file
+		    {
+		echo ""
+		echo "#[chaotic-aur]"
+		echo "#SigLevel = Required DatabaseOptional"
+		echo "#Include = /etc/pacman.d/chaotic-mirrorlist"
+		    } | sudo tee -a "$FILE"
+		fi
+
+		if grep -q "#\[chaotic-aur\]" /etc/pacman.conf; then
+			echo "###############################################################################"
+			echo "Activate the chaotic repo"
+			echo "###############################################################################"
+			sudo sed -i "s/#\[chaotic-aur\]/\[chaotic-aur\]/g" /etc/pacman.conf;
+			sudo sed -i "s/#SigLevel = Required DatabaseOptional/SigLevel = Required DatabaseOptional/g" /etc/pacman.conf;
+			sudo sed -i "s/#Include = \/etc\/pacman.d\/chaotic-mirrorlist/Include = \/etc\/pacman.d\/chaotic-mirrorlist/g" /etc/pacman.conf;
+		fi
+
+		sudo pacman -Sy
 	fi
-
-	if grep -q "#\[chaotic-aur\]" /etc/pacman.conf; then
-		echo "###############################################################################"
-		echo "Activate the chaotic repo"
-		echo "###############################################################################"
-		sudo sed -i "s/#\[chaotic-aur\]/\[chaotic-aur\]/g" /etc/pacman.conf;
-		sudo sed -i "s/#SigLevel = Required DatabaseOptional/SigLevel = Required DatabaseOptional/g" /etc/pacman.conf;
-		sudo sed -i "s/#Include = \/etc\/pacman.d\/chaotic-mirrorlist/Include = \/etc\/pacman.d\/chaotic-mirrorlist/g" /etc/pacman.conf;
-	fi
-
-	sudo pacman -Sy
 	
 	# finding out what kernels we have
 
