@@ -211,6 +211,32 @@ if lsblk | grep -q "/boot/efi" ; then
 	sudo pacman -S --noconfirm arcolinux-bootloader-systemd-boot-git
 
 	sudo bootctl install
+
+	# make sure we have chaotic repo there
+	# Set the file path
+	FILE="/etc/pacman.conf"
+
+	# Search for "chaotic-aur" in the specified file
+	if ! grep -q "chaotic-aur" "$FILE"; then
+	    echo "Adding chaotic-aur repository to $FILE"
+	    # Append the configuration for chaotic-aur to the file
+	    {
+	echo ""
+	echo "#[chaotic-aur]"
+	echo "#SigLevel = Required DatabaseOptional"
+	echo "#Include = /etc/pacman.d/chaotic-mirrorlist"
+	    } | sudo tee -a "$FILE"
+	fi
+
+	if grep -q "#\[chaotic-aur\]" /etc/pacman.conf; then
+		echo "###############################################################################"
+		echo "Activate the chaotic repo"
+		echo "###############################################################################"
+		sudo sed -i "s/#\[chaotic-aur\]/\[chaotic-aur\]/g" /etc/pacman.conf;
+		sudo sed -i "s/#SigLevel = Required DatabaseOptional/SigLevel = Required DatabaseOptional/g" /etc/pacman.conf;
+		sudo sed -i "s/#Include = \/etc\/pacman.d\/chaotic-mirrorlist/Include = \/etc\/pacman.d\/chaotic-mirrorlist/g" /etc/pacman.conf;
+	fi
+
 	# finding out what kernels we have
 
 	# Define an array of possible kernels
@@ -282,6 +308,14 @@ if lsblk | grep -q "/boot/efi" ; then
 
 	echo "systemd-boot" | sudo dd of="/bootloader"
 
+
+	echo "###############################################################################"
+	echo "Deactivate the chaotic repo"
+	echo "###############################################################################"
+	sudo sed -i '0,/\[chaotic-aur\]/s/\[chaotic-aur\]/#\[chaotic-aur\]/' /etc/pacman.conf
+	sudo sed -i '/chaotic-aur/{n;s/^SigLevel = Required DatabaseOptional/#SigLevel = Required DatabaseOptional/;}' /etc/pacman.conf
+	sudo sed -i '0,/Include = \/etc\/pacman.d\/chaotic-mirrorlist/s/Include = \/etc\/pacman.d\/chaotic-mirrorlist/#Include = \/etc\/pacman.d\/chaotic-mirrorlist/' /etc/pacman.conf
+
 	echo
 	echo "###############################################################################"
 	echo "###                DONE - YOU CAN CLOSE THIS WINDOW                        ####"
@@ -291,7 +325,7 @@ else
 
 	echo
 	echo "###############################################################################"
-	echo "###                YOU CAN NOT USE SYSTEMD-BOOT                         ####"
+	echo "###                YOU CAN NOT USE SYSTEMD-BOOT                            ####"
 	echo "###                        KEEP USING GRUB                                 ####"
 	echo "###        https://wiki.archlinux.org/title/Arch_boot_process              ####"
 	echo "###############################################################################"
