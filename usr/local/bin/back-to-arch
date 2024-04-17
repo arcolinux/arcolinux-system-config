@@ -59,30 +59,38 @@ echo "Total number of packages: ${#packages[@]}"
 # Prompt for confirmation
 read -p "Are you certain you want to remove all these packages? Type y/Y to confirm: " -n 1 -r
 
-num_packages=${#packages[@]}
-echo "#####################################################################"
-echo "Number of packages: $num_packages"  # Corrected variable name
-echo "#####################################################################"
+if [[ $REPLY =~ ^[Yy]$ ]]; then
 
-count=0  # Initialize count
 
-for name in "${packages[@]}"; do
-	if pacman -Q $name &> /dev/null; then
-	  ((count++))  # Increment count
-	  echo
-	  tput setaf 2  # Set color to green
-	  echo "#####################################################################"
-	  echo "Removing nr $count: $name of $num_packages packages"
-	  echo "#####################################################################"
-	  tput sgr0  # Reset text formatting to default
-	  echo
+	num_packages=${#packages[@]}
+	echo "#####################################################################"
+	echo "Number of packages: $num_packages"  # Corrected variable name
+	echo "#####################################################################"
 
-	  # Confirmation message added for clarity, even with --noconfirm
-	  echo "Proceeding to remove $name without further confirmation..."
-	  sudo pacman -Rns --noconfirm $name
-	  echo
-	fi
-done
+	count=0  # Initialize count
+
+	for name in "${packages[@]}"; do
+		if pacman -Q $name &> /dev/null; then
+		  ((count++))  # Increment count
+		  echo
+		  tput setaf 2  # Set color to green
+		  echo "#####################################################################"
+		  echo "Removing nr $count: $name of $num_packages packages"
+		  echo "#####################################################################"
+		  tput sgr0  # Reset text formatting to default
+		  echo
+
+		  # Confirmation message added for clarity, even with --noconfirm
+		  echo "Proceeding to remove $name without further confirmation..."
+		  sudo pacman -Rns --noconfirm $name
+		  echo
+		fi
+	done
+
+else
+	echo "#####################################################################"
+	echo "Operation cancelled"
+	echo "#####################################################################"
 
 echo "###############################################################################"
 echo "###                DONE - YOU CAN CLOSE THIS WINDOW                        ####"
