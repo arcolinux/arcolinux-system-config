@@ -32,7 +32,7 @@ echo "###      SCRIPT TO REMOVE ALL THE LINUX KERNELS BUT THE LINUX KERNEL      
 echo "###############################################################################"
 tput sgr0
 
-echo "This script will remove all the kernels but the linux and linux-headers"
+echo "This script will remove all the kernels (used in ArcoLinux) but the linux and linux-headers"
 read -p "Are you sure you want to proceed? (Y/y) " response
 
 if [[ $response =~ ^[Yy]$ ]]; then
