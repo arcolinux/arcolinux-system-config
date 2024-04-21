@@ -37,31 +37,37 @@ read -p "Are you sure you want to proceed? (Y/y) " response
 
 if [[ $response =~ ^[Yy]$ ]]; then
 
-    # Define all the kernels and their headers you want to remove
-    KERNELS_TO_REMOVE=(
-         linux-headers linux
-         linux-lts-headers linux-lts
-         linux-hardened-headers linux-hardened
-         linux-rt-headers linux-rt
-         linux-rt-lts-headers linux-rt-lts
-         linux-cachyos-headers linux-cachyos
-         linux-xanmod-headers linux-xanmod
-    )
-    remove_package() {
-        local package=$1
-        # Check if the package is installed
-        if pacman -Q $package &> /dev/null; then
-            echo "$package is installed. Removing..."
-            sudo pacman -Rns --noconfirm $package
-        else
-            echo "$package is not installed."
-        fi
-    }
+# Ensure at least one kernel remains
+    if pacman -Qi linux-zen &> /dev/null && pacman -Qi linux-zen-headers &> /dev/null; then
+        # Define all the kernels and their headers you want to remove
+        KERNELS_TO_REMOVE=(
+             linux-headers linux
+             linux-lts-headers linux-lts
+             linux-hardened-headers linux-hardened
+             linux-rt-headers linux-rt
+             linux-rt-lts-headers linux-rt-lts
+             linux-cachyos-headers linux-cachyos
+             linux-xanmod-headers linux-xanmod
+        )
+        remove_package() {
+            local package=$1
+            # Check if the package is installed
+            if pacman -Q $package &> /dev/null; then
+                echo "$package is installed. Removing..."
+                sudo pacman -Rns --noconfirm $package
+            else
+                echo "$package is not installed."
+            fi
+        }
 
-    # Loop over the array and remove each kernel package
-    for kernel in "${KERNELS_TO_REMOVE[@]}"; do
-        remove_package "$kernel"
-    done
+        # Loop over the array and remove each kernel package
+        for kernel in "${KERNELS_TO_REMOVE[@]}"; do
+            remove_package "$kernel"
+        done
+
+    else
+        echo "Cannot proceed: At least one kernel must remain installed."
+    fi
 
 else
     echo "####################################"
