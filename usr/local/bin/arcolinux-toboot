@@ -76,6 +76,23 @@ case "$response" in
 esac
 tput sgr0
 
+echo
+echo "Are you really sure?"
+echo "This script may break your system"
+echo "Resulting in an unbootable system!"
+
+# User confirmation
+read -r -p "Please confirm with [Y/N]: " response
+case "$response" in
+    [yY][eE][sS]|[yY]) 
+        echo "Proceeding with the boot manager change..."
+        ;;
+    *)
+        echo "Operation cancelled by the user. Exiting script."
+        exit 1
+        ;;
+esac
+
 if lsblk | grep -q "/boot/efi" ; then
     echo "/boot/efi is mounted."
 
@@ -106,7 +123,7 @@ if lsblk | grep -q "/boot/efi" ; then
 		echo "###############################################################################"
 		echo "###                          YOU ARE NOT ONLINE                            ####"
 		echo "###         WE ARE PINGING 8.8.8.8 TO TEST YOUR INTERNET CONNECTION        ####"
-		echo "###                     WE NEED INTERNET AN CONNECTION                     ####"
+		echo "###                     WE NEED AN INTERNET CONNECTION                     ####"
 		echo "###############################################################################"
 		exit 1
 	fi
