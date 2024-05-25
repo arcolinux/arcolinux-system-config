@@ -64,6 +64,7 @@ func_install_chadwm() {
     alacritty
     archlinux-logout-git
     arcolinux-chadwm-git
+    arcolinux-powermenu-git
     dash
     dmenu
     eww
@@ -71,7 +72,7 @@ func_install_chadwm() {
     lxappearance
     picom
     polkit-gnome
-    rofi
+    rofi-lbonn-wayland
     scrot
     sxhkd
     thunar
