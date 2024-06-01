@@ -157,9 +157,16 @@ echo "----------------------------------------------------";tput sgr0
 
 grep "^MODULES=(.*)" /etc/mkinitcpio.conf;tput setaf 9
 tput setaf 9;echo "----------------------------------------------------";tput sgr0
-
-echo "Use 'arcolinux-nvidia-drm-toggle' to add or remove nvidia-drm.modeset=1"
-echo "for any bootloader for nvidia cards only"
+echo
+echo "Use 'arcolinux-nvidia-drm-modeset-toggle' to add or remove nvidia-drm.modeset=1"
+echo "to any bootloader for nvidia cards only"
+echo
+echo "Use 'arcolinux-nvidia-mkinitcpio' to add" 
+echo "MODULES= nvidia nvidia_modeset nvidia_uvm nvidia_drm"
+echo "in /etc/mkinitcpio.conf"
+echo "and creating new files with sudo mkinitcpio -P"
+echo "https://wiki.archlinux.org/title/NVIDIA#Early_loading"
+echo
 
 echo
 echo "###############################################################################"
