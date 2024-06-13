@@ -67,7 +67,7 @@ if 	[ -f /usr/share/wayland-sessions/hyprland.desktop ] || \
 		echo
 
 		# GRUB
-		if [ -f /etc/default/grub ]; then
+		if [ -f /etc/default/grub ] && [ -d "/boot/grub" ] && [ -d "/boot/efi/EFI/grub" ]; then
 		    # Check if 'nvidia-drm.modeset=1' is already in the GRUB_CMDLINE_LINUX_DEFAULT line
 		    if ! grep -q "nvidia-drm.modeset=1" /etc/default/grub; then
 		        # Use sed to append 'nvidia-drm.modeset=1' to the GRUB_CMDLINE_LINUX_DEFAULT line
@@ -136,7 +136,7 @@ if 	[ -f /usr/share/wayland-sessions/hyprland.desktop ] || \
 		# REMOVE
 
 		# GRUB
-        if [ -f /etc/default/grub ]; then
+        if [ -f /etc/default/grub ] && [ -d "/boot/grub" ] && [ -d "/boot/efi/EFI/grub" ]; then
             if grep -q "nvidia-drm.modeset=1" /etc/default/grub; then
                 sed -i "s/ nvidia-drm.modeset=1//" /etc/default/grub
                 echo "Removed 'nvidia-drm.modeset=1' from GRUB_CMDLINE_LINUX_DEFAULT in /etc/default/grub"
