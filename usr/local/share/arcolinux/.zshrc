@@ -264,21 +264,21 @@ alias kp='killall polybar'
 # quickly kill picom
 alias kpi='killall picom'
 
-#hardware info --short
+# hardware info --short
 alias hw="hwinfo --short"
 
-#fastfetch --short
+# fastfetch --short
 alias ff="fastfetch"
 
-#audio check pulseaudio or pipewire
+# audio check pulseaudio or pipewire
 alias audio="pactl info | grep 'Server Name'"
 
-#skip integrity check
+# skip integrity check
 alias paruskip='paru -S --mflags --skipinteg'
 alias yayskip='yay -S --mflags --skipinteg'
 alias trizenskip='trizen -S --skipinteg'
 
-#check vulnerabilities microcode
+# check vulnerabilities microcode
 alias microcode='grep . /sys/devices/system/cpu/vulnerabilities/*'
 
 #approximation of how old your hardware is
@@ -345,6 +345,8 @@ alias listaur="sudo pacman -Qqem"
 
 #clear
 alias clean="clear; seq 1 $(tput cols) | sort -R | sparklines | lolcat"
+alias cls="clear; seq 1 $(tput cols) | sort -R | sparklines | lolcat"
+
 
 #search content with ripgrep
 alias rg="rg --sort path"
