@@ -51,14 +51,6 @@ tput sgr0; echo -n "Boot system: "; tput setaf 9; sed '2d' /bootloader; echo "--
 tput sgr0; echo -n "Mounted Filesystems: "; tput setaf 9
 mount | grep "^/dev" | awk '{print $1, $5}' | sort | paste -sd "  "
 echo "----------------------------------------------------"
-tput sgr0; echo -n "X11 sessions: "; tput setaf 9; ls /usr/share/xsessions; echo "----------------------------------------------------"
-tput sgr0; echo -n "Wayland sessions: "; tput setaf 9
-if [ -d /usr/share/wayland-sessions ]; then
-    ls /usr/share/wayland-sessions
-else
-    echo "no wayland desktops"
-fi
-echo "----------------------------------------------------"
 
 # Check active display manager
 tput sgr0; echo -n "Active Display Manager: "; tput setaf 9
@@ -73,6 +65,16 @@ for dm in "${display_managers[@]}"; do
     fi
 done
 echo "----------------------------------------------------"
+
+tput sgr0; echo -n "X11 sessions: "; tput setaf 9; ls /usr/share/xsessions; echo "----------------------------------------------------"
+tput sgr0; echo -n "Wayland sessions: "; tput setaf 9
+if [ -d /usr/share/wayland-sessions ]; then
+    ls /usr/share/wayland-sessions
+else
+    echo "no wayland desktops"
+fi
+echo "----------------------------------------------------"
+
 tput sgr0; echo -n "Kernels: "; tput setaf 9; ls /usr/lib/modules; echo "----------------------------------------------------"
 tput sgr0; echo -n "Kernel in use: "; tput setaf 9; cat /proc/version; echo "----------------------------------------------------"
 
