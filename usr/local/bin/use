@@ -49,7 +49,7 @@ tput sgr0; echo "Iso: "; tput setaf 9; cat /etc/dev-rel; echo "-----------------
 tput sgr0; echo -n "BIOS or UEFI: "; tput setaf 9; [ -d /sys/firmware/efi ] && echo "uefi" || echo "bios"; echo "----------------------------------------------------"
 tput sgr0; echo -n "Boot system: "; tput setaf 9; sed '2d' /bootloader; echo "----------------------------------------------------"
 tput sgr0; echo -n "Mounted Filesystems: "; tput setaf 9
-mount | grep "^/dev" | awk '{print $1, $5}' | paste -sd "  "
+mount | grep "^/dev" | awk '{print $1, $5}' | sort | paste -sd "  "
 echo "----------------------------------------------------"
 tput sgr0; echo -n "X11 sessions: "; tput setaf 9; ls /usr/share/xsessions; echo "----------------------------------------------------"
 tput sgr0; echo -n "Wayland sessions: "; tput setaf 9
@@ -77,9 +77,27 @@ tput sgr0; echo -n "Kernels: "; tput setaf 9; ls /usr/lib/modules; echo "-------
 tput sgr0; echo -n "Kernel in use: "; tput setaf 9; cat /proc/version; echo "----------------------------------------------------"
 
 # Nvidia related checks
-tput sgr0; echo -n "NVIDIA driver in use: "; tput setaf 9; lspci -nnk | grep -i nvidia | grep -qi 'kernel driver in use' && echo "Yes" || echo "No"; echo "----------------------------------------------------"
-tput sgr0; echo -n "Nvidia packages installed: "; tput setaf 9; pacman -Q | grep -i nvidia | tr '\n' ' ' || echo -n "No NVIDIA packages are installed."; echo; echo "----------------------------------------------------"
-tput sgr0; echo -n "Nvidia-drm.modeset=... "; tput setaf 9; grep "nvidia-drm.modeset=1" /etc/default/grub || echo "Not found"; echo "----------------------------------------------------"
+tput sgr0; echo -n "NVIDIA driver in use: "; tput setaf 9
+if lspci | grep -i nvidia > /dev/null; then
+    lspci -nnk | grep -i nvidia | grep -qi 'kernel driver in use' && echo "Yes" || echo "No"
+else
+    echo "No NVIDIA card detected"
+fi
+echo "----------------------------------------------------"
+tput sgr0; echo -n "Nvidia packages installed: "; tput setaf 9
+if pacman -Q | grep -i nvidia > /dev/null; then
+    pacman -Q | grep -i nvidia | tr '\n' ' '
+else
+    echo -n "No NVIDIA packages are installed"
+fi
+echo; echo "----------------------------------------------------"
+tput sgr0; echo -n "Nvidia-drm.modeset=... "; tput setaf 9
+if [ -f /etc/default/grub ]; then
+    grep "nvidia-drm.modeset=1" /etc/default/grub || echo "Not found"
+else
+    echo "/etc/default/grub not found"
+fi
+echo "----------------------------------------------------"
 tput sgr0; echo -n "Modules in /etc/mkinitcpio.conf: "; tput setaf 9; grep "^MODULES=(.*)" /etc/mkinitcpio.conf; echo "----------------------------------------------------"
 echo "Use 'arcolinux-nvidia-drm-modeset-toggle' to add or remove nvidia-drm.modeset=1"
 echo "to any bootloader for nvidia cards only"
@@ -89,4 +107,4 @@ echo "MODULES= nvidia nvidia_modeset nvidia_uvm nvidia_drm"
 echo "in /etc/mkinitcpio.conf and creating new files with sudo mkinitcpio -P"
 echo "https://wiki.archlinux.org/title/NVIDIA#Early_loading"
 echo "###############################################################################"
-
+tput sgr0;
