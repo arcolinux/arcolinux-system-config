@@ -35,7 +35,6 @@ restart_with_sudo() {
     echo
     tput sgr0
     exit 1
-
 }
 
 # Check if running as root
@@ -46,129 +45,48 @@ fi
 clear
 tput setaf 9
 echo "----------------------------------------------------"
-tput sgr0;echo "Iso";tput setaf 9
+tput sgr0; echo "Iso: "; tput setaf 9; cat /etc/dev-rel; echo "----------------------------------------------------"
+tput sgr0; echo -n "BIOS or UEFI: "; tput setaf 9; [ -d /sys/firmware/efi ] && echo "uefi" || echo "bios"; echo "----------------------------------------------------"
+tput sgr0; echo -n "Boot system: "; tput setaf 9; sed '2d' /bootloader; echo "----------------------------------------------------"
+tput sgr0; echo -n "Mounted Filesystems: "; tput setaf 9
+mount | grep "^/dev" | awk '{print $1, $5}' | paste -sd "  "
 echo "----------------------------------------------------"
-cat /etc/dev-rel
-echo "----------------------------------------------------"
-tput sgr0;echo "BIOS or UEFI";tput setaf 9
-echo "----------------------------------------------------"
-if [ -d /sys/firmware/efi ]; then
-    echo "uefi"
+tput sgr0; echo -n "X11 sessions: "; tput setaf 9; ls /usr/share/xsessions; echo "----------------------------------------------------"
+tput sgr0; echo -n "Wayland sessions: "; tput setaf 9
+if [ -d /usr/share/wayland-sessions ]; then
+    ls /usr/share/wayland-sessions
 else
-    echo "bios"
+    echo "no wayland desktops"
 fi
 echo "----------------------------------------------------"
-tput sgr0;echo "X11 sessions";tput setaf 9
-echo "----------------------------------------------------"
-ls /usr/share/xsessions
-echo "----------------------------------------------------"
-tput sgr0;echo "Wayland sessions";tput setaf 9
-echo "----------------------------------------------------"
-ls /usr/share/wayland-sessions
-echo "----------------------------------------------------"
-tput sgr0;echo "Boot system";tput setaf 9
-echo "----------------------------------------------------"
-sed '2d' /bootloader
-echo "----------------------------------------------------"
-tput sgr0;echo "Kernels";tput setaf 9
-echo "----------------------------------------------------"
-ls /usr/lib/modules
-echo "----------------------------------------------------"
-tput sgr0;echo "Kernel in use";tput setaf 9
-echo "----------------------------------------------------"
-cat /proc/version
-echo "----------------------------------------------------"
-tput sgr0
-# List of potential display managers
-display_managers=("sddm" "lxdm" "gdm" "lightdm" "ly")
 
-# Loop through each display manager and check its status
+# Check active display manager
+tput sgr0; echo -n "Active Display Manager: "; tput setaf 9
+display_managers=("sddm" "lxdm" "gdm" "lightdm" "ly")
+active_dm=""
+
 for dm in "${display_managers[@]}"; do
     if systemctl is-active --quiet "$dm"; then
-        echo "Active display manager"
-		tput setaf 9;echo "----------------------------------------------------"
-        echo $dm
-		echo "----------------------------------------------------";tput sgr0
+        active_dm="$dm"
+        echo "$dm"
+        break
     fi
 done
-
-tput sgr0;echo "Nvidia packages installed";tput setaf 9
 echo "----------------------------------------------------"
-check_nvidia_packages() {
-    local nvidia_packages=$(pacman -Q | grep -i nvidia)
+tput sgr0; echo -n "Kernels: "; tput setaf 9; ls /usr/lib/modules; echo "----------------------------------------------------"
+tput sgr0; echo -n "Kernel in use: "; tput setaf 9; cat /proc/version; echo "----------------------------------------------------"
 
-    if [ -z "$nvidia_packages" ]; then
-        echo "No NVIDIA packages are installed."
-    else
-        echo "$nvidia_packages"
-    fi
-}
-check_nvidia_packages
-echo "----------------------------------------------------"
-tput sgr0;echo "Nvidia-drm.modeset=...";tput setaf 9
-echo "----------------------------------------------------"
-# Define paths to configuration files
-GRUB_CONFIG="/etc/default/grub"
-SYSTEMD_BOOT_CONFIG="/boot/efi/loader/entries/*.conf"
-REFIND_CONFIG="/boot/refind_linux.conf"
-
-# Function to check for nvidia-drm.modeset=1 in a file
-check_modeset() {
-    if grep -q "nvidia-drm.modeset=1" "$1"; then
-        echo "nvidia-drm.modeset=1 found in $1"
-    else
-        echo "nvidia-drm.modeset=1 NOT found in $1"
-    fi
-}
-
-# Check GRUB configuration
-if [ -f "$GRUB_CONFIG" ]; then
-    check_modeset "$GRUB_CONFIG"
-fi
-
-# Check systemd-boot configuration
-for file in $SYSTEMD_BOOT_CONFIG; do
-    if [ -f "$file" ]; then
-        check_modeset "$file"
-    fi
-done
-
-# Check rEFInd configuration
-if [ -f "$REFIND_CONFIG" ]; then
-    check_modeset "$REFIND_CONFIG"
-fi
-
-echo "----------------------------------------------------";tput sgr0
-# Function to check if NVIDIA driver is in use
-check_nvidia_driver() {
-    # Checking for NVIDIA in the list of PCI devices
-    if lspci -nnk | grep -i nvidia | grep -qi 'kernel driver in use'; then
-        echo "NVIDIA driver is currently in use."
-    else
-        echo "NVIDIA driver is not in use."
-    fi
-}
-
-# Execute the function
-check_nvidia_driver
-tput setaf 9;echo "----------------------------------------------------"
-echo "/etc/mkinitcpio.conf"
-echo "----------------------------------------------------";tput sgr0
-
-grep "^MODULES=(.*)" /etc/mkinitcpio.conf;tput setaf 9
-tput setaf 9;echo "----------------------------------------------------";tput sgr0
-echo
+# Nvidia related checks
+tput sgr0; echo -n "NVIDIA driver in use: "; tput setaf 9; lspci -nnk | grep -i nvidia | grep -qi 'kernel driver in use' && echo "Yes" || echo "No"; echo "----------------------------------------------------"
+tput sgr0; echo -n "Nvidia packages installed: "; tput setaf 9; pacman -Q | grep -i nvidia | tr '\n' ' ' || echo -n "No NVIDIA packages are installed."; echo; echo "----------------------------------------------------"
+tput sgr0; echo -n "Nvidia-drm.modeset=... "; tput setaf 9; grep "nvidia-drm.modeset=1" /etc/default/grub || echo "Not found"; echo "----------------------------------------------------"
+tput sgr0; echo -n "Modules in /etc/mkinitcpio.conf: "; tput setaf 9; grep "^MODULES=(.*)" /etc/mkinitcpio.conf; echo "----------------------------------------------------"
 echo "Use 'arcolinux-nvidia-drm-modeset-toggle' to add or remove nvidia-drm.modeset=1"
 echo "to any bootloader for nvidia cards only"
 echo
 echo "Use 'arcolinux-nvidia-mkinitcpio' to add" 
 echo "MODULES= nvidia nvidia_modeset nvidia_uvm nvidia_drm"
-echo "in /etc/mkinitcpio.conf"
-echo "and creating new files with sudo mkinitcpio -P"
+echo "in /etc/mkinitcpio.conf and creating new files with sudo mkinitcpio -P"
 echo "https://wiki.archlinux.org/title/NVIDIA#Early_loading"
-echo
+echo "###############################################################################"
 
-echo
-echo "###############################################################################"
-echo "###                DONE - YOU CAN CLOSE THIS WINDOW                        ####"
-echo "###############################################################################"
