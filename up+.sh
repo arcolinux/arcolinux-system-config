@@ -40,10 +40,10 @@ echo "Get the original samba file from samba github"
 wget https://gitlab.com/samba-team/samba/-/raw/master/examples/smb.conf.default -O $workdir/etc/samba/smb.conf.original
 
 echo "getting mirrorlist ArchLinux"
-wget https://raw.githubusercontent.com/arcolinux/arcolinuxl-iso/master/archiso/airootfs/etc/pacman.d/mirrorlist -O $workdir/usr/local/share/arcolinux/pacman.d/mirrorlist
+wget https://raw.githubusercontent.com/arconetpro/arconet-iso/refs/heads/main/archiso/airootfs/etc/pacman.d/mirrorlist -O $workdir/usr/local/share/arcolinux/pacman.d/mirrorlist
 
 echo "getting default grub file"
-wget https://raw.githubusercontent.com/arcolinux/arcolinuxl-iso/master/archiso/airootfs/etc/default/grub -O $workdir/usr/local/share/arcolinux/grub/grub
+wget https://raw.githubusercontent.com/arconetpro/arconet-iso/refs/heads/main/archiso/airootfs/etc/default/grub -O $workdir/usr/local/share/arcolinux/grub/grub
 
 echo "getting latest .bashrc"
 wget https://raw.githubusercontent.com/arcolinux/arcolinux-root/master/etc/skel/.bashrc-latest -O $workdir/usr/local/share/arcolinux/.bashrc
@@ -55,9 +55,9 @@ echo "getting latest config.fish"
 wget https://raw.githubusercontent.com/arcolinux/arcolinux-fish/main/etc/skel/.config/fish/config.fish -O $workdir/usr/local/share/arcolinux/config.fish
 
 echo "getting latest NEW /etc/sddm.conf"
-wget https://raw.githubusercontent.com/arcolinux/arcolinuxl-iso/master/archiso/airootfs/etc/sddm.conf -O $workdir/usr/local/share/arcolinux/sddm/sddm.conf
+wget https://raw.githubusercontent.com/arconetpro/arconet-iso/refs/heads/main/archiso/airootfs/etc/sddm.conf -O $workdir/usr/local/share/arcolinux/sddm/sddm.conf
 
-wget https://raw.githubusercontent.com/arcolinux/arcolinuxl-iso/master/archiso/airootfs/etc/sddm.conf.d/kde_settings.conf -O $workdir/usr/local/share/arcolinux/sddm.conf.d/kde_settings.conf
+wget https://raw.githubusercontent.com/arconetpro/arconet-iso/refs/heads/main/archiso/airootfs/etc/sddm.conf.d/kde_settings.conf -O $workdir/usr/local/share/arcolinux/sddm.conf.d/kde_settings.conf
 FIND="Session=xfce"
 REPLACE="#Session="
 sed -i "s/$FIND/$REPLACE/g" $workdir/usr/local/share/arcolinux/sddm.conf.d/kde_settings.conf
@@ -67,13 +67,13 @@ REPLACE="#User="
 sed -i "s/$FIND/$REPLACE/g" $workdir/usr/local/share/arcolinux/sddm.conf.d/kde_settings.conf
 
 echo "getting latest arcolinux-mirrorlist"
-wget https://raw.githubusercontent.com/arcolinux/arcolinux-mirrorlist/master/etc/pacman.d/arcolinux-mirrorlist -O $workdir/usr/local/share/arcolinux/pacman.d/arcolinux-mirrorlist
+wget https://raw.githubusercontent.com/arcolinux/arcolinux-mirrorlist/refs/heads/master/etc/pacman.d/arcolinux-mirrorlist -O $workdir/usr/local/share/arcolinux/pacman.d/arcolinux-mirrorlist
 
 echo "getting latest /etc/pacman.conf"
-wget https://raw.githubusercontent.com/arcolinux/arcolinuxl-iso/master/archiso/airootfs/etc/pacman.conf -O $workdir/usr/local/share/arcolinux/pacman.conf
+wget https://raw.githubusercontent.com/arconetpro/arconet-iso/refs/heads/main/archiso/airootfs/etc/pacman.conf -O $workdir/usr/local/share/arcolinux/pacman.conf
 
 echo "getting latest /etc/nsswitch.conf"
-wget https://raw.githubusercontent.com/arcolinux/arcolinuxl-iso/master/archiso/airootfs/etc/nsswitch.conf -O $workdir/usr/local/share/arcolinux/nsswitch.conf
+wget https://raw.githubusercontent.com/arconetpro/arconet-iso/refs/heads/main/archiso/airootfs/etc/nsswitch.conf -O $workdir/usr/local/share/arcolinux/nsswitch.conf
 
 # Below command will backup everything inside the project folder
 git add --all .
