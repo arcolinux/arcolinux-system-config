@@ -25,62 +25,99 @@
 #tput setaf 7 = gray 
 #tput setaf 8 = light blue
 ##################################################################################################################
+BLACK=$(tput setaf 0)
+RED=$(tput setaf 1)
+GREEN=$(tput setaf 2)
+YELLOW=$(tput setaf 3)
+PURPLE=$(tput setaf 5)
+GRAY=$(tput setaf 7)
+LIGHT_GRAY=$(tput setaf 8)
+RESET=$(tput sgr0)
 
-echo
-echo "###############################################################################"
-echo "Installing virtualbox-guest-utils and activating vboxservice"
-echo "###############################################################################"
-echo
+# --------------------------------------------
+# 📝 Description: VirtualBox Guest Utils Installer
+# --------------------------------------------
 
-sudo pacman -S --noconfirm virtualbox-guest-utils
+echo "#############################################################################################"
+echo "Checking if pacman is running..."
+echo "#############################################################################################"
 
-# Check if vboxservice is enabled and running
+# Detect if pacman is locked
+MAX_WAIT=30  # Maximum wait time in seconds
+WAIT_INTERVAL=5
+seconds=0
 
-# Function to check the status of vboxservice
-check_service_status() {
-    systemctl is-enabled vboxservice &>/dev/null
-    SERVICE_ENABLED=$?
+while [ -e "/var/lib/pacman/db.lck" ]; do
+    echo "Pacman is not ready yet. Retrying in $WAIT_INTERVAL seconds..."
+    seconds=$((seconds + WAIT_INTERVAL))
+    sleep $WAIT_INTERVAL
 
-    systemctl is-active vboxservice &>/dev/null
-    SERVICE_ACTIVE=$?
-}
+    if [ "$seconds" -ge "$MAX_WAIT" ]; then
+        echo "Warning: Removing pacman db.lck after $MAX_WAIT seconds!"
+        sudo rm -f /var/lib/pacman/db.lck
+        break
+    fi
+done
 
-# Enable and start vboxservice if not active
-enable_and_start_service() {
-    echo "Enabling vboxservice..."
-    sudo systemctl enable vboxservice
+# Detect virtualization
+result=$(systemd-detect-virt)
+echo "Virtualization detected: $result"
 
-    echo "Starting vboxservice..."
-    sudo systemctl start vboxservice
-}
+# --------------------------------------------
+# 🧠 Virtualization Check
+# --------------------------------------------
+if [ "$result" != "none" ]; then
+    echo "#############################################################################################"
+    echo "${GREEN}Installing virtualbox-guest-utils and activating vboxservice${RESET}"
+    echo "#############################################################################################"
 
-# Main logic
-echo "Checking vboxservice status..."
+    # Install VirtualBox Guest Utils
+    sudo pacman -S --noconfirm virtualbox-guest-utils
 
-check_service_status
+    # Function to check service status
+    check_service_status() {
+        systemctl is-enabled vboxservice &>/dev/null
+        SERVICE_ENABLED=$?
 
-if [[ $SERVICE_ENABLED -ne 0 ]]; then
-    echo "vboxservice is not enabled. Enabling it now..."
-    sudo systemctl enable vboxservice
-fi
+        systemctl is-active vboxservice &>/dev/null
+        SERVICE_ACTIVE=$?
+    }
 
-if [[ $SERVICE_ACTIVE -ne 0 ]]; then
-    echo "vboxservice is not running. Starting it now..."
-    sudo systemctl start vboxservice
-fi
+    # Enable and start vboxservice if not active
+    enable_and_start_service() {
+        echo "Enabling vboxservice..."
+        sudo systemctl enable vboxservice
 
-# Final status check
-check_service_status
+        echo "Starting vboxservice..."
+        sudo systemctl start vboxservice
+    }
 
-if [[ $SERVICE_ENABLED -eq 0 && $SERVICE_ACTIVE -eq 0 ]]; then
-    echo "✅ vboxservice is enabled and running successfully."
+    # Main logic for service handling
+    echo "Checking vboxservice status..."
+    check_service_status
+
+    if [[ $SERVICE_ENABLED -ne 0 ]]; then
+        echo "vboxservice is not enabled. Enabling it now..."
+        sudo systemctl enable vboxservice
+    fi
+
+    if [[ $SERVICE_ACTIVE -ne 0 ]]; then
+        echo "vboxservice is not running. Starting it now..."
+        sudo systemctl start vboxservice
+    fi
+
+    # Final verification
+    check_service_status
+
+    if [[ $SERVICE_ENABLED -eq 0 && $SERVICE_ACTIVE -eq 0 ]]; then
+        echo "vboxservice is enabled and running successfully."
+    else
+        echo "Failed to enable/start vboxservice. Check logs:"
+        sudo journalctl -u vboxservice --no-pager | tail -n 20
+    fi
+
 else
-    echo "❌ Failed to enable/start vboxservice. Check logs:"
-    sudo journalctl -u vboxservice --no-pager | tail -n 20
+    echo "#############################################################################################"
+    echo "${YELLOW}Virtualization not detected. Skipping virtualbox-guest-utils installation.${RESET}"
+    echo "#############################################################################################"
 fi
-
-
-echo
-echo "###############################################################################"
-echo "###                DONE - YOU CAN CLOSE THIS WINDOW                        ####"
-echo "###############################################################################"
