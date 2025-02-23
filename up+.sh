@@ -79,6 +79,8 @@ echo "getting latest fix-archlinux servers from arcolinux-welcome-app"
 wget https://raw.githubusercontent.com/arcolinux/arcolinux-welcome-app/refs/heads/master/usr/local/bin/arcolinux-get-mirrors-with-ram -O $workdir/usr/local/bin/arcolinux-fix-archlinux-servers
 wget https://raw.githubusercontent.com/arcolinux/arcolinux-welcome-app/refs/heads/master/usr/local/bin/arcolinux-get-mirrors-with-ram -O $workdir/usr/local/bin/arcolinux-fix-archlinux-mirrors
 
+chmod +x $workdir/usr/local/bin/*
+
 # Below command will backup everything inside the project folder
 git add --all .
 
