@@ -75,6 +75,10 @@ wget https://raw.githubusercontent.com/arconetpro/arconet-iso/refs/heads/main/ar
 echo "getting latest /etc/nsswitch.conf"
 wget https://raw.githubusercontent.com/arconetpro/arconet-iso/refs/heads/main/archiso/airootfs/etc/nsswitch.conf -O $workdir/usr/local/share/arcolinux/nsswitch.conf
 
+echo "getting latest fix-archlinux servers from arcolinux-welcome-app"
+wget https://raw.githubusercontent.com/arcolinux/arcolinux-welcome-app/refs/heads/master/usr/local/bin/arcolinux-get-mirrors-with-ram -O $workdir/usr/local/bin/arcolinux-fix-archlinux-servers
+wget https://raw.githubusercontent.com/arcolinux/arcolinux-welcome-app/refs/heads/master/usr/local/bin/arcolinux-get-mirrors-with-ram -O $workdir/usr/local/bin/arcolinux-fix-archlinux-mirrors
+
 # Below command will backup everything inside the project folder
 git add --all .
 
